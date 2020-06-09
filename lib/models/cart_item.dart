@@ -1,49 +1,4 @@
-class Cart {
-  String currency;
-  int itemCount;
-  List<Items> items;
-  bool needsShipping;
-  String totalPrice;
-  int totalWeight;
-
-  Cart(
-      {this.currency,
-        this.itemCount,
-        this.items,
-        this.needsShipping,
-        this.totalPrice,
-        this.totalWeight});
-
-  Cart.fromJson(Map<String, dynamic> json) {
-    currency = json['currency'];
-    itemCount = json['item_count'];
-    if (json['items'] != null) {
-      items = new List<Items>();
-      json['items'].forEach((v) {
-        items.add(new Items.fromJson(v));
-      });
-    }
-    needsShipping = json['needs_shipping'];
-    totalPrice = json['total_price'];
-    totalWeight = json['total_weight'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['currency'] = this.currency;
-    data['item_count'] = this.itemCount;
-    if (this.items != null) {
-      data['items'] = this.items.map((v) => v.toJson()).toList();
-    }
-    data['needs_shipping'] = this.needsShipping;
-    data['total_price'] = this.totalPrice;
-    data['total_weight'] = this.totalWeight;
-    return data;
-  }
-  @override toString() => this.toJson().toString();
-}
-
-class Items {
+class CartItem {
   String key;
   int id;
   int quantity;
@@ -55,7 +10,7 @@ class Items {
   String linePrice;
   List<String> variation;
 
-  Items(
+  CartItem(
       {this.key,
         this.id,
         this.quantity,
@@ -67,7 +22,7 @@ class Items {
         this.linePrice,
         this.variation});
 
-  Items.fromJson(Map<String, dynamic> json) {
+  CartItem.fromJson(Map<String, dynamic> json) {
     key = json['key'];
     id = json['id'];
     quantity = json['quantity'];
@@ -101,6 +56,7 @@ class Items {
     data['variation'] = this.variation;
     return data;
   }
+  @override toString() => this.toJson().toString();
 }
 
 class Images {
@@ -122,7 +78,7 @@ class Images {
         this.alt});
 
   Images.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['id'].toString();
     src = json['src'];
     thumbnail = json['thumbnail'];
     srcset = json['srcset'];
