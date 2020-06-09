@@ -32,6 +32,7 @@
  */
 
 /// The [woocommerce] SDK for Flutter. Bringing your ecommerce app to life easily with Flutter and Woo Commerce.
+
 library woocommerce;
 
 import 'dart:async';
@@ -1140,7 +1141,7 @@ class WooCommerce{
     }
   }
 
-  /// Make a direct get request to a Woocommerce endpoint, using WooCommerce SDK.
+  /// Make a custom get request to a Woocommerce endpoint, using WooCommerce SDK.
 
   Future<dynamic> get(String endPoint) async {
     String url = this._getOAuthURL("GET", endPoint);
