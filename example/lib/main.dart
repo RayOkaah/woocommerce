@@ -71,7 +71,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void makeSomethingHappen() async{
     Customer customer = new Customer(email: 'raypex2+7@gmail.com', username: 'melford',);
-   Customer response = await api.createCustomer(customer);
+    Coupon coupon = new Coupon();
+   Coupon response = await api.createCoupon(code: '12291452VC');
     display = response.toString();
     print(display);
     setState(() {});
