@@ -31,6 +31,7 @@
 
  */
 
+/// The [woocommerce] SDK for Flutter. Bringing your ecommerce app to life easily with Flutter and Woo Commerce.
 library woocommerce;
 
 import 'dart:async';
@@ -68,19 +69,32 @@ import 'models/jwt_response.dart';
 import 'models/user.dart';
 
 
+/// Create a new Instance of [WooCommerce] and pass in the necessary parameters into the constructor.
+///
+/// For example
+/// ``` WooCommerce myApi = WooCommerce(
+///   baseUrl: yourbaseUrl, // For example  http://mywebsite.com or https://mywebsite.com or http://cs.mywebsite.com
+///   consumerKey: consumerKey,
+///  consumerSecret: consumerSecret);
+///  ```
 
-/// [url] is you're site's base URL, e.g. `https://www.yourdomain.com`
-///
-/// [consumerKey] is the consumer key provided by WooCommerce, e.g. `ck_1a2b3c4d5e6f7g8h9i`
-///
-/// [consumerSecret] is the consumer secret provided by WooCommerce, e.g. `cs_1a2b3c4d5e6f7g8h9i`
-///
-/// [isHttps] check if [url] is https based
+
 class WooCommerce{
+
+  /// Parameter, [baseUrl] is the base url of your site. For example, http://me.com or https://me.com.
   String baseUrl;
+
+  /// Parameter [consumerKey] is the consumer key provided by WooCommerce, e.g. `ck_12abc34n56j`.
   String consumerKey;
+
+  /// Parameter [consumerSecret] is the consumer secret provided by WooCommerce, e.g. `cs_1uab8h3s3op`.
   String consumerSecret;
+
+  /// Returns if the website is https or not based on the [baseUrl] parameter.
   bool isHttps;
+
+  /// Parameter(Optional) [apiPath], tells the SDK if there is a different path to your api installation.
+  /// Useful if the websites woocommerce api path have been modified.
   String apiPath;
 
   WooCommerce({
@@ -101,16 +115,13 @@ class WooCommerce{
     }
   }
 
-
-  static String sampleBaseUrl = "http://cs.myecommerceapp.com";
-
   String _token = "";
   Future<String> userTokenString ()async {
-    //_token = await _localDbService.getSecurityToken();
     return _token;
   }
 
   Uri queryUri;
+  // Sets the Uri for an endpoint.
   String setApiResourceUrl({
     @required String path,
     String host, port, queryParameters,
@@ -123,11 +134,15 @@ class WooCommerce{
   }
   String get apiResourceUrl=> queryUri.toString();
 
+  // Header to be sent for JWT authourization
   Map<String, String> _urlHeader = {
     'Authorization': '',
   };
 
 
+  /// Authenticates the user using WordPress JWT authentication and returns the access [_token] string.
+  ///
+  /// Associated endpoint : yourwebsite.com/wp-json/jwt-auth/v1/token
   Future authenticateViaJWT(
       {String username, String password}) async {
     final body = {
@@ -153,6 +168,7 @@ class WooCommerce{
     }
   }
 
+  /// Authenticates the user via JWT and returns a Wordpress user object of the current logged in user.
   loginUser({
     @required String username,
     @required String password,
@@ -171,6 +187,9 @@ class WooCommerce{
 
   }
 
+  /// Fetches already authenticated user.
+  ///
+  /// Associated endpoint : /wp-json/wp/v2/users/me
   Future<User> fetchLoggedInUser(String token) async {
     _urlHeader['Authorization'] = 'Bearer ${token}';
     final response =
@@ -190,8 +209,11 @@ class WooCommerce{
     }
   }
 
+  /// Creates a new Wordpress user and returns whether action was sucessful or not.
+  ///
+  /// Associated enpoint : /register using WP rest User wordpress plugin.
   Future<bool> registerNewUser({@required User user}) async {
-    final StringBuffer url = new StringBuffer('baseapiurl' + 'egisterEndpoint');
+    final StringBuffer url = new StringBuffer(this.baseUrl + 'registerEndpoint');
 
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request =
@@ -218,6 +240,8 @@ class WooCommerce{
     }
   }
 
+  /// Creates a new Woocommerce Customer and returns the customer object.
+  /// Accepts a customer object as required parameter.
   Future<Customer> createCustomer (Customer customer) async{
     print('Creating Customet With info : ' + customer.toString());
     setApiResourceUrl(path: 'customers');
@@ -270,7 +294,7 @@ class WooCommerce{
   }
 
 
-  /// https://woosignal.com/docs/api/1.0/products
+
   Future<List<Product>> getProducts(
       {int page,
         int perPage,
@@ -339,7 +363,6 @@ class WooCommerce{
     return product;
   }
 
-  /// https://woosignal.com/docs/api/1.0/products-variations
   Future<List<ProductVariation>> getProductVariations(
       {@required int productId,
         int page,
@@ -400,7 +423,6 @@ class WooCommerce{
     return productVariation;
   }
 
-  /// https://woosignal.com/docs/api/1.0/products-attributes
   Future<List<ProductAttribute>> getProductAttributes() async {
     List<ProductAttribute> productAttributes = [];
     setApiResourceUrl(path: 'products/attributes',);
@@ -425,7 +447,6 @@ class WooCommerce{
   }
 
 
-  /// https://woosignal.com/docs/api/1.0/products-attribute-terms
   Future<List<ProductAttributeTerm>> getProductAttributeTerms(
       {@required int attributeId,
         int page,
@@ -473,7 +494,6 @@ class WooCommerce{
     return productAttributeTerm;
   }
 
-  /// https://woosignal.com/docs/api/1.0/product-categories
   Future<List<ProductCategory>> getProductCategories(
       {int page,
         int perPage,
@@ -520,7 +540,6 @@ class WooCommerce{
   }
 
 
-  /// https://woosignal.com/docs/api/1.0/product-shipping-classes
   Future<List<ProductShippingClass>> getProductShippingClasses(
       {int page,
         int perPage,
@@ -611,7 +630,6 @@ class WooCommerce{
     return productTag;
   }
 
-  /// https://woosignal.com/docs/api/1.0/product-reviews
   Future<ProductReview> createProductReview(
       {@required int productId,
         int status,
@@ -638,7 +656,7 @@ class WooCommerce{
     return productReview;
   }
 
-  /// https://woosignal.com/docs/api/1.0/product-reviews
+
   Future<List<ProductReview>> getProductReviews(
       {int page,
         int perPage,
@@ -868,7 +886,7 @@ class WooCommerce{
     return Coupon.fromJson(response);
   }
 
-  /// https://woosignal.com/docs/api/1.0/tax-rates
+
   Future<List<TaxRate>> getTaxRates(
       {int page,
         int perPage,
@@ -903,7 +921,7 @@ class WooCommerce{
     return TaxRate.fromJson(response);
   }
 
-  /// https://woosignal.com/docs/api/1.0/tax-classes
+
   Future<List<TaxClass>> getTaxClasses() async {
     List<TaxClass> taxClasses = [];
     setApiResourceUrl(path: 'taxes/classes');
@@ -917,7 +935,7 @@ class WooCommerce{
   }
 
 
-  /// https://woosignal.com/docs/api/1.0/shipping-zones
+
   Future<List<ShippingZone>> getShippingZones() async {
     List<ShippingZone> shippingZones = [];
     setApiResourceUrl(path: 'shipping/zones');
@@ -930,7 +948,7 @@ class WooCommerce{
     return shippingZones;
   }
 
-  /// https://woosignal.com/docs/api/1.0/shipping-zones#retrive-a-shipping-zone
+
   Future<ShippingZone> getShippingZoneById(int id) async {
     ShippingZone shippingZone;
     setApiResourceUrl(path: 'shipping/zones/${id}');
