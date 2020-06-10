@@ -64,7 +64,7 @@ final token = woocommerce.authenticateViaJWT(username: username, password: passw
 final user = woocommerce.loginUser(username: username, password: password);
 ```
 
-### Get All Products - Returns list of product object, default is 10 per page, see Api reference for filter options.
+### Get All Products - Returns list of product object, default is 10 per page, [see Api reference](https://pub.dev/documentation/woocommerce/latest/models_products/Product-class.html) for filter options.
 
 ```dart
 final myProducts = await woocommerce.getProducts();
@@ -109,6 +109,11 @@ This project is under active development.
 - [ ] Add helper Delete methods.
 - [ ] Multiple Examples.
 
+## WooCommerce SDK Documentation Reference
+[WooCommerce SDK Docs] (https://pub.dev/documentation/woocommerce/latest/)
+
+## WooCommerce Api Documentation Reference
+[WooCommerce Docs] (https://woocommerce.github.io/woocommerce-rest-api-docs/)
 
 ## Issues and FeedBack
 If you find this useful :blue_heart:, feel free to click :star:
