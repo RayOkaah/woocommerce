@@ -111,8 +111,8 @@ This project is under active development.
 
 
 ## Issues and FeedBack
-If you find this useful, feel free to click :star:
-You can create a Github issue anytime. Pull requests on both code and documentation are welcomed as well pls :heart_eyes: :blue_heart: :blue_heart:.
+If you find this useful :blue_heart:, feel free to click :star:
+You can create a Github issue anytime. Pull requests on both code and documentation are welcomed as well pls :heart_eyes:.
 You can also send a mail to ray@flutterengineer.com.
 For help getting started with Flutter, view our 
 [online documentation](https://flutter.dev/docs), which offers tutorials, 
