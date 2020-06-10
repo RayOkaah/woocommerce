@@ -31,15 +31,15 @@
 
  */
 
-class Shipping {
+class ShippingMethod {
   int parentId;
   String name;
   List<Locations> locations;
   Methods methods;
 
-  Shipping({this.parentId, this.name, this.locations, this.methods});
+  ShippingMethod({this.parentId, this.name, this.locations, this.methods});
 
-  Shipping.fromJson(Map<String, dynamic> json) {
+  ShippingMethod.fromJson(Map<String, dynamic> json) {
     parentId = json['parent_id'];
     name = json['name'];
     if (json['locations'] != null) {

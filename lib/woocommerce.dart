@@ -1,7 +1,7 @@
 /*
  * BSD 3-Clause License
 
-    Copyright (c) 2020, RAY OKAAH
+    Copyright (c) 2020, RAY OKAAH - ray@flutterengineer.com
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -69,6 +69,30 @@ import 'constants/constants.dart';
 import 'models/jwt_response.dart';
 import 'models/user.dart';
 
+
+export 'models/cart_item.dart' show CartItem;
+export 'woocommerce_error.dart' show WooCommerceError;
+export 'models/cart.dart' show Cart;
+export 'models/coupon.dart' show Coupon;
+export 'models/customer.dart' show Customer;
+export 'models/order.dart' show Order;
+export 'models/order_payload.dart' show OrderPayload;
+export 'models/product_attribute_term.dart' show ProductAttributeTerm;
+export 'models/product_attributes.dart' show ProductAttribute;
+export 'models/product_category.dart' show ProductCategory;
+export 'models/product_review.dart' show ProductReview;
+export 'models/product_shipping_class.dart' show ProductShippingClass;
+export 'models/product_tag.dart' show ProductTag;
+export 'models/product_variation.dart' show ProductVariation;
+export 'models/products.dart' show Product;
+export 'models/shipping_method.dart' show ShippingMethod;
+export 'models/shipping_zone.dart' show ShippingZone;
+export 'models/shipping_zone_location.dart' show ShippingZoneLocation;
+export 'models/shipping_zone_method.dart' show ShippingZoneMethod;
+export 'models/tax_classes.dart' show TaxClass;
+export 'models/tax_rate.dart' show TaxRate;
+export 'models/jwt_response.dart' show JWTResponse;
+export 'models/user.dart' show User;
 
 /// Create a new Instance of [WooCommerce] and pass in the necessary parameters into the constructor.
 ///
