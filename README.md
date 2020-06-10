@@ -29,7 +29,7 @@ WooCommerce woocommerce = WooCommerce(
  This is useful if only you changed your default Wordpress Woocommerce path, otherwise default applies.
 
   The goal of Woo Commerce SDK is to make building amazing Ecommerce apps with flutter and Woo Commerce as easy as can be,
-  hope you it improves your workflow.
+  hope it improves your workflow.
 
 ## Features.
 
@@ -111,7 +111,8 @@ This project is under active development.
 
 
 ## Issues and FeedBack
-You can create a Github issue anytime. Pull requests on both code and documentation are welcomed as well pls.
+If you find this useful, feel free to click :star:
+You can create a Github issue anytime. Pull requests on both code and documentation are welcomed as well pls :heart_eyes: :blue_heart: :blue_heart:.
 You can also send a mail to ray@flutterengineer.com.
 For help getting started with Flutter, view our 
 [online documentation](https://flutter.dev/docs), which offers tutorials, 
