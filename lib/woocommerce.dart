@@ -432,7 +432,7 @@ class WooCommerce{
       if(v != null) payload[k] = v.toString();
     });
     List<ProductVariation> productVariations = [];
-    setApiResourceUrl(path: 'products/${productId}/variations', queryParameters: payload);
+    setApiResourceUrl(path: 'products/'+productId.toString()+'/variations', queryParameters: payload);
     print('this is the curent path : '+this.apiPath);
     final response = await get(queryUri.toString());
     for(var v in response){
@@ -447,7 +447,7 @@ class WooCommerce{
 
   Future<ProductVariation>getProductVariationById({@required int productId, variationId}) async{
     ProductVariation productVariation;
-    setApiResourceUrl(path: 'products/${productId}/variations/${variationId}',);
+    setApiResourceUrl(path: 'products/'+productId.toString()+'/variations/'+variationId.toString(),);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
 
@@ -510,7 +510,7 @@ class WooCommerce{
       if(v != null) payload[k] = v.toString();
     });
     List<ProductAttributeTerm> productAttributeTerms = [];
-    setApiResourceUrl(path: 'products/attributes/${attributeId}/terms', queryParameters: payload);
+    setApiResourceUrl(path: 'products/attributes/'+attributeId.toString()+'/terms', queryParameters: payload);
     final response = await get(queryUri.toString());
     for(var t in response){
       var term = ProductAttributeTerm.fromJson(t);
@@ -524,7 +524,7 @@ class WooCommerce{
 
   Future<ProductAttributeTerm>getProductAttributeTermById({@required int attributeId, termId}) async{
     ProductAttributeTerm productAttributeTerm;
-    setApiResourceUrl(path: 'products/attributes/${attributeId}/terms/${termId}',);
+    setApiResourceUrl(path: 'products/attributes/'+attributeId.toString()+'/terms/'+termId.toString(),);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
 

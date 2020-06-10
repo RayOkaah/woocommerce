@@ -30,7 +30,7 @@
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
  */
-
+/**
 import 'package:woocommerce/models/user.dart';
 
 String _token;
@@ -63,3 +63,5 @@ _populateAppUser(User user){
   //box.putAll(user.toJson());
   //print('account user added : ' + user.toString());
 }
+
+    */
