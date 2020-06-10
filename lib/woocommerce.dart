@@ -59,10 +59,10 @@ import 'models/product_shipping_class.dart';
 import 'models/product_tag.dart';
 import 'models/product_variation.dart';
 import 'models/products.dart';
-import 'models/shipping_method.dart';
+//import 'models/shipping_method.dart';
 import 'models/shipping_zone.dart';
-import 'models/shipping_zone_location.dart';
-import 'models/shipping_zone_method.dart';
+//import 'models/shipping_zone_location.dart';
+//import 'models/shipping_zone_method.dart';
 import 'models/tax_classes.dart';
 import 'models/tax_rate.dart';
 import 'constants/constants.dart';
@@ -153,7 +153,12 @@ class WooCommerce{
     bool isShop = false,
   }){
     this.apiPath = DEFAULT_WC_API_PATH;
-    isShop? apiPath = URL_STORE_API_PATH : DEFAULT_WC_API_PATH;
+    if(isShop){
+      this.apiPath = URL_STORE_API_PATH;
+    }
+    else{
+      this.apiPath = DEFAULT_WC_API_PATH;
+    }
     queryUri = new Uri(path: path, queryParameters: queryParameters, port: port, host: host );
     return queryUri.toString();
   }
@@ -216,7 +221,7 @@ class WooCommerce{
   ///
   /// Associated endpoint : /wp-json/wp/v2/users/me
   Future<User> fetchLoggedInUser(String token) async {
-    _urlHeader['Authorization'] = 'Bearer ${token}';
+    _urlHeader['Authorization'] = 'Bearer '+token;
     final response =
     await http.get(this.baseUrl + URL_USER_ME, headers: _urlHeader);
 

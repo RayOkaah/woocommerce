@@ -1,5 +1,5 @@
 name: woocommerce
-description: Woocommerce SDK for Flutter. The Complete Woo Commerce SDK for building Flutter Applications with WooCommerce. Bring your ecommerce app to life easily with Flutter and Woo Commerce, compatible with mobile, web and desktop.
+description: Woocommerce SDK for Flutter. The Complete Woo Commerce SDK for building Flutter Applications with WooCommerce.
 version: 0.7.0
 author: Ray Okaah<ray@flutterengineer.com>
 homepage: https://github.com/RayOkaah/woocommerce.git
