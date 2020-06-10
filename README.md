@@ -17,9 +17,8 @@ WooCommerce woocommerce = WooCommerce(
   consumerKey: yourConsumerKey,
   consumerSecret: consumerSecret);
 ```
- For example  http://mywebsite.com or https://mywebsite.com or http://cs.mywebsite.com
 
- Parameter, [baseUrl] is the base url of your site. For example, http://me.com or https://me.com.
+ Parameter, [baseUrl] is the base url of your site. For example, http://me.com, https://me.com or http://my.me.com
 
  Parameter [consumerKey] is the consumer key provided by WooCommerce, e.g. `ck_12abc34n56j`.
 
@@ -96,14 +95,23 @@ OrderPayload orderPayload = OrderPayload(customerId: customerId, setPaid=true);
 final order = await woocommerce.CreateOrder(orderPayload);
 ```
 
+### Custom Requests - Make your custom authenticated requests to the Woocommerce api.
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+```dart
+final response = await woocommerce.put(endpoint, data);
+```
+
+## Updates
+This project is under active development.
+
+- [x] Add documentation.
+- [ ] Add helper Update methods.
+- [ ] Add helper Delete methods.
+- [ ] Multiple Examples.
+
 
 ## Issues and FeedBack
-You can create a Github issue if any and I'll try to fix it. Pull requests on both code and documentation are welcomed as well pls.
+You can create a Github issue anytime. Pull requests on both code and documentation are welcomed as well pls.
 You can also send a mail to ray@flutterengineer.com.
 For help getting started with Flutter, view our 
 [online documentation](https://flutter.dev/docs), which offers tutorials, 
