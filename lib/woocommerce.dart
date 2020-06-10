@@ -239,9 +239,9 @@ class WooCommerce{
     }
   }
 
-  /// Creates a new Wordpress user and returns whether action was sucessful or not.
+  /// Creates a new Wordpress user and returns whether action was sucessful or not using WP Rest User Wordpress plugin.
   ///
-  /// Associated endpoint : /register using WP Rest User Wordpress plugin.
+  /// Associated endpoint : /register .
   Future<bool> registerNewUser({@required User user}) async {
     final StringBuffer url = new StringBuffer(this.baseUrl + 'registerEndpoint');
 
@@ -259,14 +259,7 @@ class WooCommerce{
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return true;
     } else {
-      response.transform(utf8.decoder).listen((contents) {
-        try {
-          WooCommerceError err = WooCommerceError.fromJson(json.decode(contents));
-          throw err;
-        } catch (e) {
-          throw new WooCommerceError(message: contents);
-        }
-      });
+      return false;
     }
   }
 
@@ -321,7 +314,7 @@ class WooCommerce{
   /// Returns a [Customer], whoose [id] is specified.
   Future<Customer>getCustomerById({@required int id}) async{
     Customer customer;
-    setApiResourceUrl(path: 'customers/${id}',);
+    setApiResourceUrl(path: 'customers/'+id.toString(),);
     final response = await get(queryUri.toString());
     customer = Customer.fromJson(response);
     return customer;
@@ -393,7 +386,7 @@ class WooCommerce{
   /// Returns a [Product], with the specified [id].
   Future<Product>getProductById({@required int id}) async{
     Product product;
-    setApiResourceUrl(path: 'products/${id}',);
+    setApiResourceUrl(path: 'products/'+id.toString(),);
     final response = await get(queryUri.toString());
     product = Product.fromJson(response);
     return product;
@@ -482,7 +475,7 @@ class WooCommerce{
 
   Future<ProductAttribute>getProductAttributeById({@required int attributeId}) async{
     ProductAttribute productAttribute;
-    setApiResourceUrl(path: 'products/attributes/${attributeId}',);
+    setApiResourceUrl(path: 'products/attributes/'+attributeId.toString(),);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
 
@@ -583,7 +576,7 @@ class WooCommerce{
 
   Future<ProductCategory>getProductCategoryById({@required int categoryId}) async{
     ProductCategory productCategory;
-    setApiResourceUrl(path: 'products/categories/${categoryId}',);
+    setApiResourceUrl(path: 'products/categories/'+categoryId.toString(),);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
     productCategory = ProductCategory.fromJson(response);
@@ -631,7 +624,7 @@ class WooCommerce{
 
   Future<ProductShippingClass>getProductShippingClassById({@required int id}) async{
     ProductShippingClass productShippingClass;
-    setApiResourceUrl(path: 'products/shipping_classes/${id}',);
+    setApiResourceUrl(path: 'products/shipping_classes/'+id.toString(),);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
     productShippingClass = ProductShippingClass.fromJson(response);
@@ -680,7 +673,7 @@ class WooCommerce{
 
   Future<ProductTag>getProductTagById({@required int id}) async{
     ProductTag productTag;
-    setApiResourceUrl(path: 'products/tags/${id}',);
+    setApiResourceUrl(path: 'products/tags/'+id.toString(),);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
     productTag = ProductTag.fromJson(response);
@@ -762,7 +755,7 @@ class WooCommerce{
 
   Future<ProductReview>getProductReviewById({@required int reviewId}) async{
     ProductReview productReview;
-    setApiResourceUrl(path: 'products/reviews/${reviewId}',);
+    setApiResourceUrl(path: 'products/reviews/'+reviewId.toString(),);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
     productReview = ProductReview.fromJson(response);
@@ -803,7 +796,7 @@ class WooCommerce{
   /// Returns a [CartItem], with the specified [key].
   Future<CartItem>getCartItemByKey(String key) async{
     CartItem cartItem;
-    setApiResourceUrl(path: 'cart/items/${key}', isShop: true);
+    setApiResourceUrl(path: 'cart/items/'+key, isShop: true);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
     cartItem = CartItem.fromJson(response);
@@ -882,7 +875,7 @@ class WooCommerce{
   Future<Order> getOrderById(int id, {String dp}) async {
     Map<String, dynamic> payload = {};
     if (dp != null) payload["dp"] = dp;
-    setApiResourceUrl(path: 'orders/${id}',queryParameters: payload);
+    setApiResourceUrl(path: 'orders/'+id.toString(),queryParameters: payload);
     final response = await get(queryUri.toString());
     return Order.fromJson(response);
   }
@@ -955,7 +948,7 @@ class WooCommerce{
 
   /// Returns a [Coupon] object with the specified [id].
   Future<Coupon> getCouponById(int id) async {
-    setApiResourceUrl(path: 'coupons/${id}');
+    setApiResourceUrl(path: 'coupons/'+id.toString());
     final response = await get(queryUri.toString());
     return Coupon.fromJson(response);
   }
@@ -993,7 +986,7 @@ class WooCommerce{
   /// Returns a [TaxRate] object matching the specified [id].
 
   Future<TaxRate> getTaxRateById(int id) async {
-    setApiResourceUrl(path: 'taxes/${id}');
+    setApiResourceUrl(path: 'taxes/'+id.toString());
     final response = await get(queryUri.toString());
     return TaxRate.fromJson(response);
   }
@@ -1034,7 +1027,7 @@ class WooCommerce{
 
   Future<ShippingZone> getShippingZoneById(int id) async {
     ShippingZone shippingZone;
-    setApiResourceUrl(path: 'shipping/zones/${id}');
+    setApiResourceUrl(path: 'shipping/zones/'+id.toString());
     final response = await get(queryUri.toString());
     shippingZone = ShippingZone.fromJson(response);
     return shippingZone;
