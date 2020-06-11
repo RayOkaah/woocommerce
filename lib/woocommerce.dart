@@ -31,7 +31,7 @@
 
  */
 
-/// The [woocommerce] SDK for Flutter. Bringing your ecommerce app to life easily with Flutter and Woo Commerce.
+/// The WooCommerce SDK for Flutter. Bringing your ecommerce app to life easily with Flutter and Woo Commerce.
 
 library woocommerce;
 
