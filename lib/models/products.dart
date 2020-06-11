@@ -31,7 +31,7 @@
 
  */
 
-class Product {
+class WooProduct {
   final int id;
   final String name;
   final String slug;
@@ -90,7 +90,7 @@ class Product {
   final int menuOrder;
   final List<MetaData> metaData;
 
-  Product(
+  WooProduct(
       this.id,
       this.name,
       this.slug,
@@ -149,7 +149,7 @@ class Product {
       this.menuOrder,
       this.metaData);
 
-  Product.fromJson(Map<String, dynamic> json)
+  WooProduct.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
         slug = json['slug'],

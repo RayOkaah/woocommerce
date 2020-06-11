@@ -31,7 +31,7 @@
 
  */
 
-class ProductAttribute {
+class WooProductAttribute {
   int id;
   String name;
   String slug;
@@ -40,7 +40,7 @@ class ProductAttribute {
   bool hasArchives;
   Links links;
 
-  ProductAttribute(
+  WooProductAttribute(
       {this.id,
       this.name,
       this.slug,
@@ -49,7 +49,7 @@ class ProductAttribute {
       this.hasArchives,
       this.links});
 
-  ProductAttribute.fromJson(Map<String, dynamic> json) {
+  WooProductAttribute.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     slug = json['slug'];

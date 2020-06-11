@@ -31,7 +31,7 @@
 
  */
 
-class OrderPayload {
+class WooOrderPayload {
   String paymentMethod;
   String paymentMethodTitle;
   bool setPaid;
@@ -48,7 +48,7 @@ class OrderPayload {
   List<LineItems> lineItems;
   List<ShippingLines> shippingLines;
 
-  OrderPayload(
+  WooOrderPayload(
       {this.paymentMethod,
       this.paymentMethodTitle,
       this.setPaid,
@@ -65,7 +65,7 @@ class OrderPayload {
       this.lineItems,
       this.shippingLines});
 
-  OrderPayload.fromJson(Map<String, dynamic> json) {
+  WooOrderPayload.fromJson(Map<String, dynamic> json) {
     paymentMethod = json['payment_method'];
     paymentMethodTitle = json['payment_method_title'];
     setPaid = json['set_paid'];

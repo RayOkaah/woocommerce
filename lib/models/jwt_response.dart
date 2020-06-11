@@ -31,16 +31,16 @@
 
  */
 
-class JWTResponse {
+class WooJWTResponse {
   String token;
   String userEmail;
   String userNicename;
   String userDisplayName;
 
-  JWTResponse(
+  WooJWTResponse(
       {this.token, this.userEmail, this.userNicename, this.userDisplayName});
 
-  JWTResponse.fromJson(Map<String, dynamic> json) {
+  WooJWTResponse.fromJson(Map<String, dynamic> json) {
     token = json['token'];
     userEmail = json['user_email'];
     userNicename = json['user_nicename'];

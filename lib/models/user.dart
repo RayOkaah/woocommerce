@@ -32,16 +32,16 @@
  */
 
 
-class User {
+class WooUser {
   final int id;
   final String firstName;
   final String lastName;
   final String email;
   final String userRole;
 
-  User({this.id, this.firstName, this.lastName, this.email, this.userRole});
+  WooUser({this.id, this.firstName, this.lastName, this.email, this.userRole});
 
-  User.fromJson(Map<String, dynamic> data)
+  WooUser.fromJson(Map<String, dynamic> data)
       : id = data['id'],
         firstName = data['firstname'],
         lastName = data['lastname'],

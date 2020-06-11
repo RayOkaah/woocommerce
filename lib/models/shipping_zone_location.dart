@@ -31,14 +31,14 @@
 
  */
 
-class ShippingZoneLocation {
+class WooShippingZoneLocation {
   String code;
   String type;
   Links links;
 
-  ShippingZoneLocation({this.code, this.type, this.links});
+  WooShippingZoneLocation({this.code, this.type, this.links});
 
-  ShippingZoneLocation.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneLocation.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     type = json['type'];
     links = json['_links'] != null ? new Links.fromJson(json['_links']) : null;

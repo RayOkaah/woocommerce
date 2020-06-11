@@ -31,7 +31,7 @@
 
  */
 
-class TaxRate {
+class WooTaxRate {
   int id;
   String country;
   String state;
@@ -46,7 +46,7 @@ class TaxRate {
   String taxClass;
   Links links;
 
-  TaxRate(
+  WooTaxRate(
       {this.id,
       this.country,
       this.state,
@@ -61,7 +61,7 @@ class TaxRate {
       this.taxClass,
       this.links});
 
-  TaxRate.fromJson(Map<String, dynamic> json) {
+  WooTaxRate.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     country = json['country'];
     state = json['state'];

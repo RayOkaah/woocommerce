@@ -31,7 +31,7 @@
 
  */
 
-class Order {
+class WooOrder {
   int id;
   int parentId;
   String number;
@@ -75,7 +75,7 @@ class Order {
   List<Refunds> refunds;
   Links links;
 
-  Order(
+  WooOrder(
       {this.id,
       this.parentId,
       this.number,
@@ -119,7 +119,7 @@ class Order {
       this.refunds,
       this.links});
 
-  Order.fromJson(Map<String, dynamic> json) {
+  WooOrder.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     parentId = json['parent_id'];
     number = json['number'];

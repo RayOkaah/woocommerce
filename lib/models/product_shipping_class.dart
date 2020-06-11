@@ -31,7 +31,7 @@
 
  */
 
-class ProductShippingClass {
+class WooProductShippingClass {
   int id;
   String name;
   String slug;
@@ -39,7 +39,7 @@ class ProductShippingClass {
   int count;
   Links links;
 
-  ProductShippingClass(
+  WooProductShippingClass(
       {this.id,
       this.name,
       this.slug,
@@ -47,7 +47,7 @@ class ProductShippingClass {
       this.count,
       this.links});
 
-  ProductShippingClass.fromJson(Map<String, dynamic> json) {
+  WooProductShippingClass.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     slug = json['slug'];

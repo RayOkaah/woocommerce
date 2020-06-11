@@ -31,15 +31,15 @@
 
  */
 
-class ShippingZone {
+class WooShippingZone {
   int id;
   String name;
   int order;
   Links links;
 
-  ShippingZone({this.id, this.name, this.order, this.links});
+  WooShippingZone({this.id, this.name, this.order, this.links});
 
-  ShippingZone.fromJson(Map<String, dynamic> json) {
+  WooShippingZone.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     order = json['order'];

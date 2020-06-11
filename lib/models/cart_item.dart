@@ -31,7 +31,7 @@
 
  */
 
-class CartItem {
+class WooCartItem {
   String key;
   int id;
   int quantity;
@@ -43,7 +43,7 @@ class CartItem {
   String linePrice;
   List<String> variation;
 
-  CartItem(
+  WooCartItem(
       {this.key,
         this.id,
         this.quantity,
@@ -55,7 +55,7 @@ class CartItem {
         this.linePrice,
         this.variation});
 
-  CartItem.fromJson(Map<String, dynamic> json) {
+  WooCartItem.fromJson(Map<String, dynamic> json) {
     key = json['key'];
     id = json['id'];
     quantity = json['quantity'];

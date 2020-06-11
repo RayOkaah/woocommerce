@@ -31,7 +31,7 @@
 
  */
 
-class ProductTag {
+class WooProductTag {
   int id;
   String name;
   String slug;
@@ -39,7 +39,7 @@ class ProductTag {
   int count;
   Links lLinks;
 
-  ProductTag(
+  WooProductTag(
       {this.id,
         this.name,
         this.slug,
@@ -47,7 +47,7 @@ class ProductTag {
         this.count,
         this.lLinks});
 
-  ProductTag.fromJson(Map<String, dynamic> json) {
+  WooProductTag.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     slug = json['slug'];

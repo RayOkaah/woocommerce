@@ -31,7 +31,7 @@
 
  */
 
-class ProductCategory {
+class WooProductCategory {
   int id;
   String name;
   String slug;
@@ -43,7 +43,7 @@ class ProductCategory {
   int count;
   Links links;
 
-  ProductCategory(
+  WooProductCategory(
       {this.id,
       this.name,
       this.slug,
@@ -55,7 +55,7 @@ class ProductCategory {
       this.count,
       this.links});
 
-  ProductCategory.fromJson(Map<String, dynamic> json) {
+  WooProductCategory.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     slug = json['slug'];

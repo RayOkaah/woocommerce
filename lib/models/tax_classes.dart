@@ -31,14 +31,14 @@
 
  */
 
-class TaxClass {
+class WooTaxClass {
   String slug;
   String name;
   Links links;
 
-  TaxClass({this.slug, this.name, this.links});
+  WooTaxClass({this.slug, this.name, this.links});
 
-  TaxClass.fromJson(Map<String, dynamic> json) {
+  WooTaxClass.fromJson(Map<String, dynamic> json) {
     slug = json['slug'];
     name = json['name'];
     links = json['_links'] != null ? new Links.fromJson(json['_links']) : null;

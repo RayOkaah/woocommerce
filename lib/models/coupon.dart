@@ -31,7 +31,7 @@
 
  */
 
-class Coupon {
+class WooCoupon {
   int id;
   String code;
   String amount;
@@ -61,7 +61,7 @@ class Coupon {
   List<String> metaData;
   Links lLinks;
 
-  Coupon(
+  WooCoupon(
       {this.id,
         this.code,
         this.amount,
@@ -91,7 +91,7 @@ class Coupon {
         this.metaData,
         this.lLinks});
 
-  Coupon.fromJson(Map<String, dynamic> json) {
+  WooCoupon.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     code = json['code'];
     amount = json['amount'];

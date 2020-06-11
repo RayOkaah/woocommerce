@@ -70,29 +70,29 @@ import 'models/jwt_response.dart';
 import 'models/user.dart';
 
 
-export 'models/cart_item.dart' show CartItem;
+export 'models/cart_item.dart' show WooCartItem;
 export 'woocommerce_error.dart' show WooCommerceError;
-export 'models/cart.dart' show Cart;
-export 'models/coupon.dart' show Coupon;
-export 'models/customer.dart' show Customer;
-export 'models/order.dart' show Order;
-export 'models/order_payload.dart' show OrderPayload;
-export 'models/product_attribute_term.dart' show ProductAttributeTerm;
-export 'models/product_attributes.dart' show ProductAttribute;
-export 'models/product_category.dart' show ProductCategory;
-export 'models/product_review.dart' show ProductReview;
-export 'models/product_shipping_class.dart' show ProductShippingClass;
-export 'models/product_tag.dart' show ProductTag;
-export 'models/product_variation.dart' show ProductVariation;
-export 'models/products.dart' show Product;
-export 'models/shipping_method.dart' show ShippingMethod;
-export 'models/shipping_zone.dart' show ShippingZone;
-export 'models/shipping_zone_location.dart' show ShippingZoneLocation;
-export 'models/shipping_zone_method.dart' show ShippingZoneMethod;
-export 'models/tax_classes.dart' show TaxClass;
-export 'models/tax_rate.dart' show TaxRate;
-export 'models/jwt_response.dart' show JWTResponse;
-export 'models/user.dart' show User;
+export 'models/cart.dart' show WooCart;
+export 'models/coupon.dart' show WooCoupon;
+export 'models/customer.dart' show WooCustomer;
+export 'models/order.dart' show WooOrder;
+export 'models/order_payload.dart' show WooOrderPayload;
+export 'models/product_attribute_term.dart' show WooProductAttributeTerm;
+export 'models/product_attributes.dart' show WooProductAttribute;
+export 'models/product_category.dart' show WooProductCategory;
+export 'models/product_review.dart' show WooProductReview;
+export 'models/product_shipping_class.dart' show WooProductShippingClass;
+export 'models/product_tag.dart' show WooProductTag;
+export 'models/product_variation.dart' show WooProductVariation;
+export 'models/products.dart' show WooProduct;
+export 'models/shipping_method.dart' show WooShippingMethod;
+export 'models/shipping_zone.dart' show WooShippingZone;
+export 'models/shipping_zone_location.dart' show WooShippingZoneLocation;
+export 'models/shipping_zone_method.dart' show WooShippingZoneMethod;
+export 'models/tax_classes.dart' show WooTaxClass;
+export 'models/tax_rate.dart' show WooTaxRate;
+export 'models/jwt_response.dart' show WooJWTResponse;
+export 'models/user.dart' show WooUser;
 
 /// Create a new Instance of [WooCommerce] and pass in the necessary parameters into the constructor.
 ///
@@ -186,8 +186,8 @@ class WooCommerce{
     );
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      JWTResponse authResponse =
-      JWTResponse.fromJson(json.decode(response.body));
+      WooJWTResponse authResponse =
+      WooJWTResponse.fromJson(json.decode(response.body));
       _token = authResponse.token;
       //_localDbService.updateSecurityToken(_token);
       _urlHeader['Authorization'] = 'Bearer ${authResponse.token}';
@@ -203,7 +203,7 @@ class WooCommerce{
     @required String username,
     @required String password,
   }) async{
-    User user;
+    WooUser user;
     try {
       var response = await authenticateViaJWT(username: username, password: password);
       print('attempted token : '+ response.toString());
@@ -220,7 +220,7 @@ class WooCommerce{
   /// Fetches already authenticated user, using WP Rest User plugin.
   ///
   /// Associated endpoint : /wp-json/wp/v2/users/me
-  Future<User> fetchLoggedInUser(String token) async {
+  Future<WooUser> fetchLoggedInUser(String token) async {
     _urlHeader['Authorization'] = 'Bearer '+token;
     final response =
     await http.get(this.baseUrl + URL_USER_ME, headers: _urlHeader);
@@ -231,7 +231,7 @@ class WooCommerce{
         throw new WooCommerceError(
             code: 'wp_empty_user', message: "No user found or you dont have permission");
       print('account user fetch sucessful : '+jsonStr.toString());
-      return User.fromJson(jsonStr);
+      return WooUser.fromJson(jsonStr);
     } else {
         WooCommerceError err =
         WooCommerceError.fromJson(json.decode(response.body));
@@ -242,7 +242,7 @@ class WooCommerce{
   /// Creates a new Wordpress user and returns whether action was sucessful or not using WP Rest User Wordpress plugin.
   ///
   /// Associated endpoint : /register .
-  Future<bool> registerNewUser({@required User user}) async {
+  Future<bool> registerNewUser({@required WooUser user}) async {
     final StringBuffer url = new StringBuffer(this.baseUrl + 'registerEndpoint');
 
     HttpClient httpClient = new HttpClient();
@@ -266,17 +266,17 @@ class WooCommerce{
   /// Creates a new Woocommerce Customer and returns the customer object.
   ///
   /// Accepts a customer object as required parameter.
-  Future<Customer> createCustomer (Customer customer) async{
+  Future<WooCustomer> createCustomer (WooCustomer customer) async{
     print('Creating Customet With info : ' + customer.toString());
     setApiResourceUrl(path: 'customers');
     final response = await post(queryUri.toString(), customer.toJson());
-    return Customer.fromJson(response);
+    return WooCustomer.fromJson(response);
   }
 
-  /// Returns a list of all [Customer], with filter options.
+  /// Returns a list of all [WooCustomer], with filter options.
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#customers
-  Future<List<Customer>> getCustomers(
+  Future<List<WooCustomer>> getCustomers(
       {int page,
         int perPage,
         String search,
@@ -298,32 +298,32 @@ class WooCommerce{
       if(v != null) payload[k] = v.toString().toString();
     });
 
-    List<Customer> customers = [];
+    List<WooCustomer> customers = [];
     setApiResourceUrl(path: 'customers', queryParameters: payload);
 
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
     for(var c in response){
-      var customer = Customer.fromJson(c);
+      var customer = WooCustomer.fromJson(c);
       print('prod gotten here : '+customer.toString());
       customers.add(customer);
     }
     return customers;
   }
 
-  /// Returns a [Customer], whoose [id] is specified.
-  Future<Customer>getCustomerById({@required int id}) async{
-    Customer customer;
+  /// Returns a [WooCustomer], whoose [id] is specified.
+  Future<WooCustomer>getCustomerById({@required int id}) async{
+    WooCustomer customer;
     setApiResourceUrl(path: 'customers/'+id.toString(),);
     final response = await get(queryUri.toString());
-    customer = Customer.fromJson(response);
+    customer = WooCustomer.fromJson(response);
     return customer;
   }
 
-  /// Returns a list of all [Product], with filter options.
+  /// Returns a list of all [WooProduct], with filter options.
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#products.
-  Future<List<Product>> getProducts(
+  Future<List<WooProduct>> getProducts(
       {int page,
         int perPage,
         String search,
@@ -370,32 +370,32 @@ class WooCommerce{
     });
 
     print("Parameters: " + payload.toString());
-    List<Product> products =[];
+    List<WooProduct> products =[];
     setApiResourceUrl(path: 'products', queryParameters: payload);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
     print('this is query oo : '+queryUri.toString());
     for(var p in response){
-      var prod = Product.fromJson(p);
+      var prod = WooProduct.fromJson(p);
       print('prod gotten here : '+prod.name.toString());
       products.add(prod);
     }
     return products;
   }
 
-  /// Returns a [Product], with the specified [id].
-  Future<Product>getProductById({@required int id}) async{
-    Product product;
+  /// Returns a [WooProduct], with the specified [id].
+  Future<WooProduct>getProductById({@required int id}) async{
+    WooProduct product;
     setApiResourceUrl(path: 'products/'+id.toString(),);
     final response = await get(queryUri.toString());
-    product = Product.fromJson(response);
+    product = WooProduct.fromJson(response);
     return product;
   }
 
-  /// Returns a list of all [ProductVariation], with filter options.
+  /// Returns a list of all [WooProductVariation], with filter options.
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#product-variations
-  Future<List<ProductVariation>> getProductVariations(
+  Future<List<WooProductVariation>> getProductVariations(
       {@required int productId,
         int page,
         int perPage,
@@ -431,62 +431,62 @@ class WooCommerce{
     ).forEach((k, v) {
       if(v != null) payload[k] = v.toString();
     });
-    List<ProductVariation> productVariations = [];
+    List<WooProductVariation> productVariations = [];
     setApiResourceUrl(path: 'products/'+productId.toString()+'/variations', queryParameters: payload);
     print('this is the curent path : '+this.apiPath);
     final response = await get(queryUri.toString());
     for(var v in response){
-      var prodv = ProductVariation.fromJson(v);
+      var prodv = WooProductVariation.fromJson(v);
       print('prod gotten here : '+prodv.toString());
       productVariations.add(prodv);
     }
     return productVariations;
   }
 
-  /// Returns a [ProductVariation], with the specified [productId] and [variationId].
+  /// Returns a [WooProductVariation], with the specified [productId] and [variationId].
 
-  Future<ProductVariation>getProductVariationById({@required int productId, variationId}) async{
-    ProductVariation productVariation;
+  Future<WooProductVariation>getProductVariationById({@required int productId, variationId}) async{
+    WooProductVariation productVariation;
     setApiResourceUrl(path: 'products/'+productId.toString()+'/variations/'+variationId.toString(),);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
 
-    productVariation = ProductVariation.fromJson(response);
+    productVariation = WooProductVariation.fromJson(response);
     return productVariation;
   }
 
-  /// Returns a list of all [ProductAttribute].
+  /// Returns a list of all [WooProductAttribute].
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#product-attributes
 
-  Future<List<ProductAttribute>> getProductAttributes() async {
-    List<ProductAttribute> productAttributes = [];
+  Future<List<WooProductAttribute>> getProductAttributes() async {
+    List<WooProductAttribute> productAttributes = [];
     setApiResourceUrl(path: 'products/attributes',);
     final response = await get(queryUri.toString());
     for(var a in response){
-      var att = ProductAttribute.fromJson(a);
+      var att = WooProductAttribute.fromJson(a);
       print('prod gotten here : '+att.toString());
       productAttributes.add(att);
     }
     return productAttributes;
   }
 
-  /// Returns a [ProductAttribute], with the specified [attributeId].
+  /// Returns a [WooProductAttribute], with the specified [attributeId].
 
-  Future<ProductAttribute>getProductAttributeById({@required int attributeId}) async{
-    ProductAttribute productAttribute;
+  Future<WooProductAttribute>getProductAttributeById({@required int attributeId}) async{
+    WooProductAttribute productAttribute;
     setApiResourceUrl(path: 'products/attributes/'+attributeId.toString(),);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
 
-    productAttribute = ProductAttribute.fromJson(response);
+    productAttribute = WooProductAttribute.fromJson(response);
     return productAttribute;
   }
 
-  /// Returns a list of all [ProductAttributeTerm], with filter options.
+  /// Returns a list of all [WooProductAttributeTerm], with filter options.
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#product-attribute-terms
-  Future<List<ProductAttributeTerm>> getProductAttributeTerms(
+  Future<List<WooProductAttributeTerm>> getProductAttributeTerms(
       {@required int attributeId,
         int page,
         int perPage,
@@ -509,34 +509,34 @@ class WooCommerce{
     ).forEach((k, v) {
       if(v != null) payload[k] = v.toString();
     });
-    List<ProductAttributeTerm> productAttributeTerms = [];
+    List<WooProductAttributeTerm> productAttributeTerms = [];
     setApiResourceUrl(path: 'products/attributes/'+attributeId.toString()+'/terms', queryParameters: payload);
     final response = await get(queryUri.toString());
     for(var t in response){
-      var term = ProductAttributeTerm.fromJson(t);
+      var term = WooProductAttributeTerm.fromJson(t);
       print('term gotten here : '+term.toString());
       productAttributeTerms.add(term);
     }
     return productAttributeTerms;
   }
 
-  /// Returns a [ProductAttributeTerm], with the specified [attributeId] and [termId].
+  /// Returns a [WooProductAttributeTerm], with the specified [attributeId] and [termId].
 
-  Future<ProductAttributeTerm>getProductAttributeTermById({@required int attributeId, termId}) async{
-    ProductAttributeTerm productAttributeTerm;
+  Future<WooProductAttributeTerm>getProductAttributeTermById({@required int attributeId, termId}) async{
+    WooProductAttributeTerm productAttributeTerm;
     setApiResourceUrl(path: 'products/attributes/'+attributeId.toString()+'/terms/'+termId.toString(),);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
 
-    productAttributeTerm = ProductAttributeTerm.fromJson(response);
+    productAttributeTerm = WooProductAttributeTerm.fromJson(response);
     return productAttributeTerm;
   }
 
-  /// Returns a list of all [ProductCategory], with filter options.
+  /// Returns a list of all [WooProductCategory], with filter options.
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#product-categories
 
-  Future<List<ProductCategory>> getProductCategories(
+  Future<List<WooProductCategory>> getProductCategories(
       {int page,
         int perPage,
         String search,
@@ -559,35 +559,35 @@ class WooCommerce{
       if(v != null) payload[k] = v.toString();
     });
 
-    List<ProductCategory> productCategories = [];
+    List<WooProductCategory> productCategories = [];
     print('payload : '+payload.toString());
     setApiResourceUrl(path: 'products/categories', queryParameters: payload);
     print('this is the path : '+this.apiPath);
     final response = await get(queryUri.toString());
     for(var c in response){
-      var cat = ProductCategory.fromJson(c);
+      var cat = WooProductCategory.fromJson(c);
       print('category gotten here : '+cat.toString());
       productCategories.add(cat);
     }
     return productCategories;
   }
 
-  /// Returns a [ProductCategory], with the specified [categoryId].
+  /// Returns a [WooProductCategory], with the specified [categoryId].
 
-  Future<ProductCategory>getProductCategoryById({@required int categoryId}) async{
-    ProductCategory productCategory;
+  Future<WooProductCategory>getProductCategoryById({@required int categoryId}) async{
+    WooProductCategory productCategory;
     setApiResourceUrl(path: 'products/categories/'+categoryId.toString(),);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
-    productCategory = ProductCategory.fromJson(response);
+    productCategory = WooProductCategory.fromJson(response);
     return productCategory;
   }
 
 
-  /// Returns a list of all [ProductShippingClass], with filter options.
+  /// Returns a list of all [WooProductShippingClass], with filter options.
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#product-shipping-classes
-  Future<List<ProductShippingClass>> getProductShippingClasses(
+  Future<List<WooProductShippingClass>> getProductShippingClasses(
       {int page,
         int perPage,
         String search,
@@ -608,33 +608,33 @@ class WooCommerce{
     ).forEach((k, v) {
       if(v != null) payload[k] = v.toString();
     });
-    List<ProductShippingClass> productShippingClasses = [];
+    List<WooProductShippingClass> productShippingClasses = [];
     setApiResourceUrl(path: 'products/shipping_classes',);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
     for(var c in response){
-      var sClass = ProductShippingClass.fromJson(c);
+      var sClass = WooProductShippingClass.fromJson(c);
       print('prod gotten here : '+sClass.toString());
       productShippingClasses.add(sClass);
     }
     return productShippingClasses;
   }
 
-  /// Returns a [ProductShippingClass], with the specified [id].
+  /// Returns a [WooProductShippingClass], with the specified [id].
 
-  Future<ProductShippingClass>getProductShippingClassById({@required int id}) async{
-    ProductShippingClass productShippingClass;
+  Future<WooProductShippingClass>getProductShippingClassById({@required int id}) async{
+    WooProductShippingClass productShippingClass;
     setApiResourceUrl(path: 'products/shipping_classes/'+id.toString(),);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
-    productShippingClass = ProductShippingClass.fromJson(response);
+    productShippingClass = WooProductShippingClass.fromJson(response);
     return productShippingClass;
   }
 
   /// Returns a list of all [ProductTag], with filter options.
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#product-tags
-  Future<List<ProductTag>> getProductTags(
+  Future<List<WooProductTag>> getProductTags(
       {int page,
         int perPage,
         String search,
@@ -656,31 +656,31 @@ class WooCommerce{
     ).forEach((k, v) {
       if(v != null) payload[k] = v.toString();
     });
-    List<ProductTag> productTags = [];
+    List<WooProductTag> productTags = [];
     print('making request with payload : '+payload.toString());
     setApiResourceUrl(path: 'products/tags', queryParameters: payload);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
     for(var c in response){
-      var tag = ProductTag.fromJson(c);
+      var tag = WooProductTag.fromJson(c);
       print('prod gotten here : '+tag.toString());
       productTags.add(tag);
     }
     return productTags;
   }
 
-  /// Returns a [ProductTag], with the specified [id].
+  /// Returns a [WooProductTag], with the specified [id].
 
-  Future<ProductTag>getProductTagById({@required int id}) async{
-    ProductTag productTag;
+  Future<WooProductTag>getProductTagById({@required int id}) async{
+    WooProductTag productTag;
     setApiResourceUrl(path: 'products/tags/'+id.toString(),);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
-    productTag = ProductTag.fromJson(response);
+    productTag = WooProductTag.fromJson(response);
     return productTag;
   }
 
-  Future<ProductReview> createProductReview(
+  Future<WooProductReview> createProductReview(
       {@required int productId,
         int status,
         @required String reviewer,
@@ -698,18 +698,18 @@ class WooCommerce{
       if(v != null) payload[k] = v.toString();
     });
 
-    ProductReview productReview;
+    WooProductReview productReview;
     setApiResourceUrl(path: 'products/reviews',);
     final response = await post(queryUri.toString(), payload);
     print('response gotten : '+response.toString());
-    productReview = ProductReview.fromJson(response);
+    productReview = WooProductReview.fromJson(response);
     return productReview;
   }
 
-  /// Returns a list of all [ProductReview], with filter options.
+  /// Returns a list of all [WooProductReview], with filter options.
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#product-reviews
-  Future<List<ProductReview>> getProductReviews(
+  Future<List<WooProductReview>> getProductReviews(
       {int page,
         int perPage,
         String search,
@@ -739,96 +739,96 @@ class WooCommerce{
     ).forEach((k, v) {
       if(v != null) payload[k] = v.toString();
     });
-    List<ProductReview> productReviews = [];
+    List<WooProductReview> productReviews = [];
     setApiResourceUrl(path: 'products/reviews', queryParameters: payload);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
     for(var r in response){
-      var rev = ProductReview.fromJson(r);
+      var rev = WooProductReview.fromJson(r);
       print('reviews gotten here : '+rev.toString());
       productReviews.add(rev);
     }
     return productReviews;
   }
 
-  /// Returns a [ProductReview], with the specified [reviewId].
+  /// Returns a [WooProductReview], with the specified [reviewId].
 
-  Future<ProductReview>getProductReviewById({@required int reviewId}) async{
-    ProductReview productReview;
+  Future<WooProductReview>getProductReviewById({@required int reviewId}) async{
+    WooProductReview productReview;
     setApiResourceUrl(path: 'products/reviews/'+reviewId.toString(),);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
-    productReview = ProductReview.fromJson(response);
+    productReview = WooProductReview.fromJson(response);
     return productReview;
   }
 
-  /// Returns a list of all [CartItem].
+  /// Returns a list of all [WooCartItem].
   ///
   /// Related endpoint : wc/store/cart/items
-  Future<List<CartItem>>getCartItems() async{
+  Future<List<WooCartItem>>getCartItems() async{
     print('This is the current path : '+this.apiPath.toString());
-    List<CartItem> cartItems =[];
+    List<WooCartItem> cartItems =[];
     setApiResourceUrl(path: 'cart/items', isShop: true);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
     print('this is query oo : '+queryUri.toString());
     for(var p in response){
-      var prod = CartItem.fromJson(p);
+      var prod = WooCartItem.fromJson(p);
       print('prod gotten here : '+prod.name.toString());
       cartItems.add(prod);
     }
     return cartItems;
   }
 
-  /// Returns the current user's [Cart], information.
-  Future<Cart>getCart() async{
+  /// Returns the current user's [WooCart], information.
+  Future<WooCart>getCart() async{
     print('This is the current path : '+this.apiPath.toString());
-    Cart cart;
+    WooCart cart;
     setApiResourceUrl(path: 'cart/', isShop: true);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
     print('this is query oo : '+queryUri.toString());
-    cart = Cart.fromJson(response);
+    cart = WooCart.fromJson(response);
     return cart;
   }
 
 
-  /// Returns a [CartItem], with the specified [key].
-  Future<CartItem>getCartItemByKey(String key) async{
-    CartItem cartItem;
+  /// Returns a [WooCartItem], with the specified [key].
+  Future<WooCartItem>getCartItemByKey(String key) async{
+    WooCartItem cartItem;
     setApiResourceUrl(path: 'cart/items/'+key, isShop: true);
     final response = await get(queryUri.toString());
     print('response gotten : '+response.toString());
-    cartItem = CartItem.fromJson(response);
+    cartItem = WooCartItem.fromJson(response);
     return cartItem;
   }
 
   /// Accepts an int [id] of a product or product variation, int quantity, and an array of chosen variation attribute objects
 
-  Future<CartItem>addToCart({@required int id, @required int quantity, List<String> variations}) async{
+  Future<WooCartItem>addToCart({@required int id, @required int quantity, List<String> variations}) async{
     Map<String, dynamic> data = {
       'id': id,
     };
     if(quantity!=null) data['quantity'] = quantity;
     setApiResourceUrl(path: 'cart/items', isShop: true);
     final response = await post(queryUri.toString(), data);
-    return CartItem.fromJson(response);
+    return WooCartItem.fromJson(response);
   }
 
-  /// Creates an order and returns the [Order] object.
+  /// Creates an order and returns the [WooOrder] object.
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#orders.
-  Future<Order> createOrder (OrderPayload orderPayload) async{
+  Future<WooOrder> createOrder (WooOrderPayload orderPayload) async{
     print('Creating Order With Payload : ' + orderPayload.toString());
     setApiResourceUrl(path: 'orders',);
     final response = await post(queryUri.toString(), orderPayload.toJson());
-    return Order.fromJson(response);
+    return WooOrder.fromJson(response);
   }
 
   /// Returns a list of all [Order], with filter options.
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#orders
-  Future<List<Order>> getOrders(
+  Future<List<WooOrder>> getOrders(
       {int page,
         int perPage,
         String search,
@@ -858,32 +858,32 @@ class WooCommerce{
     ).forEach((k, v) {
       if(v != null) payload[k] = v.toString();
     });
-    List<Order>orders = [];
+    List<WooOrder>orders = [];
     print('Getting Order With Payload : ' + payload.toString());
     setApiResourceUrl(path: 'orders', queryParameters: payload);
     final response = await get(queryUri.toString());
     for(var o in response){
-      var order = Order.fromJson(o);
+      var order = WooOrder.fromJson(o);
       print('order gotten here : '+order.toString());
       orders.add(order);
     }
     return orders;
   }
 
-  /// Returns an [Order] object that matches the provided [id].
+  /// Returns an [WooOrder] object that matches the provided [id].
 
-  Future<Order> getOrderById(int id, {String dp}) async {
+  Future<WooOrder> getOrderById(int id, {String dp}) async {
     Map<String, dynamic> payload = {};
     if (dp != null) payload["dp"] = dp;
     setApiResourceUrl(path: 'orders/'+id.toString(),queryParameters: payload);
     final response = await get(queryUri.toString());
-    return Order.fromJson(response);
+    return WooOrder.fromJson(response);
   }
 
-  /// Creates an coupon and returns the [Coupon] object.
+  /// Creates an coupon and returns the [WooCoupon] object.
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#coupons.
-  Future<Coupon> createCoupon(
+  Future<WooCoupon> createCoupon(
       {String code,
         String discountType,
         String amount,
@@ -900,18 +900,18 @@ class WooCommerce{
     ).forEach((k, v) {
       if(v != null) payload[k] = v.toString();
     });
-    Coupon coupon;
+    WooCoupon coupon;
     setApiResourceUrl(path: 'coupons',);
     final response = await post(queryUri.toString(), payload);
     print('response gotten : '+response.toString());
-    coupon = Coupon.fromJson(response);
+    coupon = WooCoupon.fromJson(response);
     return coupon;
   }
 
-  /// Returns a list of all [Coupon], with filter options.
+  /// Returns a list of all [WooCoupon], with filter options.
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#coupons
-  Future<List<Coupon>> getCoupons(
+  Future<List<WooCoupon>> getCoupons(
       {int page,
         int perPage,
         String search,
@@ -934,29 +934,29 @@ class WooCommerce{
     ).forEach((k, v) {
       if(v != null) payload[k] = v.toString();
     });
-    List<Coupon>coupons;
+    List<WooCoupon>coupons;
     print('Getting Coupons With Payload : ' + payload.toString());
     setApiResourceUrl(path: 'coupons', queryParameters: payload);
     final response = await get(queryUri.toString());
     for(var c in response){
-      var coupon = Coupon.fromJson(c);
+      var coupon = WooCoupon.fromJson(c);
       print('prod gotten here : '+order.toString());
       coupons.add(coupon);
     }
     return coupons;
   }
 
-  /// Returns a [Coupon] object with the specified [id].
-  Future<Coupon> getCouponById(int id) async {
+  /// Returns a [WooCoupon] object with the specified [id].
+  Future<WooCoupon> getCouponById(int id) async {
     setApiResourceUrl(path: 'coupons/'+id.toString());
     final response = await get(queryUri.toString());
-    return Coupon.fromJson(response);
+    return WooCoupon.fromJson(response);
   }
 
-  /// Returns a list of all [TaxRate], with filter options.
+  /// Returns a list of all [WooTaxRate], with filter options.
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#tax-rates.
-  Future<List<TaxRate>> getTaxRates(
+  Future<List<WooTaxRate>> getTaxRates(
       {int page,
         int perPage,
         int offset,
@@ -971,35 +971,35 @@ class WooCommerce{
     ).forEach((k, v) {
       if(v != null) payload[k] = v.toString();
     });
-    List<TaxRate> taxRates = [];
+    List<WooTaxRate> taxRates = [];
     print('Getting Taxrates With Payload : ' + payload.toString());
     setApiResourceUrl(path: 'taxes', queryParameters: payload);
     final response = await get(queryUri.toString());
     for(var t in response){
-      var tax = TaxRate.fromJson(t);
+      var tax = WooTaxRate.fromJson(t);
       print('prod gotten here : '+order.toString());
       taxRates.add(tax);
     }
     return taxRates;
   }
 
-  /// Returns a [TaxRate] object matching the specified [id].
+  /// Returns a [WooTaxRate] object matching the specified [id].
 
-  Future<TaxRate> getTaxRateById(int id) async {
+  Future<WooTaxRate> getTaxRateById(int id) async {
     setApiResourceUrl(path: 'taxes/'+id.toString());
     final response = await get(queryUri.toString());
-    return TaxRate.fromJson(response);
+    return WooTaxRate.fromJson(response);
   }
 
-  /// Returns a list of all [TaxClass].
+  /// Returns a list of all [WooTaxClass].
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#tax-classes.
-  Future<List<TaxClass>> getTaxClasses() async {
-    List<TaxClass> taxClasses = [];
+  Future<List<WooTaxClass>> getTaxClasses() async {
+    List<WooTaxClass> taxClasses = [];
     setApiResourceUrl(path: 'taxes/classes');
     final response = await get(queryUri.toString());
     for(var t in response){
-      var tClass = TaxClass.fromJson(t);
+      var tClass = WooTaxClass.fromJson(t);
       print('tax class gotten here : '+tClass.toString());
       taxClasses.add(tClass);
     }
@@ -1007,15 +1007,15 @@ class WooCommerce{
   }
 
 
-  /// Returns a list of all [ShippingZone].
+  /// Returns a list of all [WooShippingZone].
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#shipping-zones.
-  Future<List<ShippingZone>> getShippingZones() async {
-    List<ShippingZone> shippingZones = [];
+  Future<List<WooShippingZone>> getShippingZones() async {
+    List<WooShippingZone> shippingZones = [];
     setApiResourceUrl(path: 'shipping/zones');
     final response = await get(queryUri.toString());
     for(var z in response){
-      var sZone = ShippingZone.fromJson(z);
+      var sZone = WooShippingZone.fromJson(z);
       print('shipping zones gotten here : '+sZone.toString());
       shippingZones.add(sZone);
     }
@@ -1023,13 +1023,13 @@ class WooCommerce{
   }
 
 
-  /// Returns a [ShippingZone] object with the specified [id].
+  /// Returns a [WooShippingZone] object with the specified [id].
 
-  Future<ShippingZone> getShippingZoneById(int id) async {
-    ShippingZone shippingZone;
+  Future<WooShippingZone> getShippingZoneById(int id) async {
+    WooShippingZone shippingZone;
     setApiResourceUrl(path: 'shipping/zones/'+id.toString());
     final response = await get(queryUri.toString());
-    shippingZone = ShippingZone.fromJson(response);
+    shippingZone = WooShippingZone.fromJson(response);
     return shippingZone;
   }
 

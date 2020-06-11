@@ -31,7 +31,7 @@
 
  */
 
-class ProductReview {
+class WooProductReview {
   int id;
   String dateCreated;
   String dateCreatedGmt;
@@ -45,7 +45,7 @@ class ProductReview {
   Map<String, dynamic> reviewerAvatarUrls;
   Links links;
 
-  ProductReview(
+  WooProductReview(
       {this.id,
       this.dateCreated,
       this.dateCreatedGmt,
@@ -59,7 +59,7 @@ class ProductReview {
       this.reviewerAvatarUrls,
       this.links});
 
-  ProductReview.fromJson(Map<String, dynamic> json) {
+  WooProductReview.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     dateCreated = json['date_created'];
     dateCreatedGmt = json['date_created_gmt'];

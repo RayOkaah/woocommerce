@@ -31,15 +31,15 @@
 
  */
 
-class ShippingMethod {
+class WooShippingMethod {
   int parentId;
   String name;
   List<Locations> locations;
   Methods methods;
 
-  ShippingMethod({this.parentId, this.name, this.locations, this.methods});
+  WooShippingMethod({this.parentId, this.name, this.locations, this.methods});
 
-  ShippingMethod.fromJson(Map<String, dynamic> json) {
+  WooShippingMethod.fromJson(Map<String, dynamic> json) {
     parentId = json['parent_id'];
     name = json['name'];
     if (json['locations'] != null) {

@@ -31,7 +31,7 @@
 
  */
 
-class ProductVariation {
+class WooProductVariation {
   int id;
   DateTime dateCreated;
   DateTime dateCreatedGmt;
@@ -72,7 +72,7 @@ class ProductVariation {
   List<MetaData> metaData;
   Image image;
 
-  ProductVariation(
+  WooProductVariation(
       this.id,
       this.dateCreated,
       this.dateCreatedGmt,
@@ -113,7 +113,7 @@ class ProductVariation {
       this.metaData,
       this.image);
 
-  ProductVariation.fromJson(Map<String, dynamic> json)
+  WooProductVariation.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         permalink = json['permalink'],
         status = json['status'],

@@ -31,7 +31,7 @@
 
  */
 
-class Cart {
+class WooCart {
   String currency;
   int itemCount;
   List<Items> items;
@@ -39,7 +39,7 @@ class Cart {
   String totalPrice;
   int totalWeight;
 
-  Cart(
+  WooCart(
       {this.currency,
         this.itemCount,
         this.items,
@@ -47,7 +47,7 @@ class Cart {
         this.totalPrice,
         this.totalWeight});
 
-  Cart.fromJson(Map<String, dynamic> json) {
+  WooCart.fromJson(Map<String, dynamic> json) {
     currency = json['currency'];
     itemCount = json['item_count'];
     if (json['items'] != null) {

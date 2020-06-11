@@ -31,7 +31,7 @@
 
  */
 
-class ProductAttributeTerm {
+class WooProductAttributeTerm {
   int id;
   String name;
   String slug;
@@ -40,7 +40,7 @@ class ProductAttributeTerm {
   int count;
   Links links;
 
-  ProductAttributeTerm(
+  WooProductAttributeTerm(
       {this.id,
       this.name,
       this.slug,
@@ -49,7 +49,7 @@ class ProductAttributeTerm {
       this.count,
       this.links});
 
-  ProductAttributeTerm.fromJson(Map<String, dynamic> json) {
+  WooProductAttributeTerm.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     slug = json['slug'];

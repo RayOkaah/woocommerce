@@ -31,7 +31,7 @@
 
  */
 
-class ShippingZoneMethod {
+class WooShippingZoneMethod {
   int instanceId;
   String title;
   int order;
@@ -42,7 +42,7 @@ class ShippingZoneMethod {
   Settings settings;
   Links links;
 
-  ShippingZoneMethod(
+  WooShippingZoneMethod(
       {this.instanceId,
       this.title,
       this.order,
@@ -53,7 +53,7 @@ class ShippingZoneMethod {
       this.settings,
       this.links});
 
-  ShippingZoneMethod.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneMethod.fromJson(Map<String, dynamic> json) {
     instanceId = json['instance_id'];
     title = json['title'];
     order = json['order'];

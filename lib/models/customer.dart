@@ -31,7 +31,7 @@
 
  */
 
-class Customer {
+class WooCustomer {
   int id;
   String dateCreated;
   String dateCreatedGmt;
@@ -49,7 +49,7 @@ class Customer {
   List<MetaData> metaData;
   Links links;
 
-  Customer(
+  WooCustomer(
       {this.id,
       this.dateCreated,
       this.dateCreatedGmt,
@@ -67,7 +67,7 @@ class Customer {
       this.metaData,
       this.links});
 
-  Customer.fromJson(Map<String, dynamic> json) {
+  WooCustomer.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     dateCreated = json['date_created'];
     dateCreatedGmt = json['date_created_gmt'];
