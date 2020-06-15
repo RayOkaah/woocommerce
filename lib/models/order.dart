@@ -31,6 +31,7 @@
 
  */
 
+import 'package:flutter/material.dart';
 class WooOrder {
   int id;
   int parentId;
@@ -76,7 +77,7 @@ class WooOrder {
   Links links;
 
   WooOrder(
-      {this.id,
+      {@required this.id,
       this.parentId,
       this.number,
       this.orderKey,
@@ -117,7 +118,7 @@ class WooOrder {
       this.feeLines,
       this.couponLines,
       this.refunds,
-      this.links});
+      this.links}) : assert (id != null);
 
   WooOrder.fromJson(Map<String, dynamic> json) {
     id = json['id'];

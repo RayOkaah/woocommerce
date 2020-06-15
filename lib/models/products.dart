@@ -30,6 +30,7 @@
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
  */
+import 'product_category.dart';
 
 class WooProduct {
   final int id;
@@ -80,7 +81,7 @@ class WooProduct {
   final List<int> crossSellIds;
   final int parentId;
   final String purchaseNote;
-  final List<Category> categories;
+  final List<WooProductCategory> categories;
   final List<Tag> tags;
   final List<Image> images;
   final List<Attribute> attributes;
@@ -201,7 +202,7 @@ class WooProduct {
         parentId = json['parent_id'],
         purchaseNote = json['purchase_note'],
         categories = (json['categories'] as List)
-            .map((i) => Category.fromJson(i))
+            .map((i) => WooProductCategory.fromJson(i))
             .toList(),
         tags = (json['tags'] as List).map((i) => Tag.fromJson(i)).toList(),
         images =
@@ -291,6 +292,7 @@ class Image {
         dateCreatedGMT = DateTime.parse(json['date_created_gmt']);
 }
 
+/**
 class Category {
   final int id;
   final String name;
@@ -308,7 +310,9 @@ class Category {
         'name': name,
         'slug': slug,
       };
+  @override toString() => toJson().toString();
 }
+*/
 
 class Dimension {
   final String length;
