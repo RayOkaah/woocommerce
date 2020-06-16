@@ -1,7 +1,7 @@
 /*
  * BSD 3-Clause License
 
-    Copyright (c) 2020, RAY OKAAH - ray@flutterengineer.com
+    Copyright (c) 2020, RAY OKAAH - MailTo: ray@flutterengineer.com, Twitter: Rayscode
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,7 @@ class WooCommerceError {
   }
 
   WooCommerceError.fromJson(Map<String, dynamic> json) {
-    _code = json['code'];
+    _code = json['code'].toString();
     _message = json['message'];
     _data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }

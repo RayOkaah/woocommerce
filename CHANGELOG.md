@@ -21,3 +21,11 @@
   - Shipping.
   - Tax, TaxClasses.
   - Etc and more.
+
+## [0.9.0] - publish.
+
+  * Fix Customer Registration.
+  * Documentation
+  * Add example.
+  * made put and delete methods available.
+  * ready for use.

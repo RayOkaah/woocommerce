@@ -42,15 +42,18 @@ WooCommerce woocommerce = WooCommerce(
 - Variations.
 - Ability to filter on methods that returns a list.
 - Supports custom endpoints.
-- Shipping.
+- Shipping, Shipping methods, Shipping Locations.
+- Payment.
 - Tax, TaxClasses.
 - Etc and more.
 
 
 ## Notes.
- Install Wordpress [Jwt Token Plugin](https://wordpress.org/plugins/jwt-authentication-for-wp-rest-api/) and [Wp Rest User](https://en-nz.wordpress.org/plugins/wp-rest-user/), to be able to log in,
+ Install [Jwt Token Plugin](https://wordpress.org/plugins/jwt-authentication-for-wp-rest-api/) and [Wp Rest User](https://en-nz.wordpress.org/plugins/wp-rest-user/), to be able to log in,
 
 ## Examples
+
+Put your credentials into the example app for a quick demo.
 
 ### Login - Returns the access token on success.
 

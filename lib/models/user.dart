@@ -1,7 +1,7 @@
 /*
  * BSD 3-Clause License
 
-    Copyright (c) 2020, RAY OKAAH
+    Copyright (c) 2020, RAY OKAAH - MailTo: ray@flutterengineer.com, Twitter: Rayscode
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -34,27 +34,33 @@
 
 class WooUser {
   final int id;
+  final String email;
+  final String username;
+  final String password;
   final String firstName;
   final String lastName;
-  final String email;
-  final String userRole;
 
-  WooUser({this.id, this.firstName, this.lastName, this.email, this.userRole});
+
+  WooUser({this.id, this.email, this.username, this.password, this.firstName, this.lastName,}):
+      assert (email != null),
+        assert (username !=null);
 
   WooUser.fromJson(Map<String, dynamic> data)
       : id = data['id'],
-        firstName = data['firstname'],
-        lastName = data['lastname'],
         email = data['email'],
-        userRole = data['userRole'];
+  username = data['username'],
+        password = data['password'],
+        firstName = data['first_name'],
+        lastName = data['last_name'];
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'firstname': firstName,
-      'lastname' : lastName,
       'email': email,
-      'userRole': userRole,
+      'username': username,
+      'password': password,
+      'first_name': firstName,
+      'last_name' : lastName,
     };
   }
   @override toString() => this.toJson().toString();

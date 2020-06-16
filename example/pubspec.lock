@@ -204,7 +204,7 @@ packages:
       path: "/Users/ray/myFlutterProjects/woocommerce"
       relative: false
     source: path
-    version: "0.7.4"
+    version: "0.9.0"
   xml:
     dependency: transitive
     description:

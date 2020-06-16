@@ -103,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ],
                     );
                   },
-                  childCount: 8,
+                  childCount: products.length,
                 ),
               )
             ],

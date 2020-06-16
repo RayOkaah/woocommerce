@@ -1,7 +1,7 @@
 /*
  * BSD 3-Clause License
 
-    Copyright (c) 2020, RAY OKAAH
+    Copyright (c) 2020, RAY OKAAH - MailTo: ray@flutterengineer.com, Twitter: Rayscode
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -42,6 +42,7 @@ class WooCustomer {
   String lastName;
   String role;
   String username;
+  String password;
   Billing billing;
   Shipping shipping;
   bool isPayingCustomer;
@@ -60,6 +61,7 @@ class WooCustomer {
       this.lastName,
       this.role,
       this.username,
+      this.password,
       this.billing,
       this.shipping,
       this.isPayingCustomer,
@@ -98,10 +100,16 @@ class WooCustomer {
     data['date_modified'] = this.dateModified;
     data['date_modified_gmt'] = this.dateModifiedGmt;
     data['email'] = this.email;
-    data['first_name'] = this.firstName;
+    if (this.firstName != null) {
+      data['first_name'] = this.firstName;
+    }
     data['last_name'] = this.lastName;
+    if (this.lastName != null) {
+      data['last_name'] = this.lastName;
+    }
     data['role'] = this.role;
     data['username'] = this.username;
+    data['password'] = this.password;
     if (this.billing != null) {
       data['billing'] = this.billing.toJson();
     }

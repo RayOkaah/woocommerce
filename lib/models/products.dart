@@ -1,7 +1,7 @@
 /*
  * BSD 3-Clause License
 
-    Copyright (c) 2020, RAY OKAAH
+    Copyright (c) 2020, RAY OKAAH - MailTo: ray@flutterengineer.com, Twitter: Rayscode
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -30,6 +30,7 @@
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
  */
+
 import 'product_category.dart';
 
 class WooProduct {
@@ -219,6 +220,7 @@ class WooProduct {
         metaData = (json['meta_data'] as List)
             .map((i) => MetaData.fromJson(i))
             .toList();
+
   @override toString() => "{id: $id}, {name: $name}, {price: $price}, {status: $status}";
 }
 

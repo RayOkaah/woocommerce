@@ -1,7 +1,7 @@
 /*
  * BSD 3-Clause License
 
-    Copyright (c) 2020, RAY OKAAH
+    Copyright (c) 2020, RAY OKAAH - MailTo: ray@flutterengineer.com, Twitter: Rayscode
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
