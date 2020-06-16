@@ -34,6 +34,7 @@ WooCommerce woocommerce = WooCommerce(
   The goal of Woo Commerce SDK is to make building amazing Ecommerce apps with flutter and Woo Commerce as easy as can be,
   hope it improves your workflow.
 
+
 ## Features.
 
 - User Authentication.
@@ -58,6 +59,11 @@ WooCommerce woocommerce = WooCommerce(
 ## Examples
 
 Put your credentials into the example app for a quick demo.
+
+
+
+<img src="https://github.com/RayOkaah/woocommerce/blob/master/example/woocommerce-ios-demo.gif" width="30%">.
+
 
 ### Auth
 
