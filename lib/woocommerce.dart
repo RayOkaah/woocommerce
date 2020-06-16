@@ -151,7 +151,7 @@ class WooCommerce{
 
   void _printToLog(String message) {
     if (isDebug) {
-      _printToLog("WOOCOMMERCE LOG : " + message);
+      print("WOOCOMMERCE LOG : " + message);
     }
   }
 
@@ -842,13 +842,12 @@ class WooCommerce{
 
   /// Accepts an int [id] of a product or product variation, int quantity, and an array of chosen variation attribute objects
   /// Related endpoint : wc/store/cart
-  Future<WooCartItem>addToCart({@required int id, @required int quantity, List<WooProductVariation> variations}) async{
+  Future<WooCartItem>addToCart({@required int itemId, @required int quantity, List<WooProductVariation> variations}) async{
     Map<String, dynamic> data = {
-      'id': id,
+      'id': itemId,
       'quantity' : quantity,
-      'variations' : variations
     };
-    if(quantity!=null) data['quantity'] = quantity;
+    if(variations!=null) data['variations'] = variations;
     _setApiResourceUrl(path: 'cart/items', isShop: true);
     final response = await post(queryUri.toString(), data);
     return WooCartItem.fromJson(response);

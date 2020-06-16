@@ -28,12 +28,16 @@ WooCommerce woocommerce = WooCommerce(
  An example : "/wp-json/wc/v3/"
  This is useful if only you changed your default Wordpress Woocommerce path, otherwise default applies.
 
+ Optional Parameter [isDebug], tells the library if it should print to debug logs.
+  /// Useful if you are debuging or in development.
+
   The goal of Woo Commerce SDK is to make building amazing Ecommerce apps with flutter and Woo Commerce as easy as can be,
   hope it improves your workflow.
 
 ## Features.
 
-- Customer / User Authentication.
+- User Authentication.
+- Customer Management
 - Cart Management.
 - Order Management.
 - Products management.
@@ -55,61 +59,74 @@ WooCommerce woocommerce = WooCommerce(
 
 Put your credentials into the example app for a quick demo.
 
-### Login - Returns the access token on success.
+### Auth
 
 ```dart
+//Login - Returns the access token on success.
+
 final token = woocommerce.authenticateViaJWT(username: username, password: password);
-```
 
-### Login - Signs a user in and returns the logged in user's wordpress user object.
+// Login - Signs a user in and returns the logged in user's (WooUser object) details.
 
-```dart
 final user = woocommerce.loginUser(username: username, password: password);
-```
 
-### Get All Products - Returns list of product object, default is 10 per page, [see Api reference](https://pub.dev/documentation/woocommerce/latest/models_products/Product-class.html) for filter options.
+/// Create Account
+// Recommended, create a new Wordpress user and returns whether action was successful or not using WP Rest User Wordpress plugin.
+Woouser user = WooUser(username: username, password: password, email: email);
+bool result = woocommerce.registerNewUser(user);
+
+// Creates a new Woocommerce customer and returns the WooCustomer object.
+WooCustomer user = WooCustomer(username: username, password: password, email: email);
+final result = woocommerce.createCustomer();
+
+// Return current loggedIn user (WooUser object).
+
+final user = woocommerce.fetchLoggedInUser();
+
+```
+ ### Products [see SDK reference](https://pub.dev/documentation/woocommerce/latest/models_products/Product-class.html) for filter options.
 
 ```dart
+// Get All Products - Returns list of product object, default is 10 per page.
+
 final myProducts = await woocommerce.getProducts();
-```
 
-### Get All Featured Products - Returns a list of featured products, see Api reference for more filter options.
+//Get All Featured Products - Returns a list of featured products, see Api reference for more filter options.
 
-```dart
 final myFeaturedProducts = await woocommerce.getProducts(featured: true);
-```
 
-### Get All Products marked with category id '22'.
+// Get All Products marked with category id '22'.
 
-```dart
 final mySpecificProduct = await getProducts(category: '22');
 ```
 
-### Add To Cart! - Returns the added cart item object(Accepts quantity, product id, and list of variations(id) of the product to be added).
+### Cart!
+
 
 ```dart
+// Add To Cart! - Returns the added cart item object(Accepts quantity, product id, and list of variations(id) of the product to be added)
+
 final myCart = await woocommerce.addToCart(quantity: 2, id: 17);
-```
 
-### Create an Order. - Returns the created order object (Accepts an orderPayload object).
+// Create an Order. - Returns the created order object (Accepts an orderPayload object).
 
-```dart
 OrderPayload orderPayload = OrderPayload(customerId: customerId, setPaid=true);
 final order = await woocommerce.CreateOrder(orderPayload);
+
 ```
 
 ### Custom Requests - Make your custom authenticated requests to the Woocommerce api.
 
 ```dart
 final response = await woocommerce.put(endpoint, data);
+
+final anotherResponse = await woocommerce.get(endpoint);
 ```
 
 ## Updates
-This project is under active development.
 
 - [x] Add documentation.
-- [ ] Add helper Update methods.
-- [ ] Add helper Delete methods.
+- [ ] Add more search filter abilities.
 - [ ] Multiple Examples.
 
 ## WooCommerce SDK Documentation Reference
@@ -122,6 +139,7 @@ This project is under active development.
 If you find this useful :blue_heart:, feel free to click :star:
 You can create a Github issue anytime. Pull requests on both code and documentation are welcomed as well pls :heart_eyes:.
 You can also send a mail to ray@flutterengineer.com.
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
+
+For help getting started with Flutter, view the
+[online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.

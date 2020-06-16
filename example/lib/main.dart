@@ -21,6 +21,7 @@ String baseUrl = "";
 String consumerKey = "";
 String consumerSecret = "";
 
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
@@ -38,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
     baseUrl: baseUrl,
     consumerKey: consumerKey,
     consumerSecret: consumerSecret,
+    isDebug: true,
   );
 
   getProducts() async{
@@ -87,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           Container(
-                            height: 300,
+                            height: 230,
                             width: 200,
                             margin: EdgeInsets.all(10),
                             decoration: BoxDecoration(
@@ -98,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             //child: Image.network(product.images[0].src, fit: BoxFit.cover,),
                           ),
-                          Text(product.name?? '', style: Theme.of(context).textTheme.title.apply(color: Colors.blueGrey),),
+                          Text(product.name?? 'Loading...', style: Theme.of(context).textTheme.title.apply(color: Colors.blueGrey),),
                           Text('\$'+product.price?? '', style: Theme.of(context).textTheme.subtitle,)
                         ],
                     );
