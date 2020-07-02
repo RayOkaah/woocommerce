@@ -221,7 +221,8 @@ class WooProduct {
             .map((i) => MetaData.fromJson(i))
             .toList();
 
-  @override toString() => "{id: $id}, {name: $name}, {price: $price}, {status: $status}";
+  @override
+  toString() => "{id: $id}, {name: $name}, {price: $price}, {status: $status}";
 }
 
 class Tag {
@@ -237,7 +238,8 @@ class Tag {
         slug = json['slug'];
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'slug': slug};
-  @override toString() => 'Tag: $name';
+  @override
+  toString() => 'Tag: $name';
 }
 
 class MetaData {
@@ -248,8 +250,8 @@ class MetaData {
   MetaData(this.id, this.key, this.value);
 
   MetaData.fromJson(Map<String, dynamic> json)
-      : id = json['name'],
-        key = json['email'],
+      : id = json['id'],
+        key = json['key'],
         value = json['value'].toString();
 
   Map<String, dynamic> toJson() => {'id': id, 'key': key, 'value': value};
