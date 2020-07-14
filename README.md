@@ -54,7 +54,7 @@ WooCommerce woocommerce = WooCommerce(
 
 
 ## Notes.
- Install [Jwt Token Plugin](https://wordpress.org/plugins/jwt-authentication-for-wp-rest-api/) and [Wp Rest User](https://en-nz.wordpress.org/plugins/wp-rest-user/), to be able to log in,
+ Install [Jwt Token Plugin](https://wordpress.org/plugins/jwt-authentication-for-wp-rest-api/), to be able to log in,
 
 ## Examples
 
