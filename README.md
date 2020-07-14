@@ -62,7 +62,7 @@ Put your credentials into the example app for a quick demo.
 
 
 
-<img src="https://github.com/RayOkaah/woocommerce/blob/master/example/woocommerce-ios-demo.gif" width="30%">.
+<img src="https://raw.githubusercontent.com/RayOkaah/woocommerce/master/example/woocommerce-ios-demo.gif" width="30%">.
 
 
 ### Auth
