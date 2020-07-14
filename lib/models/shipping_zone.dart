@@ -35,7 +35,7 @@ class WooShippingZone {
   int id;
   String name;
   int order;
-  Links links;
+  WooShippingZoneLinks links;
 
   WooShippingZone({this.id, this.name, this.order, this.links});
 
@@ -43,7 +43,7 @@ class WooShippingZone {
     id = json['id'];
     name = json['name'];
     order = json['order'];
-    links = json['_links'] != null ? new Links.fromJson(json['_links']) : null;
+    links = json['_links'] != null ? new WooShippingZoneLinks.fromJson(json['_links']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -59,24 +59,24 @@ class WooShippingZone {
   @override toString() => this.toJson().toString();
 }
 
-class Links {
-  List<Self> self;
-  List<Collection> collection;
+class WooShippingZoneLinks {
+  List<WooShippingZoneSelf> self;
+  List<WooShippingZoneCollection> collection;
   List<Describedby> describedby;
 
-  Links({this.self, this.collection, this.describedby});
+  WooShippingZoneLinks({this.self, this.collection, this.describedby});
 
-  Links.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneLinks.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
-      self = new List<Self>();
+      self = new List<WooShippingZoneSelf>();
       json['self'].forEach((v) {
-        self.add(new Self.fromJson(v));
+        self.add(new WooShippingZoneSelf.fromJson(v));
       });
     }
     if (json['collection'] != null) {
-      collection = new List<Collection>();
+      collection = new List<WooShippingZoneCollection>();
       json['collection'].forEach((v) {
-        collection.add(new Collection.fromJson(v));
+        collection.add(new WooShippingZoneCollection.fromJson(v));
       });
     }
     if (json['describedby'] != null) {
@@ -102,12 +102,12 @@ class Links {
   }
 }
 
-class Self {
+class WooShippingZoneSelf {
   String href;
 
-  Self({this.href});
+  WooShippingZoneSelf({this.href});
 
-  Self.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneSelf.fromJson(Map<String, dynamic> json) {
     href = json['href'];
   }
 
@@ -118,12 +118,12 @@ class Self {
   }
 }
 
-class Collection {
+class WooShippingZoneCollection {
   String href;
 
-  Collection({this.href});
+  WooShippingZoneCollection({this.href});
 
-  Collection.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneCollection.fromJson(Map<String, dynamic> json) {
     href = json['href'];
   }
 

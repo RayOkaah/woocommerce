@@ -43,7 +43,7 @@ class WooCustomerDownload {
   String downloadsRemaining;
   String accessExpires;
   String accessExpiresGmt;
-  File file;
+  WooCustomerDownloadFile file;
 
   WooCustomerDownload(
       {this.downloadId,
@@ -69,7 +69,7 @@ class WooCustomerDownload {
     downloadsRemaining = json['downloads_remaining'];
     accessExpires = json['access_expires'];
     accessExpiresGmt = json['access_expires_gmt'];
-    file = json['file'] != null ? new File.fromJson(json['file']) : null;
+    file = json['file'] != null ? new WooCustomerDownloadFile.fromJson(json['file']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -91,13 +91,13 @@ class WooCustomerDownload {
   }
 }
 
-class File {
+class WooCustomerDownloadFile {
   String name;
   String file;
 
-  File({this.name, this.file});
+  WooCustomerDownloadFile({this.name, this.file});
 
-  File.fromJson(Map<String, dynamic> json) {
+  WooCustomerDownloadFile.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     file = json['file'];
   }

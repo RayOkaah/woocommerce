@@ -37,7 +37,7 @@ class WooProductTag {
   String slug;
   String description;
   int count;
-  Links lLinks;
+  WooProductTagLinks lLinks;
 
   WooProductTag(
       {this.id,
@@ -53,7 +53,7 @@ class WooProductTag {
     slug = json['slug'];
     description = json['description'];
     count = json['count'];
-    lLinks = json['_links'] != null ? new Links.fromJson(json['_links']) : null;
+    lLinks = json['_links'] != null ? new WooProductTagLinks.fromJson(json['_links']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -71,23 +71,23 @@ class WooProductTag {
   @override toString() => this.toJson().toString();
 }
 
-class Links {
-  List<Self> self;
-  List<Collection> collection;
+class WooProductTagLinks {
+  List<WooProductTagSelf> self;
+  List<WooProductTagCollection> collection;
 
-  Links({this.self, this.collection});
+  WooProductTagLinks({this.self, this.collection});
 
-  Links.fromJson(Map<String, dynamic> json) {
+  WooProductTagLinks.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
-      self = new List<Self>();
+      self = new List<WooProductTagSelf>();
       json['self'].forEach((v) {
-        self.add(new Self.fromJson(v));
+        self.add(new WooProductTagSelf.fromJson(v));
       });
     }
     if (json['collection'] != null) {
-      collection = new List<Collection>();
+      collection = new List<WooProductTagCollection>();
       json['collection'].forEach((v) {
-        collection.add(new Collection.fromJson(v));
+        collection.add(new WooProductTagCollection.fromJson(v));
       });
     }
   }
@@ -104,12 +104,12 @@ class Links {
   }
 }
 
-class Self {
+class WooProductTagSelf {
   String href;
 
-  Self({this.href});
+  WooProductTagSelf({this.href});
 
-  Self.fromJson(Map<String, dynamic> json) {
+  WooProductTagSelf.fromJson(Map<String, dynamic> json) {
     href = json['href'];
   }
 
@@ -120,12 +120,12 @@ class Self {
   }
 }
 
-class Collection {
+class WooProductTagCollection {
   String href;
 
-  Collection({this.href});
+  WooProductTagCollection({this.href});
 
-  Collection.fromJson(Map<String, dynamic> json) {
+  WooProductTagCollection.fromJson(Map<String, dynamic> json) {
     href = json['href'];
   }
 

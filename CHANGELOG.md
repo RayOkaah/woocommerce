@@ -29,3 +29,12 @@
   * Add example.
   * made put and delete methods available.
   * ready for use.
+
+## [0.9.5] .
+
+  * Fix Cart Management Issues.
+  * Optimisation.
+  * Bug Fixes.
+  * Unified customer login and SignUp to work directly with Woo Commerce.
+  * Renamed model classes.
+  * Utility classes to handle token persistence, store token to db and retrieve anytime. Check if user is logged in.

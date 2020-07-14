@@ -39,8 +39,8 @@ class WooShippingZoneMethod {
   String methodId;
   String methodTitle;
   String methodDescription;
-  Settings settings;
-  Links links;
+  WooShippingZoneMethodSettings settings;
+  WooShippingZoneMethodLinks links;
 
   WooShippingZoneMethod(
       {this.instanceId,
@@ -62,9 +62,9 @@ class WooShippingZoneMethod {
     methodTitle = json['method_title'];
     methodDescription = json['method_description'];
     settings = json['settings'] != null
-        ? new Settings.fromJson(json['settings'])
+        ? new WooShippingZoneMethodSettings.fromJson(json['settings'])
         : null;
-    links = json['_links'] != null ? new Links.fromJson(json['_links']) : null;
+    links = json['_links'] != null ? new WooShippingZoneMethodLinks.fromJson(json['_links']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -87,17 +87,17 @@ class WooShippingZoneMethod {
   @override toString() => this.toJson().toString();
 }
 
-class Settings {
-  Title title;
-  TaxStatus taxStatus;
-  Cost cost;
-  ClassCosts classCosts;
-  ClassCost92 classCost92;
-  ClassCost91 classCost91;
-  NoClassCost noClassCost;
-  Type type;
+class WooShippingZoneMethodSettings {
+  WooShippingZoneMethodTitle title;
+  WooShippingZoneMethodTaxStatus taxStatus;
+  WooShippingZoneMethodCost cost;
+  WooShippingZoneMethodClassCosts classCosts;
+  WooShippingZoneMethodClassCost92 classCost92;
+  WooShippingZoneMethodClassCost91 classCost91;
+  WooShippingZoneMethodNoClassCost noClassCost;
+  WooShippingZoneMethodType type;
 
-  Settings(
+  WooShippingZoneMethodSettings(
       {this.title,
       this.taxStatus,
       this.cost,
@@ -107,25 +107,25 @@ class Settings {
       this.noClassCost,
       this.type});
 
-  Settings.fromJson(Map<String, dynamic> json) {
-    title = json['title'] != null ? new Title.fromJson(json['title']) : null;
+  WooShippingZoneMethodSettings.fromJson(Map<String, dynamic> json) {
+    title = json['title'] != null ? new WooShippingZoneMethodTitle.fromJson(json['title']) : null;
     taxStatus = json['tax_status'] != null
-        ? new TaxStatus.fromJson(json['tax_status'])
+        ? new WooShippingZoneMethodTaxStatus.fromJson(json['tax_status'])
         : null;
-    cost = json['cost'] != null ? new Cost.fromJson(json['cost']) : null;
+    cost = json['cost'] != null ? new WooShippingZoneMethodCost.fromJson(json['cost']) : null;
     classCosts = json['class_costs'] != null
-        ? new ClassCosts.fromJson(json['class_costs'])
+        ? new WooShippingZoneMethodClassCosts.fromJson(json['class_costs'])
         : null;
     classCost92 = json['class_cost_92'] != null
-        ? new ClassCost92.fromJson(json['class_cost_92'])
+        ? new WooShippingZoneMethodClassCost92.fromJson(json['class_cost_92'])
         : null;
     classCost91 = json['class_cost_91'] != null
-        ? new ClassCost91.fromJson(json['class_cost_91'])
+        ? new WooShippingZoneMethodClassCost91.fromJson(json['class_cost_91'])
         : null;
     noClassCost = json['no_class_cost'] != null
-        ? new NoClassCost.fromJson(json['no_class_cost'])
+        ? new WooShippingZoneMethodNoClassCost.fromJson(json['no_class_cost'])
         : null;
-    type = json['type'] != null ? new Type.fromJson(json['type']) : null;
+    type = json['type'] != null ? new WooShippingZoneMethodType.fromJson(json['type']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -158,7 +158,7 @@ class Settings {
   }
 }
 
-class Title {
+class WooShippingZoneMethodTitle {
   String id;
   String label;
   String description;
@@ -168,7 +168,7 @@ class Title {
   String tip;
   String placeholder;
 
-  Title(
+  WooShippingZoneMethodTitle(
       {this.id,
       this.label,
       this.description,
@@ -178,7 +178,7 @@ class Title {
       this.tip,
       this.placeholder});
 
-  Title.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneMethodTitle.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     label = json['label'];
     description = json['description'];
@@ -203,7 +203,7 @@ class Title {
   }
 }
 
-class TaxStatus {
+class WooShippingZoneMethodTaxStatus {
   String id;
   String label;
   String description;
@@ -212,9 +212,9 @@ class TaxStatus {
   String taxDefault;
   String tip;
   String placeholder;
-  Options options;
+  WooShippingZoneMethodOptions options;
 
-  TaxStatus(
+  WooShippingZoneMethodTaxStatus(
       {this.id,
       this.label,
       this.description,
@@ -225,7 +225,7 @@ class TaxStatus {
       this.placeholder,
       this.options});
 
-  TaxStatus.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneMethodTaxStatus.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     label = json['label'];
     description = json['description'];
@@ -235,7 +235,7 @@ class TaxStatus {
     tip = json['tip'];
     placeholder = json['placeholder'];
     options =
-        json['options'] != null ? new Options.fromJson(json['options']) : null;
+        json['options'] != null ? new WooShippingZoneMethodOptions.fromJson(json['options']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -255,13 +255,13 @@ class TaxStatus {
   }
 }
 
-class Options {
+class WooShippingZoneMethodOptions {
   String taxable;
   String none;
 
-  Options({this.taxable, this.none});
+  WooShippingZoneMethodOptions({this.taxable, this.none});
 
-  Options.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneMethodOptions.fromJson(Map<String, dynamic> json) {
     taxable = json['taxable'];
     none = json['none'];
   }
@@ -274,7 +274,7 @@ class Options {
   }
 }
 
-class Cost {
+class WooShippingZoneMethodCost {
   String id;
   String label;
   String description;
@@ -284,7 +284,7 @@ class Cost {
   String tip;
   String placeholder;
 
-  Cost(
+  WooShippingZoneMethodCost(
       {this.id,
       this.label,
       this.description,
@@ -294,7 +294,7 @@ class Cost {
       this.tip,
       this.placeholder});
 
-  Cost.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneMethodCost.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     label = json['label'];
     description = json['description'];
@@ -319,7 +319,7 @@ class Cost {
   }
 }
 
-class ClassCosts {
+class WooShippingZoneMethodClassCosts {
   String id;
   String label;
   String description;
@@ -329,7 +329,7 @@ class ClassCosts {
   String tip;
   String placeholder;
 
-  ClassCosts(
+  WooShippingZoneMethodClassCosts(
       {this.id,
       this.label,
       this.description,
@@ -339,7 +339,7 @@ class ClassCosts {
       this.tip,
       this.placeholder});
 
-  ClassCosts.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneMethodClassCosts.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     label = json['label'];
     description = json['description'];
@@ -364,7 +364,7 @@ class ClassCosts {
   }
 }
 
-class ClassCost92 {
+class WooShippingZoneMethodClassCost92 {
   String id;
   String label;
   String description;
@@ -374,7 +374,7 @@ class ClassCost92 {
   String tip;
   String placeholder;
 
-  ClassCost92(
+  WooShippingZoneMethodClassCost92(
       {this.id,
       this.label,
       this.description,
@@ -384,7 +384,7 @@ class ClassCost92 {
       this.tip,
       this.placeholder});
 
-  ClassCost92.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneMethodClassCost92.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     label = json['label'];
     description = json['description'];
@@ -409,7 +409,7 @@ class ClassCost92 {
   }
 }
 
-class ClassCost91 {
+class WooShippingZoneMethodClassCost91 {
   String id;
   String label;
   String description;
@@ -419,7 +419,7 @@ class ClassCost91 {
   String tip;
   String placeholder;
 
-  ClassCost91(
+  WooShippingZoneMethodClassCost91(
       {this.id,
       this.label,
       this.description,
@@ -429,7 +429,7 @@ class ClassCost91 {
       this.tip,
       this.placeholder});
 
-  ClassCost91.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneMethodClassCost91.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     label = json['label'];
     description = json['description'];
@@ -454,7 +454,7 @@ class ClassCost91 {
   }
 }
 
-class NoClassCost {
+class WooShippingZoneMethodNoClassCost {
   String id;
   String label;
   String description;
@@ -464,7 +464,7 @@ class NoClassCost {
   String tip;
   String placeholder;
 
-  NoClassCost(
+  WooShippingZoneMethodNoClassCost(
       {this.id,
       this.label,
       this.description,
@@ -474,7 +474,7 @@ class NoClassCost {
       this.tip,
       this.placeholder});
 
-  NoClassCost.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneMethodNoClassCost.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     label = json['label'];
     description = json['description'];
@@ -499,7 +499,7 @@ class NoClassCost {
   }
 }
 
-class Type {
+class WooShippingZoneMethodType {
   String id;
   String label;
   String description;
@@ -508,9 +508,9 @@ class Type {
   String typeDefault;
   String tip;
   String placeholder;
-  Options options;
+  WooShippingZoneMethodOptions options;
 
-  Type(
+  WooShippingZoneMethodType(
       {this.id,
       this.label,
       this.description,
@@ -521,7 +521,7 @@ class Type {
       this.placeholder,
       this.options});
 
-  Type.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneMethodType.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     label = json['label'];
     description = json['description'];
@@ -531,7 +531,7 @@ class Type {
     tip = json['tip'];
     placeholder = json['placeholder'];
     options =
-        json['options'] != null ? new Options.fromJson(json['options']) : null;
+        json['options'] != null ? new WooShippingZoneMethodOptions.fromJson(json['options']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -551,30 +551,30 @@ class Type {
   }
 }
 
-class Links {
-  List<Self> self;
-  List<Collection> collection;
-  List<Describes> describes;
+class WooShippingZoneMethodLinks {
+  List<WooShippingZoneMethodSelf> self;
+  List<WooShippingZoneMethodCollection> collection;
+  List<WooShippingZoneMethodDescribes> describes;
 
-  Links({this.self, this.collection, this.describes});
+  WooShippingZoneMethodLinks({this.self, this.collection, this.describes});
 
-  Links.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneMethodLinks.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
-      self = new List<Self>();
+      self = new List<WooShippingZoneMethodSelf>();
       json['self'].forEach((v) {
-        self.add(new Self.fromJson(v));
+        self.add(new WooShippingZoneMethodSelf.fromJson(v));
       });
     }
     if (json['collection'] != null) {
-      collection = new List<Collection>();
+      collection = new List<WooShippingZoneMethodCollection>();
       json['collection'].forEach((v) {
-        collection.add(new Collection.fromJson(v));
+        collection.add(new WooShippingZoneMethodCollection.fromJson(v));
       });
     }
     if (json['describes'] != null) {
-      describes = new List<Describes>();
+      describes = new List<WooShippingZoneMethodDescribes>();
       json['describes'].forEach((v) {
-        describes.add(new Describes.fromJson(v));
+        describes.add(new WooShippingZoneMethodDescribes.fromJson(v));
       });
     }
   }
@@ -594,12 +594,12 @@ class Links {
   }
 }
 
-class Self {
+class WooShippingZoneMethodSelf {
   String href;
 
-  Self({this.href});
+  WooShippingZoneMethodSelf({this.href});
 
-  Self.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneMethodSelf.fromJson(Map<String, dynamic> json) {
     href = json['href'];
   }
 
@@ -610,12 +610,12 @@ class Self {
   }
 }
 
-class Collection {
+class WooShippingZoneMethodCollection {
   String href;
 
-  Collection({this.href});
+  WooShippingZoneMethodCollection({this.href});
 
-  Collection.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneMethodCollection.fromJson(Map<String, dynamic> json) {
     href = json['href'];
   }
 
@@ -626,12 +626,12 @@ class Collection {
   }
 }
 
-class Describes {
+class WooShippingZoneMethodDescribes {
   String href;
 
-  Describes({this.href});
+  WooShippingZoneMethodDescribes({this.href});
 
-  Describes.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneMethodDescribes.fromJson(Map<String, dynamic> json) {
     href = json['href'];
   }
 

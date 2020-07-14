@@ -71,6 +71,7 @@ import 'models/tax_rate.dart';
 import 'constants/constants.dart';
 import 'models/jwt_response.dart';
 import 'models/user.dart';
+import 'utilities/local_db.dart';
 
 
 export 'models/cart_item.dart' show WooCartItem;
@@ -155,18 +156,18 @@ class WooCommerce{
     }
   }
 
-  String _token = "";
-  Future<String> userTokenString ()async {
-    return _token;
-  }
+  String _authToken;
+  String get authToken => _authToken;
 
   Uri queryUri;
   String get apiResourceUrl=> queryUri.toString();
 
   // Header to be sent for JWT authourization
   Map<String, String> _urlHeader = {
-    'Authorization': '',
+    'Authorization': ''
   };
+  String get urlHeader => _urlHeader['Authorization'] = 'Bearer '+authToken;
+  LocalDatabaseService _localDbService = LocalDatabaseService();
 
 
   /// Authenticates the user using WordPress JWT authentication and returns the access [_token] string.
@@ -187,40 +188,51 @@ class WooCommerce{
     if (response.statusCode >= 200 && response.statusCode < 300) {
       WooJWTResponse authResponse =
       WooJWTResponse.fromJson(json.decode(response.body));
-      _token = authResponse.token;
-      //_localDbService.updateSecurityToken(_token);
+      _authToken = authResponse.token;
+      _localDbService.updateSecurityToken(_authToken);
       _urlHeader['Authorization'] = 'Bearer ${authResponse.token}';
-      return _token;
+      return _authToken;
     } else {
         throw new WooCommerceError.fromJson(json.decode(response.body));
 
     }
   }
 
-  /// Authenticates the user via JWT and returns a Wordpress user object of the current logged in user.
-  loginUser({
+  /// Authenticates the user via JWT and returns a WooCommerce customer object of the current logged in customer.
+  loginCustomer({
     @required String username,
     @required String password,
   }) async{
-    WooUser user;
+    WooCustomer customer;
     try {
       var response = await authenticateViaJWT(username: username, password: password);
       _printToLog('attempted token : '+ response.toString());
       if (response is String){
-        user = await fetchLoggedInUser(response);
+        int id = await fetchLoggedInUserId();
+        customer = await getCustomerById(id: id);
       }
-      return user;
+      return customer;
     } catch (e) {
       return e.message;
     }
-
   }
 
-  /// Fetches already authenticated user, using WP Rest User plugin.
+  /// Confirm if a customer is logged in [true] or out [false].
+  Future<bool> isCustomerLoggedIn() async{
+    String sToken = await _localDbService.getSecurityToken();
+    if (sToken == '0'){
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+
+  /// Fetches already authenticated user, using Jwt
   ///
   /// Associated endpoint : /wp-json/wp/v2/users/me
-  Future<WooUser> fetchLoggedInUser(String token) async {
-    _urlHeader['Authorization'] = 'Bearer '+token;
+  Future<int> fetchLoggedInUserId() async {
+    _urlHeader['Authorization'] = 'Bearer '+_authToken;
     final response =
     await http.get(this.baseUrl + URL_USER_ME, headers: _urlHeader);
 
@@ -230,7 +242,7 @@ class WooCommerce{
         throw new WooCommerceError(
             code: 'wp_empty_user', message: "No user found or you dont have permission");
       _printToLog('account user fetch : '+jsonStr.toString());
-      return WooUser.fromJson(jsonStr);
+      return jsonStr['id'];
     } else {
         WooCommerceError err =
         WooCommerceError.fromJson(json.decode(response.body));
@@ -238,6 +250,14 @@ class WooCommerce{
     }
   }
 
+
+  /// Log User out
+  ///
+  logUserOut() async {
+    await _localDbService.deleteSecurityToken();
+  }
+
+  /**
   /// Creates a new Wordpress user and returns whether action was sucessful or not using WP Rest User Wordpress plugin.
   ///
   /// Associated endpoint : /register .
@@ -255,7 +275,7 @@ class WooCommerce{
     await client.send(request).then((res) => res.stream.bytesToString());
     var dataResponse = await json.decode(response);
     _printToLog('registerNewUser response : '+dataResponse.toString());
-    if(dataResponse['data']['status']==null){
+    if(dataResponse['data']==null){
       return true;
     }
     else {
@@ -263,17 +283,24 @@ class WooCommerce{
           WooCommerceError.fromJson(dataResponse).toString());
     }
   }
-
+*/
 
 
   /// Creates a new Woocommerce Customer and returns the customer object.
   ///
   /// Accepts a customer object as required parameter.
-  Future<WooCustomer> createCustomer (WooCustomer customer) async{
+  Future<bool> createCustomer (WooCustomer customer) async{
     _printToLog('Creating Customer With info : ' + customer.toString());
     _setApiResourceUrl(path: 'customers');
     final response = await post(queryUri.toString(), customer.toJson());
-    return WooCustomer.fromJson(response);
+    _printToLog('created customer : '+response.toString());
+    final cus = WooCustomer.fromJson(response);
+    if (cus is WooCustomer){
+      return true;
+    }else {
+      return false;
+    }
+    //return WooCustomer.fromJson(response);
   }
 
   /// Returns a list of all [WooCustomer], with filter options.
@@ -298,7 +325,7 @@ class WooCommerce{
       'role': role,
     }
     ).forEach((k, v) {
-      if(v != null) payload[k] = v.toString().toString();
+      if(v != null) payload[k] = v.toString();
     });
 
     List<WooCustomer> customers = [];
@@ -346,10 +373,17 @@ class WooCommerce{
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#customer-properties.
 
-  Future<WooCustomer> updateCustomer ({@required WooCustomer wooCustomer}) async{
+  Future<WooCustomer> oldUpdateCustomer ({@required WooCustomer wooCustomer}) async{
     _printToLog('Updating customer With customerId : ' + wooCustomer.id.toString());
     _setApiResourceUrl(path: 'customers/'+wooCustomer.id.toString(),);
     final response = await put(queryUri.toString(), wooCustomer.toJson());
+    return WooCustomer.fromJson(response);
+  }
+
+  Future<WooCustomer> updateCustomer ({@required int id, Map data}) async{
+    _printToLog('Updating customer With customerId : ' + id.toString());
+    _setApiResourceUrl(path: 'customers/'+id.toString(),);
+    final response = await put(queryUri.toString(), data);
     return WooCustomer.fromJson(response);
   }
 
@@ -407,7 +441,7 @@ class WooCommerce{
       'order': order, 'orderby': orderBy, 'parent': parent,
       'parent_exclude': parentExclude, 'slug': slug,
       'status': status, 'type': type, 'sku': sku,
-      'feature': featured, 'category': category, 'tag': tag,
+      'featured': featured, 'category': category, 'tag': tag,
       'shipping_class': shippingClass, 'attribute': attribute,
       'attribute_term': attributeTerm, 'tax_class': taxClass, 'on_sale': onSale,
       'min_price': minPrice, 'max_price': maxPrice, 'stock_status': stockStatus,
@@ -422,10 +456,10 @@ class WooCommerce{
     _setApiResourceUrl(path: 'products', queryParameters: payload);
     final response = await get(queryUri.toString());
     _printToLog('response gotten : '+response.toString());
-    _printToLog('this is query oo : '+queryUri.toString());
+    _printToLog('this is the queri uri : '+queryUri.toString());
     for(var p in response){
       var prod = WooProduct.fromJson(p);
-      _printToLog('prod gotten here : '+prod.name.toString());
+      _printToLog('product gotten here : '+prod.name.toString());
       products.add(prod);
     }
     return products;
@@ -771,10 +805,10 @@ class WooCommerce{
         int offset,
         String order,
         String orderBy,
-        //List<int> reviewer,
+        List<int> reviewer,
         //List<int> reviewerExclude,
         //List<String> reviewerEmail,
-        //List<int> product,
+        List<int> product,
         String status}) async {
     Map<String, dynamic> payload = {};
 
@@ -783,16 +817,18 @@ class WooCommerce{
       //'exclude': exclude, 'include': include,
       'offset': offset,
       'order': order, 'orderby': orderBy,
-      //'reviewer': reviewer,
-      //'reviewer_exclude': reviewerExclude, 'reviewer_email': reviewerEmail, 'product': product,
+      'reviewer': reviewer,
+      //'reviewer_exclude': reviewerExclude, 'reviewer_email': reviewerEmail,
+      'product': product,
       'status': status,
     }
     ).forEach((k, v) {
-      if(v != null) payload[k] = v.toString();
+      if(v != null) payload[k] = v;
     });
+    String meQueryPath = 'products/reviews'+getQueryString(payload);
     List<WooProductReview> productReviews = [];
-    _setApiResourceUrl(path: 'products/reviews', queryParameters: payload);
-    final response = await get(queryUri.toString());
+    //_setApiResourceUrl(path: 'products/reviews', queryParameters: payload);
+    final response = await get(meQueryPath);
     _printToLog('response gotten : '+response.toString());
     for(var r in response){
       var rev = WooProductReview.fromJson(r);
@@ -849,81 +885,183 @@ class WooCommerce{
     };
     if(variations!=null) data['variations'] = variations;
     _setApiResourceUrl(path: 'cart/items', isShop: true);
-    final response = await post(queryUri.toString(), data);
+    final response = await post(queryUri.toString(), data,);
     return WooCartItem.fromJson(response);
+  }
+
+  Future<WooCartItem> addToMyCart({@required String itemId, @required String quantity,
+    List<WooProductVariation> variations}) async {
+    Map<String, dynamic> data = {
+      'id': itemId,
+      'quantity' : quantity,
+    };
+    if(variations!=null) data['variations'] = variations;
+    await getAuthTokenFromDb();
+    _urlHeader['Authorization'] = 'Bearer '+_authToken;
+    final response =
+    await http.post(this.baseUrl + URL_STORE_API_PATH+'cart/items', headers: _urlHeader, body: data);
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final jsonStr = json.decode(response.body);
+
+      _printToLog('added to my cart : '+jsonStr.toString());
+      return WooCartItem.fromJson(jsonStr);
+    } else {
+      WooCommerceError err =
+      WooCommerceError.fromJson(json.decode(response.body));
+      throw err;
+    }
+
   }
 
   /// Returns a list of all [WooCartItem].
   ///
   /// Related endpoint : wc/store/cart/items
-  Future<List<WooCartItem>>getCartItems() async{
-    _printToLog('This is the current path : '+this.apiPath.toString());
-    List<WooCartItem> cartItems =[];
-    _setApiResourceUrl(path: 'cart/items', isShop: true);
-    final response = await get(queryUri.toString());
-    _printToLog('response gotten : '+response.toString());
-    _printToLog('this is query oo : '+queryUri.toString());
-    for(var p in response){
-      var prod = WooCartItem.fromJson(p);
-      _printToLog('prod gotten here : '+prod.name.toString());
-      cartItems.add(prod);
+
+  Future<List<WooCartItem>> getMyCartItems() async {
+    await getAuthTokenFromDb();
+    _urlHeader['Authorization'] = 'Bearer '+_authToken;
+    final response =
+    await http.get(this.baseUrl + URL_STORE_API_PATH+'cart/items', headers: _urlHeader);
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final jsonStr = json.decode(response.body);
+      List<WooCartItem> cartItems =[];
+      _printToLog('response gotten : '+response.toString());
+      for(var p in jsonStr){
+        var prod = WooCartItem.fromJson(p);
+        _printToLog('prod gotten here : '+prod.name.toString());
+        cartItems.add(prod);
+      }
+
+      _printToLog('account user fetch : '+jsonStr.toString());
+      return cartItems;
+    } else {
+      _printToLog(' error : '+response.body);
+      WooCommerceError err =
+      WooCommerceError.fromJson(json.decode(response.body));
+      throw err;
     }
-    return cartItems;
+
   }
 
-  /// Returns the current user's [WooCart], information.
-  Future<WooCart>getCart() async{
-    _printToLog('This is the current path : '+this.apiPath.toString());
+  /// Returns the current user's [WooCart], information
+
+  Future<WooCart> getMyCart() async {
+    await getAuthTokenFromDb();
+    _urlHeader['Authorization'] = 'Bearer '+_authToken;
     WooCart cart;
-    _setApiResourceUrl(path: 'cart/', isShop: true);
-    final response = await get(queryUri.toString());
+    final response =
+    await http.get(this.baseUrl + URL_STORE_API_PATH+'cart', headers: _urlHeader);
     _printToLog('response gotten : '+response.toString());
-    _printToLog('this is query oo : '+queryUri.toString());
-    cart = WooCart.fromJson(response);
-    return cart;
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final jsonStr = json.decode(response.body);
+      cart = WooCart.fromJson(jsonStr);
+      return cart;
+    } else {
+      _printToLog(' error : '+response.body);
+      WooCommerceError err =
+      WooCommerceError.fromJson(json.decode(response.body));
+      throw err;
+    }
+
   }
 
-
-  /// Returns a [WooCartItem], with the specified [key].
-  Future<WooCartItem>getCartItemByKey(String key) async{
-    WooCartItem cartItem;
-    _setApiResourceUrl(path: 'cart/items/'+key, isShop: true);
-    final response = await get(queryUri.toString());
-    _printToLog('response gotten : '+response.toString());
-    cartItem = WooCartItem.fromJson(response);
-    return cartItem;
-  }
-
-  Future<WooCartItem> updateCartItemByKey ({@required String key, @required int id, @required int quantity, List<WooProductVariation> variations}) async{
-    Map<String, dynamic> data = {
-      'key' : key,
-      'id': id,
-      'quantity' : quantity,
-      'variations' : variations
-    };
-    _printToLog('Updating CartItem With Payload : ' + data.toString());
-    _setApiResourceUrl(path: 'cart/items/'+key, isShop: true);
-    final response = await put(queryUri.toString(), data);
-    return WooCartItem.fromJson(response);
-  }
-
-  Future<WooCartItem> deleteCartItemByKey ({@required String key}) async{
+  Future deleteMyCartItem({@required String key}) async {
     Map<String, dynamic> data = {
       'key' : key,
     };
     _printToLog('Deleting CartItem With Payload : ' + data.toString());
-    _setApiResourceUrl(path: 'cart/items/'+key, isShop: true);
-    final response = await delete(queryUri.toString(), data);
-    return WooCartItem.fromJson(response);
+    await getAuthTokenFromDb();
+    _urlHeader['Authorization'] = 'Bearer '+_authToken;
+
+    final http.Response response =
+    await http.delete(this.baseUrl + URL_STORE_API_PATH+'cart/items/'+key, headers: _urlHeader,);
+    _printToLog('response of delete cart  : '+response.body.toString());
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      _printToLog('response of delete cart oooo   : '+response.body.toString());
+      //final jsonStr = json.decode(response.body);
+
+      //_printToLog('added to my cart : '+jsonStr.toString());
+      //return WooCartItem.fromJson(jsonStr);
+      return response.body;
+    } else {
+      WooCommerceError err =
+      WooCommerceError.fromJson(json.decode(response.body));
+      throw err;
+    }
+
   }
 
-  Future<WooCartItem> deleteAllCartItem () async{
-    Map data ={};
-    _printToLog('Deleting all Cart Items');
-    _setApiResourceUrl(path: 'cart/items/', isShop: true);
-    final response = await delete(queryUri.toString(), data);
-    return WooCartItem.fromJson(response);
+
+  Future deleteAllMyCartItems() async {
+    await getAuthTokenFromDb();
+    _urlHeader['Authorization'] = 'Bearer '+_authToken;
+
+    final http.Response response =
+    await http.delete(this.baseUrl + URL_STORE_API_PATH+'cart/items/', headers: _urlHeader,);
+    _printToLog('response of delete cart  : '+response.body.toString());
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return response.body;
+    } else {
+      WooCommerceError err =
+      WooCommerceError.fromJson(json.decode(response.body));
+      throw err;
+    }
+
   }
+
+
+  /// Returns a [WooCartItem], with the specified [key].
+
+  Future<WooCartItem> getMyCartItemByKey(String key) async {
+    await getAuthTokenFromDb();
+    _urlHeader['Authorization'] = 'Bearer '+_authToken;
+    WooCartItem cartItem;
+    final response =
+    await http.get(this.baseUrl + URL_STORE_API_PATH+'cart/items/'+key, headers: _urlHeader);
+    _printToLog('response gotten : '+response.toString());
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final jsonStr = json.decode(response.body);
+      cartItem = WooCartItem.fromJson(jsonStr);
+      return cartItem;
+    } else {
+      _printToLog('error : '+response.body);
+      WooCommerceError err =
+      WooCommerceError.fromJson(json.decode(response.body));
+      throw err;
+    }
+
+  }
+
+  Future<WooCartItem> updateMyCartItemByKey({@required String key, @required int id,
+    @required int quantity, List<WooProductVariation> variations}) async {
+    Map<String, dynamic> data = {
+      'key' : key,
+      'id': id.toString(),
+      'quantity' : quantity.toString(),
+    };
+    if(variations!=null) data['variations'] = variations;
+    await getAuthTokenFromDb();
+    _urlHeader['Authorization'] = 'Bearer '+_authToken;
+    final response =
+    await http.put(this.baseUrl + URL_STORE_API_PATH+'cart/items/'+key, headers: _urlHeader, body: data);
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final jsonStr = json.decode(response.body);
+
+      _printToLog('added to my cart : '+jsonStr.toString());
+      return WooCartItem.fromJson(jsonStr);
+    } else {
+      WooCommerceError err =
+      WooCommerceError.fromJson(json.decode(response.body));
+      throw err;
+    }
+
+  }
+
 
   /// Creates an order and returns the [WooOrder] object.
   ///
@@ -1297,6 +1435,7 @@ class WooCommerce{
     String consumerSecret = this.consumerSecret;
 
     String token = "";
+    _printToLog('oauth token = : '+token);
     String url = this.baseUrl + apiPath + endpoint;
     bool containsQueryParams = url.contains("?");
 
@@ -1418,12 +1557,19 @@ class WooCommerce{
     }
   }
 
+  // Get the auth token from db.
+
+  getAuthTokenFromDb() async{
+    _authToken = await _localDbService.getSecurityToken();
+    return _authToken;
+  }
+
   // Sets the Uri for an endpoint.
   String _setApiResourceUrl({
     @required String path,
     String host, port, queryParameters,
     bool isShop = false,
-  }){
+  }) {
     this.apiPath = DEFAULT_WC_API_PATH;
     if(isShop){
       this.apiPath = URL_STORE_API_PATH;
@@ -1431,14 +1577,51 @@ class WooCommerce{
     else{
       this.apiPath = DEFAULT_WC_API_PATH;
     }
+    //List<Map>param = [];
+   // queryParameters.forEach((k, v) => param.add({k : v})); print(param.toString());
+    getAuthTokenFromDb();
     queryUri = new Uri(path: path, queryParameters: queryParameters, port: port, host: host );
+
+    _printToLog('Query : '+queryUri.toString());
+    //queryUri = new Uri.http( path, param);
     return queryUri.toString();
+  }
+
+
+  String getQueryString(Map params, {String prefix: '&', bool inRecursion: false}) {
+
+    String query = '';
+
+    params.forEach((key, value) {
+
+      if (inRecursion) {
+        key = '[$key]';
+      }
+
+      //if (value is String || value is int || value is double || value is bool) {
+        query += '$prefix$key=$value';
+      //} else if (value is List || value is Map) {
+       // if (value is List) value = value.asMap();
+       // value.forEach((k, v) {
+        //  query += getQueryString({k: v}, prefix: '$prefix$key', inRecursion: true);
+        //});
+     // }
+    });
+
+    return query;
   }
 
   /// Make a custom get request to a Woocommerce endpoint, using WooCommerce SDK.
 
   Future<dynamic> get(String endPoint) async {
     String url = this._getOAuthURL("GET", endPoint);
+    String _token = await _localDbService.getSecurityToken();
+    String _bearerToken = "Bearer $_token";
+    _printToLog('this is the bearer token : '+_bearerToken);
+    Map<String, String> headers = new HashMap();
+    headers.putIfAbsent('Accept', () => 'application/json charset=utf-8');
+    headers.putIfAbsent('Authorization', () => _bearerToken.toString());
+    // 'Authorization': _bearerToken,
     try {
       final http.Response response = await http.get(url);
       if (response.statusCode == 200) {
@@ -1450,15 +1633,32 @@ class WooCommerce{
     }
   }
 
+  Future<dynamic> oldget(String endPoint) async {
+    String url = this._getOAuthURL("GET", endPoint);
+
+    http.Client client = http.Client();
+    http.Request request = http.Request('GET', Uri.parse(url));
+    request.headers[HttpHeaders.contentTypeHeader] =
+    'application/json; charset=utf-8';
+    //request.headers[HttpHeaders.authorizationHeader] = _token;
+    request.headers[HttpHeaders.cacheControlHeader] = "no-cache";
+    String response =
+    await client.send(request).then((res) => res.stream.bytesToString());
+    var dataResponse = await json.decode(response);
+    _handleError(dataResponse);
+    return dataResponse;
+  }
+
   /// Make a custom post request to Woocommerce, using WooCommerce SDK.
 
-  Future<dynamic> post(String endPoint, Map data) async {
+  Future<dynamic> post(String endPoint, Map data,) async {
     String url = this._getOAuthURL("POST", endPoint);
 
     http.Client client = http.Client();
     http.Request request = http.Request('POST', Uri.parse(url));
     request.headers[HttpHeaders.contentTypeHeader] =
     'application/json; charset=utf-8';
+    //request.headers[HttpHeaders.authorizationHeader] = _bearerToken;
     request.headers[HttpHeaders.cacheControlHeader] = "no-cache";
     request.body = json.encode(data);
     String response =
@@ -1488,21 +1688,47 @@ class WooCommerce{
 
   /// Make a custom delete request to Woocommerce, using WooCommerce SDK.
 
-  Future<dynamic> delete(String endPoint, Map data) async {
+  Future<dynamic> Oldelete(String endPoint, Map data) async {
     String url = this._getOAuthURL("DELETE", endPoint);
 
     http.Client client = http.Client();
     http.Request request = http.Request('DELETE', Uri.parse(url));
     request.headers[HttpHeaders.contentTypeHeader] =
     'application/json; charset=utf-8';
+    //request.headers[HttpHeaders.authorizationHeader] = _urlHeader['Authorization'];
     request.headers[HttpHeaders.cacheControlHeader] = "no-cache";
     request.body = json.encode(data);
-    String response =
+    final response =
     await client.send(request).then((res) => res.stream.bytesToString());
+    _printToLog("this is the delete's response : "+response.toString());
     var dataResponse = await json.decode(response);
-    _handleError(dataResponse);
+    _handleHttpError(dataResponse);
     return dataResponse;
   }
+
+
+  Future<dynamic> delete(String endPoint, Map data, {String aUrl}) async {
+    String realUrl;
+    final url = this._getOAuthURL("DELETE", endPoint);
+    if(aUrl == null){
+      realUrl = url;
+    }else {
+      realUrl = url;
+    }
+   // final url = Uri.parse(baseUrl + "notes/delete");
+    final request = http.Request("DELETE", Uri.parse(realUrl));
+    request.headers.addAll(<String, String>{
+      "Accept": "application/json",
+    });
+    request.body = jsonEncode(data);
+    final response = await request.send();
+    if (response.statusCode > 300)
+      return Future.error("error: status code ${response.statusCode} ${response.reasonPhrase}");
+    final deleteResponse = await response.stream.bytesToString();
+    _printToLog("delete response : "+deleteResponse.toString());
+    return deleteResponse;
+  }
+
 }
 
 
@@ -1526,3 +1752,4 @@ class QueryString {
     return result;
   }
 }
+

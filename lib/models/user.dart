@@ -39,9 +39,10 @@ class WooUser {
   final String password;
   final String firstName;
   final String lastName;
+  final String name;
 
 
-  WooUser({this.id, this.email, this.username, this.password, this.firstName, this.lastName,}):
+  WooUser({this.id, this.email, this.username, this.password, this.firstName, this.lastName, this.name}):
       assert (email != null),
         assert (username !=null);
 
@@ -51,7 +52,8 @@ class WooUser {
   username = data['username'],
         password = data['password'],
         firstName = data['first_name'],
-        lastName = data['last_name'];
+        lastName = data['last_name'],
+  name = data['name'];
 
   Map<String, dynamic> toJson() {
     return {
@@ -61,6 +63,7 @@ class WooUser {
       'password': password,
       'first_name': firstName,
       'last_name' : lastName,
+      'name' : name,
     };
   }
   @override toString() => this.toJson().toString();

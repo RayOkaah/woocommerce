@@ -52,7 +52,7 @@ class WooProductVariation {
   bool purchasable;
   bool virtual;
   bool downloadable;
-  List<Download> downloads;
+  List<WooProductVariationDownload> downloads;
   int downloadLimit;
   int downloadExpiry;
   String taxStatus;
@@ -63,14 +63,14 @@ class WooProductVariation {
   String backorders;
   bool backordersAllowed;
   bool backordered;
-  List<Attribute> attributes;
+  List<WooProductVariationAttribute> attributes;
   String weight;
   String shippingClass;
   int shippingClassId;
   int menuOrder;
-  Dimension dimensions;
-  List<MetaData> metaData;
-  Image image;
+  WooProductVariationDimension dimensions;
+  List<WooProductVariationMetaData> metaData;
+  WooProductVariationImage image;
 
   WooProductVariation(
       this.id,
@@ -127,7 +127,7 @@ class WooProductVariation {
         virtual = json['virtual'],
         downloadable = json['downloadable'],
         downloads = (json['downloads'] as List)
-            .map((i) => Download.fromJson(i))
+            .map((i) => WooProductVariationDownload.fromJson(i))
             .toList(),
         downloadLimit = json['download_limit'],
         downloadExpiry = json['download_expiry'],
@@ -140,26 +140,26 @@ class WooProductVariation {
         backordersAllowed = json['backorders_allowed'],
         backordered = json['backordered'],
         weight = json['weight'],
-        dimensions = Dimension.fromJson(json['dimensions']),
+        dimensions = WooProductVariationDimension.fromJson(json['dimensions']),
         shippingClass = json['shipping_class'],
         shippingClassId = json['shipping_class_id'],
         menuOrder = json['menu_order'],
         attributes = (json['attributes'] as List)
-            .map((i) => Attribute.fromJson(i))
+            .map((i) => WooProductVariationAttribute.fromJson(i))
             .toList(),
         metaData = (json['meta_data'] as List)
-            .map((i) => MetaData.fromJson(i))
+            .map((i) => WooProductVariationMetaData.fromJson(i))
             .toList();
 }
 
-class MetaData {
+class WooProductVariationMetaData {
   final int id;
   final String key;
   final String value;
 
-  MetaData(this.id, this.key, this.value);
+  WooProductVariationMetaData(this.id, this.key, this.value);
 
-  MetaData.fromJson(Map<String, dynamic> json)
+  WooProductVariationMetaData.fromJson(Map<String, dynamic> json)
       : id = json['name'],
         key = json['email'],
         value = json['value'].toString();
@@ -167,14 +167,14 @@ class MetaData {
   Map<String, dynamic> toJson() => {'id': id, 'key': key, 'value': value};
 }
 
-class Category {
+class WooProductVariationCategory {
   final int id;
   final String name;
   final String slug;
 
-  Category(this.id, this.name, this.slug);
+  WooProductVariationCategory(this.id, this.name, this.slug);
 
-  Category.fromJson(Map<String, dynamic> json)
+  WooProductVariationCategory.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
         slug = json['slug'];
@@ -186,14 +186,14 @@ class Category {
       };
 }
 
-class Dimension {
+class WooProductVariationDimension {
   final String length;
   final String width;
   final String height;
 
-  Dimension(this.length, this.height, this.width);
+  WooProductVariationDimension(this.length, this.height, this.width);
 
-  Dimension.fromJson(Map<String, dynamic> json)
+  WooProductVariationDimension.fromJson(Map<String, dynamic> json)
       : length = json['length'],
         width = json['width'],
         height = json['height'];
@@ -202,14 +202,14 @@ class Dimension {
       {'length': length, 'width': width, 'height': height};
 }
 
-class Attribute {
+class WooProductVariationAttribute {
   final int id;
   final String name;
   final String option;
 
-  Attribute(this.id, this.name, this.option);
+  WooProductVariationAttribute(this.id, this.name, this.option);
 
-  Attribute.fromJson(Map<String, dynamic> json)
+  WooProductVariationAttribute.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
         option = json['option'];
@@ -221,14 +221,14 @@ class Attribute {
       };
 }
 
-class Download {
+class WooProductVariationDownload {
   final String id;
   final String name;
   final String file;
 
-  Download(this.id, this.name, this.file);
+  WooProductVariationDownload(this.id, this.name, this.file);
 
-  Download.fromJson(Map<String, dynamic> json)
+  WooProductVariationDownload.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
         file = json['file'];
@@ -240,7 +240,7 @@ class Download {
       };
 }
 
-class Image {
+class WooProductVariationImage {
   final int id;
   final DateTime dateCreated;
   final DateTime dateCreatedGMT;
@@ -250,10 +250,10 @@ class Image {
   final String name;
   final String alt;
 
-  Image(this.id, this.src, this.name, this.alt, this.dateCreated,
+  WooProductVariationImage(this.id, this.src, this.name, this.alt, this.dateCreated,
       this.dateCreatedGMT, this.dateModified, this.dateModifiedGMT);
 
-  Image.fromJson(Map<String, dynamic> json)
+  WooProductVariationImage.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         src = json['src'],
         name = json['name'],

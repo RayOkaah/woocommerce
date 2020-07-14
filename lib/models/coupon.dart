@@ -59,7 +59,7 @@ class WooCoupon {
   List<String> emailRestrictions;
   List<String> usedBy;
   List<String> metaData;
-  Links lLinks;
+  WooCouponLinks lLinks;
 
   WooCoupon(
       {this.id,
@@ -119,7 +119,7 @@ class WooCoupon {
     emailRestrictions = json['email_restrictions'].cast<String>();
     usedBy = json['used_by'].cast<String>();
     metaData = json['meta_data'].cast<String>();
-    lLinks = json['_links'] != null ? new Links.fromJson(json['_links']) : null;
+    lLinks = json['_links'] != null ? new WooCouponLinks.fromJson(json['_links']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -159,13 +159,13 @@ class WooCoupon {
   @override toString() => this.toJson().toString();
 }
 
-class Links {
+class WooCouponLinks {
   List<Self> self;
   List<Collection> collection;
 
-  Links({this.self, this.collection});
+  WooCouponLinks({this.self, this.collection});
 
-  Links.fromJson(Map<String, dynamic> json) {
+  WooCouponLinks.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
       self = new List<Self>();
       json['self'].forEach((v) {

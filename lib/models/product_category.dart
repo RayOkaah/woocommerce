@@ -38,10 +38,10 @@ class WooProductCategory {
   int parent;
   String description;
   String display;
-  Image image;
+  WooProductCategoryImage image;
   int menuOrder;
   int count;
-  Links links;
+  WooProductCategoryLinks links;
 
   WooProductCategory(
       {this.id,
@@ -62,10 +62,10 @@ class WooProductCategory {
     parent = json['parent'];
     description = json['description'];
     display = json['display'];
-    image = json['image'] != null ? new Image.fromJson(json['image']) : null;
+    image = json['image'] != null ? new WooProductCategoryImage.fromJson(json['image']) : null;
     menuOrder = json['menu_order'];
     count = json['count'];
-    links = json['_links'] != null ? new Links.fromJson(json['_links']) : null;
+    links = json['_links'] != null ? new WooProductCategoryLinks.fromJson(json['_links']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -89,7 +89,7 @@ class WooProductCategory {
   @override toString() => this.toJson().toString();
 }
 
-class Image {
+class WooProductCategoryImage {
   int id;
   String dateCreated;
   String dateCreatedGmt;
@@ -99,7 +99,7 @@ class Image {
   String name;
   String alt;
 
-  Image(
+  WooProductCategoryImage(
       {this.id,
       this.dateCreated,
       this.dateCreatedGmt,
@@ -109,7 +109,7 @@ class Image {
       this.name,
       this.alt});
 
-  Image.fromJson(Map<String, dynamic> json) {
+  WooProductCategoryImage.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     dateCreated = json['date_created'];
     dateCreatedGmt = json['date_created_gmt'];
@@ -134,23 +134,23 @@ class Image {
   }
 }
 
-class Links {
-  List<Self> self;
-  List<Collection> collection;
+class WooProductCategoryLinks {
+  List<WooProductCategorySelf> self;
+  List<WooProductCategoryCollection> collection;
 
-  Links({this.self, this.collection});
+  WooProductCategoryLinks({this.self, this.collection});
 
-  Links.fromJson(Map<String, dynamic> json) {
+  WooProductCategoryLinks.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
-      self = new List<Self>();
+      self = new List<WooProductCategorySelf>();
       json['self'].forEach((v) {
-        self.add(new Self.fromJson(v));
+        self.add(new WooProductCategorySelf.fromJson(v));
       });
     }
     if (json['collection'] != null) {
-      collection = new List<Collection>();
+      collection = new List<WooProductCategoryCollection>();
       json['collection'].forEach((v) {
-        collection.add(new Collection.fromJson(v));
+        collection.add(new WooProductCategoryCollection.fromJson(v));
       });
     }
   }
@@ -167,12 +167,12 @@ class Links {
   }
 }
 
-class Self {
+class WooProductCategorySelf {
   String href;
 
-  Self({this.href});
+  WooProductCategorySelf({this.href});
 
-  Self.fromJson(Map<String, dynamic> json) {
+  WooProductCategorySelf.fromJson(Map<String, dynamic> json) {
     href = json['href'];
   }
 
@@ -183,12 +183,12 @@ class Self {
   }
 }
 
-class Collection {
+class WooProductCategoryCollection {
   String href;
 
-  Collection({this.href});
+  WooProductCategoryCollection({this.href});
 
-  Collection.fromJson(Map<String, dynamic> json) {
+  WooProductCategoryCollection.fromJson(Map<String, dynamic> json) {
     href = json['href'];
   }
 

@@ -44,7 +44,7 @@ class WooTaxRate {
   bool shipping;
   int order;
   String taxClass;
-  Links links;
+  WooTaxRateLinks links;
 
   WooTaxRate(
       {this.id,
@@ -74,7 +74,7 @@ class WooTaxRate {
     shipping = json['shipping'];
     order = json['order'];
     taxClass = json['class'];
-    links = json['_links'] != null ? new Links.fromJson(json['_links']) : null;
+    links = json['_links'] != null ? new WooTaxRateLinks.fromJson(json['_links']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -99,23 +99,23 @@ class WooTaxRate {
   @override toString() => this.toJson().toString();
 }
 
-class Links {
-  List<Self> self;
-  List<Collection> collection;
+class WooTaxRateLinks {
+  List<WooTaxRateSelf> self;
+  List<WooTaxRateCollection> collection;
 
-  Links({this.self, this.collection});
+  WooTaxRateLinks({this.self, this.collection});
 
-  Links.fromJson(Map<String, dynamic> json) {
+  WooTaxRateLinks.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
-      self = new List<Self>();
+      self = new List<WooTaxRateSelf>();
       json['self'].forEach((v) {
-        self.add(new Self.fromJson(v));
+        self.add(new WooTaxRateSelf.fromJson(v));
       });
     }
     if (json['collection'] != null) {
-      collection = new List<Collection>();
+      collection = new List<WooTaxRateCollection>();
       json['collection'].forEach((v) {
-        collection.add(new Collection.fromJson(v));
+        collection.add(new WooTaxRateCollection.fromJson(v));
       });
     }
   }
@@ -132,12 +132,12 @@ class Links {
   }
 }
 
-class Self {
+class WooTaxRateSelf {
   String href;
 
-  Self({this.href});
+  WooTaxRateSelf({this.href});
 
-  Self.fromJson(Map<String, dynamic> json) {
+  WooTaxRateSelf.fromJson(Map<String, dynamic> json) {
     href = json['href'];
   }
 
@@ -148,12 +148,12 @@ class Self {
   }
 }
 
-class Collection {
+class WooTaxRateCollection {
   String href;
 
-  Collection({this.href});
+  WooTaxRateCollection({this.href});
 
-  Collection.fromJson(Map<String, dynamic> json) {
+  WooTaxRateCollection.fromJson(Map<String, dynamic> json) {
     href = json['href'];
   }
 

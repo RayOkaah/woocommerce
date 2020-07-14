@@ -43,7 +43,7 @@ class WooProductReview {
   int rating;
   bool verified;
   Map<String, dynamic> reviewerAvatarUrls;
-  Links links;
+  WooProductReviewLinks links;
 
   WooProductReview(
       {this.id,
@@ -73,7 +73,7 @@ class WooProductReview {
     reviewerAvatarUrls = json['reviewer_avatar_urls'] != null
         ? (json['reviewer_avatar_urls'])
         : null;
-    links = json['_links'] != null ? new Links.fromJson(json['_links']) : null;
+    links = json['_links'] != null ? new WooProductReviewLinks.fromJson(json['_links']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -99,30 +99,30 @@ class WooProductReview {
   @override toString() => this.toJson().toString();
 }
 
-class Links {
-  List<Self> self;
-  List<Collection> collection;
-  List<Up> up;
+class WooProductReviewLinks {
+  List<WooProductReviewSelf> self;
+  List<WooProductReviewCollection> collection;
+  List<WooProductReviewUp> up;
 
-  Links({this.self, this.collection, this.up});
+  WooProductReviewLinks({this.self, this.collection, this.up});
 
-  Links.fromJson(Map<String, dynamic> json) {
+  WooProductReviewLinks.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
-      self = new List<Self>();
+      self = new List<WooProductReviewSelf>();
       json['self'].forEach((v) {
-        self.add(new Self.fromJson(v));
+        self.add(new WooProductReviewSelf.fromJson(v));
       });
     }
     if (json['collection'] != null) {
-      collection = new List<Collection>();
+      collection = new List<WooProductReviewCollection>();
       json['collection'].forEach((v) {
-        collection.add(new Collection.fromJson(v));
+        collection.add(new WooProductReviewCollection.fromJson(v));
       });
     }
     if (json['up'] != null) {
-      up = new List<Up>();
+      up = new List<WooProductReviewUp>();
       json['up'].forEach((v) {
-        up.add(new Up.fromJson(v));
+        up.add(new WooProductReviewUp.fromJson(v));
       });
     }
   }
@@ -142,12 +142,12 @@ class Links {
   }
 }
 
-class Self {
+class WooProductReviewSelf {
   String href;
 
-  Self({this.href});
+  WooProductReviewSelf({this.href});
 
-  Self.fromJson(Map<String, dynamic> json) {
+  WooProductReviewSelf.fromJson(Map<String, dynamic> json) {
     href = json['href'];
   }
 
@@ -158,12 +158,12 @@ class Self {
   }
 }
 
-class Collection {
+class WooProductReviewCollection {
   String href;
 
-  Collection({this.href});
+  WooProductReviewCollection({this.href});
 
-  Collection.fromJson(Map<String, dynamic> json) {
+  WooProductReviewCollection.fromJson(Map<String, dynamic> json) {
     href = json['href'];
   }
 
@@ -174,12 +174,12 @@ class Collection {
   }
 }
 
-class Up {
+class WooProductReviewUp {
   String href;
 
-  Up({this.href});
+  WooProductReviewUp({this.href});
 
-  Up.fromJson(Map<String, dynamic> json) {
+  WooProductReviewUp.fromJson(Map<String, dynamic> json) {
     href = json['href'];
   }
 

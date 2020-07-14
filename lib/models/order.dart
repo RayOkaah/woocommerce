@@ -71,8 +71,8 @@ class WooOrder {
   List<LineItems> lineItems;
   List<TaxLines> taxLines;
   List<ShippingLines> shippingLines;
-  List<FeeLine> feeLines;
-  List<CouponLine> couponLines;
+  List<WooOrderFeeLine> feeLines;
+  List<WooOrderCouponLine> couponLines;
   List<Refunds> refunds;
   Links links;
 
@@ -179,15 +179,15 @@ class WooOrder {
       });
     }
     if (json['fee_lines'] != null) {
-      feeLines = new List<FeeLine>();
+      feeLines = new List<WooOrderFeeLine>();
       json['fee_lines'].forEach((v) {
-        feeLines.add(new FeeLine.fromJson(v));
+        feeLines.add(new WooOrderFeeLine.fromJson(v));
       });
     }
     if (json['coupon_lines'] != null) {
-      couponLines = new List<CouponLine>();
+      couponLines = new List<WooOrderCouponLine>();
       json['coupon_lines'].forEach((v) {
-        couponLines.add(new CouponLine.fromJson(v));
+        couponLines.add(new WooOrderCouponLine.fromJson(v));
       });
     }
 
@@ -271,17 +271,17 @@ class WooOrder {
   @override toString() => this.toJson().toString();
 }
 
-class CouponLine {
+class WooOrderCouponLine {
   int id;
   String code;
   String discount;
   String discountTax;
   List<MetaData> metaData;
 
-  CouponLine(
+  WooOrderCouponLine(
       this.id, this.code, this.discount, this.discountTax, this.metaData);
 
-  CouponLine.fromJson(Map<String, dynamic> json)
+  WooOrderCouponLine.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         code = json['code'],
         discount = json['discount'],
@@ -301,7 +301,7 @@ class CouponLine {
   }
 }
 
-class FeeLine {
+class WooOrderFeeLine {
   int id;
   String name;
   String taxClass;
@@ -311,10 +311,10 @@ class FeeLine {
   List<FeeLineTax> taxes;
   List<MetaData> metaData;
 
-  FeeLine(this.id, this.name, this.taxClass, this.taxStatus, this.totalTax,
+  WooOrderFeeLine(this.id, this.name, this.taxClass, this.taxStatus, this.totalTax,
       this.taxes, this.metaData);
 
-  FeeLine.fromJson(Map<String, dynamic> json)
+  WooOrderFeeLine.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
         taxClass = json['tax_class'],
@@ -604,6 +604,7 @@ class LineItems {
     data['price'] = this.price;
     return data;
   }
+  @override toString() => this.toJson().toString();
 }
 
 class Taxes {

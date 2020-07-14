@@ -34,14 +34,14 @@
 class WooShippingZoneLocation {
   String code;
   String type;
-  Links links;
+  WooShippingZoneLocationLinks links;
 
   WooShippingZoneLocation({this.code, this.type, this.links});
 
   WooShippingZoneLocation.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     type = json['type'];
-    links = json['_links'] != null ? new Links.fromJson(json['_links']) : null;
+    links = json['_links'] != null ? new WooShippingZoneLocationLinks.fromJson(json['_links']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -56,23 +56,23 @@ class WooShippingZoneLocation {
   @override toString() => this.toJson().toString();
 }
 
-class Links {
-  List<Collection> collection;
-  List<Describes> describes;
+class WooShippingZoneLocationLinks {
+  List<WooShippingZoneLocationCollection> collection;
+  List<WooShippingZoneLocationDescribes> describes;
 
-  Links({this.collection, this.describes});
+  WooShippingZoneLocationLinks({this.collection, this.describes});
 
-  Links.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneLocationLinks.fromJson(Map<String, dynamic> json) {
     if (json['collection'] != null) {
-      collection = new List<Collection>();
+      collection = new List<WooShippingZoneLocationCollection>();
       json['collection'].forEach((v) {
-        collection.add(new Collection.fromJson(v));
+        collection.add(new WooShippingZoneLocationCollection.fromJson(v));
       });
     }
     if (json['describes'] != null) {
-      describes = new List<Describes>();
+      describes = new List<WooShippingZoneLocationDescribes>();
       json['describes'].forEach((v) {
-        describes.add(new Describes.fromJson(v));
+        describes.add(new WooShippingZoneLocationDescribes.fromJson(v));
       });
     }
   }
@@ -89,12 +89,12 @@ class Links {
   }
 }
 
-class Collection {
+class WooShippingZoneLocationCollection {
   String href;
 
-  Collection({this.href});
+  WooShippingZoneLocationCollection({this.href});
 
-  Collection.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneLocationCollection.fromJson(Map<String, dynamic> json) {
     href = json['href'];
   }
 
@@ -105,12 +105,12 @@ class Collection {
   }
 }
 
-class Describes {
+class WooShippingZoneLocationDescribes {
   String href;
 
-  Describes({this.href});
+  WooShippingZoneLocationDescribes({this.href});
 
-  Describes.fromJson(Map<String, dynamic> json) {
+  WooShippingZoneLocationDescribes.fromJson(Map<String, dynamic> json) {
     href = json['href'];
   }
 

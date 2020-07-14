@@ -32,25 +32,25 @@
  */
 
 class WooCommerceError {
-  String _code;
-  String _message;
-  Data _data;
+  String code;
+  String message;
+  Data data;
 
   WooCommerceError({String code, String message, Data data}) {
-    this._code = code;
-    this._message = message;
-    this._data = data;
+    this.code = code;
+    this.message = message;
+    this.data = data;
   }
 
   WooCommerceError.fromJson(Map<String, dynamic> json) {
-    _code = json['code'].toString();
-    _message = json['message'];
-    _data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    code = json['code'].toString();
+    message = json['message'];
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   @override
   String toString() {
-    return "WooCommerce Error!\ncode: $_code\nmessage: $_message\nstatus: ${_data.status}";
+    return "WooCommerce Error!\ncode: $code\nmessage: $message\nstatus: ${data.status}";
   }
 }
 

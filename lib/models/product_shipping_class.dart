@@ -37,7 +37,7 @@ class WooProductShippingClass {
   String slug;
   String description;
   int count;
-  Links links;
+  WooProductShippingClassLinks links;
 
   WooProductShippingClass(
       {this.id,
@@ -53,7 +53,7 @@ class WooProductShippingClass {
     slug = json['slug'];
     description = json['description'];
     count = json['count'];
-    links = json['_links'] != null ? new Links.fromJson(json['_links']) : null;
+    links = json['_links'] != null ? new WooProductShippingClassLinks.fromJson(json['_links']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -71,23 +71,23 @@ class WooProductShippingClass {
   @override toString() => this.toJson().toString();
 }
 
-class Links {
-  List<Self> self;
-  List<Collection> collection;
+class WooProductShippingClassLinks {
+  List<WooProductShippingClassSelf> self;
+  List<WooProductShippingClassCollection> collection;
 
-  Links({this.self, this.collection});
+  WooProductShippingClassLinks({this.self, this.collection});
 
-  Links.fromJson(Map<String, dynamic> json) {
+  WooProductShippingClassLinks.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
-      self = new List<Self>();
+      self = new List<WooProductShippingClassSelf>();
       json['self'].forEach((v) {
-        self.add(new Self.fromJson(v));
+        self.add(new WooProductShippingClassSelf.fromJson(v));
       });
     }
     if (json['collection'] != null) {
-      collection = new List<Collection>();
+      collection = new List<WooProductShippingClassCollection>();
       json['collection'].forEach((v) {
-        collection.add(new Collection.fromJson(v));
+        collection.add(new WooProductShippingClassCollection.fromJson(v));
       });
     }
   }
@@ -104,12 +104,12 @@ class Links {
   }
 }
 
-class Self {
+class WooProductShippingClassSelf {
   String href;
 
-  Self({this.href});
+  WooProductShippingClassSelf({this.href});
 
-  Self.fromJson(Map<String, dynamic> json) {
+  WooProductShippingClassSelf.fromJson(Map<String, dynamic> json) {
     href = json['href'];
   }
 
@@ -120,12 +120,12 @@ class Self {
   }
 }
 
-class Collection {
+class WooProductShippingClassCollection {
   String href;
 
-  Collection({this.href});
+  WooProductShippingClassCollection({this.href});
 
-  Collection.fromJson(Map<String, dynamic> json) {
+  WooProductShippingClassCollection.fromJson(Map<String, dynamic> json) {
     href = json['href'];
   }
 

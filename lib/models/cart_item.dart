@@ -38,7 +38,7 @@ class WooCartItem {
   String name;
   String sku;
   String permalink;
-  List<Images> images;
+  List<WooCartItemImages> images;
   String price;
   String linePrice;
   List<String> variation;
@@ -63,9 +63,9 @@ class WooCartItem {
     sku = json['sku'];
     permalink = json['permalink'];
     if (json['images'] != null) {
-      images = new List<Images>();
+      images = new List<WooCartItemImages>();
       json['images'].forEach((v) {
-        images.add(new Images.fromJson(v));
+        images.add(new WooCartItemImages.fromJson(v));
       });
     }
     price = json['price'];
@@ -92,7 +92,7 @@ class WooCartItem {
   @override toString() => this.toJson().toString();
 }
 
-class Images {
+class WooCartItemImages {
   String id;
   String src;
   String thumbnail;
@@ -101,7 +101,7 @@ class Images {
   String name;
   String alt;
 
-  Images(
+  WooCartItemImages(
       {this.id,
         this.src,
         this.thumbnail,
@@ -110,11 +110,17 @@ class Images {
         this.name,
         this.alt});
 
-  Images.fromJson(Map<String, dynamic> json) {
+  WooCartItemImages.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
     src = json['src'];
     thumbnail = json['thumbnail'];
-    srcset = json['srcset'];
+
+    if (json['srcset'] is String){
+      srcset = bool.fromEnvironment(json['srcset']) ;
+    }
+    else{
+      srcset = json['srcset'];
+    }
     sizes = json['sizes'];
     name = json['name'];
     alt = json['alt'];
