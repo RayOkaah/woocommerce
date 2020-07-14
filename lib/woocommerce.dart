@@ -876,6 +876,7 @@ class WooCommerce{
     return WooProductReview.fromJson(response);
   }
 
+  /**
   /// Accepts an int [id] of a product or product variation, int quantity, and an array of chosen variation attribute objects
   /// Related endpoint : wc/store/cart
   Future<WooCartItem>addToCart({@required int itemId, @required int quantity, List<WooProductVariation> variations}) async{
@@ -888,7 +889,11 @@ class WooCommerce{
     final response = await post(queryUri.toString(), data,);
     return WooCartItem.fromJson(response);
   }
+  */
 
+  /// Accepts an int [id] of a product or product variation, int quantity, and an array of chosen variation attribute objects
+  /// Related endpoint : wc/store/cart
+  ///
   Future<WooCartItem> addToMyCart({@required String itemId, @required String quantity,
     List<WooProductVariation> variations}) async {
     Map<String, dynamic> data = {

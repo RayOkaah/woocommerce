@@ -74,20 +74,22 @@ final token = woocommerce.authenticateViaJWT(username: username, password: passw
 
 // Login - Signs a user in and returns the logged in user's (WooUser object) details.
 
-final user = woocommerce.loginUser(username: username, password: password);
+final customer = woocommerce.loginCustomer(username: username, password: password);
 
-/// Create Account
-// Recommended, create a new Wordpress user and returns whether action was successful or not using WP Rest User Wordpress plugin.
-Woouser user = WooUser(username: username, password: password, email: email);
-bool result = woocommerce.registerNewUser(user);
+// Check if a user is Logged In.
+
+bool isLoggedIn = await woocommerce.isCustomerLoggedIn();
+
+// Fetch Logged in user Id
+int id = await fetchLoggedInUserId();
+
+// Log User Out.
+await logUserOut();
 
 // Creates a new Woocommerce customer and returns the WooCustomer object.
 WooCustomer user = WooCustomer(username: username, password: password, email: email);
 final result = woocommerce.createCustomer();
 
-// Return current loggedIn user (WooUser object).
-
-final user = woocommerce.fetchLoggedInUser();
 
 ```
  ### Products [see SDK reference](https://pub.dev/documentation/woocommerce/latest/models_products/Product-class.html) for filter options.
@@ -112,7 +114,7 @@ final mySpecificProduct = await getProducts(category: '22');
 ```dart
 // Add To Cart! - Returns the added cart item object(Accepts quantity, product id, and list of variations(id) of the product to be added)
 
-final myCart = await woocommerce.addToCart(quantity: 2, id: 17);
+final myCart = await woocommerce.addToMyCart(quantity: 2, id: 17);
 
 // Create an Order. - Returns the created order object (Accepts an orderPayload object).
 
@@ -132,6 +134,7 @@ final anotherResponse = await woocommerce.get(endpoint);
 ## Updates
 
 - [x] Add documentation.
+- [x] Add Token Persistence.
 - [ ] Add more search filter abilities.
 - [ ] Multiple Examples.
 
