@@ -1625,7 +1625,6 @@ class WooCommerce{
     _printToLog('this is the bearer token : '+_bearerToken);
     Map<String, String> headers = new HashMap();
     headers.putIfAbsent('Accept', () => 'application/json charset=utf-8');
-    headers.putIfAbsent('Authorization', () => _bearerToken.toString());
     // 'Authorization': _bearerToken,
     try {
       final http.Response response = await http.get(url);
