@@ -38,3 +38,10 @@
   * Unified customer login and SignUp to work directly with Woo Commerce.
   * Renamed model classes.
   * Utility classes to handle token persistence, store token to db and retrieve anytime. Check if user is logged in.
+
+## [0.9.6] .
+
+  * Fix GET auth conflict bug.
+
+## [0.9.7] .
+  * Quick Bug Fixes.

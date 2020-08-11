@@ -132,13 +132,13 @@ class WooCustomer {
 class WooCustomerMetaData {
   final int id;
   final String key;
-  final String value;
+  final dynamic value;
 
   WooCustomerMetaData(this.id, this.key, this.value);
 
   WooCustomerMetaData.fromJson(Map<String, dynamic> json)
-      : id = json['name'],
-        key = json['email'],
+      : id = json['id'],
+        key = json['key'],
         value = json['value'];
 
   Map<String, dynamic> toJson() => {'id': id, 'key': key, 'value': value};

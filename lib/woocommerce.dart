@@ -232,6 +232,7 @@ class WooCommerce{
   ///
   /// Associated endpoint : /wp-json/wp/v2/users/me
   Future<int> fetchLoggedInUserId() async {
+   _authToken = await _localDbService.getSecurityToken();
     _urlHeader['Authorization'] = 'Bearer '+_authToken;
     final response =
     await http.get(this.baseUrl + URL_USER_ME, headers: _urlHeader);
@@ -257,12 +258,12 @@ class WooCommerce{
     await _localDbService.deleteSecurityToken();
   }
 
-  /**
+
   /// Creates a new Wordpress user and returns whether action was sucessful or not using WP Rest User Wordpress plugin.
   ///
   /// Associated endpoint : /register .
 
-  Future<bool> registerNewUser({WooUser user}) async {
+  Future<bool> registerNewWpUser({WooUser user}) async {
     String url = this.baseUrl + URL_REGISTER_ENDPOINT;
 
     http.Client client = http.Client();
@@ -283,7 +284,7 @@ class WooCommerce{
           WooCommerceError.fromJson(dataResponse).toString());
     }
   }
-*/
+
 
 
   /// Creates a new Woocommerce Customer and returns the customer object.
@@ -894,6 +895,7 @@ class WooCommerce{
   /// Accepts an int [id] of a product or product variation, int quantity, and an array of chosen variation attribute objects
   /// Related endpoint : wc/store/cart
   ///
+
   Future<WooCartItem> addToMyCart({@required String itemId, @required String quantity,
     List<WooProductVariation> variations}) async {
     Map<String, dynamic> data = {
@@ -1137,10 +1139,17 @@ class WooCommerce{
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#orders.
 
-  Future<WooOrder> updateOrder (WooOrder order) async{
+  Future<WooOrder> oldUpdateOrder (WooOrder order) async{
     _printToLog('Updating Order With Payload : ' + order.toString());
     _setApiResourceUrl(path: 'orders/'+order.id.toString(),);
     final response = await put(queryUri.toString(), order.toJson());
+    return WooOrder.fromJson(response);
+  }
+
+  Future<WooOrder> updateOrder ({Map orderMap, int id}) async{
+    _printToLog('Updating Order With Payload : ' + orderMap.toString());
+    _setApiResourceUrl(path: 'orders/'+id.toString(),);
+    final response = await put(queryUri.toString(), orderMap);
     return WooOrder.fromJson(response);
   }
 
