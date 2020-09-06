@@ -537,6 +537,21 @@ class WooCommerce{
     productVariation = WooProductVariation.fromJson(response);
     return productVariation;
   }
+  
+  /// Returns a List[WooProductVariation], with the specified [productId] only.
+  
+  Future<List<WooProductVariation>>getProductVariationsByProductId({@required int productId}) async{
+    List<WooProductVariation> productVariations = [];
+    _setApiResourceUrl(path: 'products/'+productId.toString()+'/variations/');
+    final response = await get(queryUri.toString());
+
+    for(var v in response){
+      var prodv = WooProductVariation.fromJson(v);
+      _printToLog('prod gotten here : '+prodv.toString());
+      productVariations.add(prodv);
+    }
+    return productVariations;
+  }
 
   /// Returns a list of all [WooProductAttribute].
   ///
