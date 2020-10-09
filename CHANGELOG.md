@@ -45,3 +45,6 @@
 
 ## [0.9.7] .
   * Quick Bug Fixes.
+
+## [0.9.8] .
+  * Added company name to [WooOrderPayloadShipping] and [WooOrderPayloadBilling].
