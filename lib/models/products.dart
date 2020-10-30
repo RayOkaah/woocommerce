@@ -32,6 +32,7 @@
  */
 
 import 'product_category.dart';
+import 'meta_data.dart';
 
 class WooProduct {
   final int id;
@@ -238,21 +239,6 @@ class WooProductItemTag {
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'slug': slug};
   @override toString() => 'Tag: $name';
-}
-
-class MetaData {
-  final int id;
-  final String key;
-  final String value;
-
-  MetaData(this.id, this.key, this.value);
-
-  MetaData.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        key = json['key'],
-        value = json['value'].toString();
-
-  Map<String, dynamic> toJson() => {'id': id, 'key': key, 'value': value};
 }
 
 class WooProductDefaultAttribute {
