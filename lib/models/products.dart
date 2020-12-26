@@ -91,65 +91,67 @@ class WooProduct {
   final List<int> groupedProducts;
   final int menuOrder;
   final List<MetaData> metaData;
+  List<WepofOption> wepoOfOptions;
 
   WooProduct(
-      this.id,
-      this.name,
-      this.slug,
-      this.permalink,
-      this.type,
-      this.status,
-      this.featured,
-      this.catalogVisibility,
-      this.description,
-      this.shortDescription,
-      this.sku,
-      this.price,
-      this.regularPrice,
-      this.salePrice,
-      this.priceHtml,
-      this.onSale,
-      this.purchasable,
-      this.totalSales,
-      this.virtual,
-      this.downloadable,
-      this.downloads,
-      this.downloadLimit,
-      this.downloadExpiry,
-      this.externalUrl,
-      this.buttonText,
-      this.taxStatus,
-      this.taxClass,
-      this.manageStock,
-      this.stockQuantity,
-      this.stockStatus,
-      this.backorders,
-      this.backordersAllowed,
-      this.backordered,
-      this.soldIndividually,
-      this.weight,
-      this.dimensions,
-      this.shippingRequired,
-      this.shippingTaxable,
-      this.shippingClass,
-      this.shippingClassId,
-      this.reviewsAllowed,
-      this.averageRating,
-      this.ratingCount,
-      this.relatedIds,
-      this.upsellIds,
-      this.crossSellIds,
-      this.parentId,
-      this.purchaseNote,
-      this.categories,
-      this.tags,
-      this.images,
-      this.attributes,
-      this.defaultAttributes,
-      this.variations,
-      this.groupedProducts,
-      this.menuOrder,
-      this.metaData);
+    this.id,
+    this.name,
+    this.slug,
+    this.permalink,
+    this.type,
+    this.status,
+    this.featured,
+    this.catalogVisibility,
+    this.description,
+    this.shortDescription,
+    this.sku,
+    this.price,
+    this.regularPrice,
+    this.salePrice,
+    this.priceHtml,
+    this.onSale,
+    this.purchasable,
+    this.totalSales,
+    this.virtual,
+    this.downloadable,
+    this.downloads,
+    this.downloadLimit,
+    this.downloadExpiry,
+    this.externalUrl,
+    this.buttonText,
+    this.taxStatus,
+    this.taxClass,
+    this.manageStock,
+    this.stockQuantity,
+    this.stockStatus,
+    this.backorders,
+    this.backordersAllowed,
+    this.backordered,
+    this.soldIndividually,
+    this.weight,
+    this.dimensions,
+    this.shippingRequired,
+    this.shippingTaxable,
+    this.shippingClass,
+    this.shippingClassId,
+    this.reviewsAllowed,
+    this.averageRating,
+    this.ratingCount,
+    this.relatedIds,
+    this.upsellIds,
+    this.crossSellIds,
+    this.parentId,
+    this.purchaseNote,
+    this.categories,
+    this.tags,
+    this.images,
+    this.attributes,
+    this.defaultAttributes,
+    this.variations,
+    this.groupedProducts,
+    this.menuOrder,
+    this.metaData,
+  );
 
   WooProduct.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -205,9 +207,12 @@ class WooProduct {
         categories = (json['categories'] as List)
             .map((i) => WooProductCategory.fromJson(i))
             .toList(),
-        tags = (json['tags'] as List).map((i) => WooProductItemTag.fromJson(i)).toList(),
-        images =
-            (json['images'] as List).map((i) => WooProductImage.fromJson(i)).toList(),
+        tags = (json['tags'] as List)
+            .map((i) => WooProductItemTag.fromJson(i))
+            .toList(),
+        images = (json['images'] as List)
+            .map((i) => WooProductImage.fromJson(i))
+            .toList(),
         attributes = (json['attributes'] as List)
             .map((i) => WooProductItemAttribute.fromJson(i))
             .toList(),
@@ -217,11 +222,15 @@ class WooProduct {
         variations = json['variations'].cast<int>(),
         groupedProducts = json['grouped_products'].cast<int>(),
         menuOrder = json['menu_order'],
+        wepoOfOptions = (json['wepof_options'] as List)
+            .map((i) => WepofOption.fromJson(i))
+            .toList(),
         metaData = (json['meta_data'] as List)
             .map((i) => MetaData.fromJson(i))
             .toList();
 
-  @override toString() => "{id: $id}, {name: $name}, {price: $price}, {status: $status}";
+  @override
+  toString() => "{id: $id}, {name: $name}, {price: $price}, {status: $status}";
 }
 
 class WooProductItemTag {
@@ -237,7 +246,8 @@ class WooProductItemTag {
         slug = json['slug'];
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'slug': slug};
-  @override toString() => 'Tag: $name';
+  @override
+  toString() => 'Tag: $name';
 }
 
 class MetaData {
@@ -340,8 +350,8 @@ class WooProductItemAttribute {
   final bool variation;
   final List<String> options;
 
-  WooProductItemAttribute(this.id, this.name, this.position, this.visible, this.variation,
-      this.options);
+  WooProductItemAttribute(this.id, this.name, this.position, this.visible,
+      this.variation, this.options);
 
   WooProductItemAttribute.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -377,5 +387,98 @@ class WooProductDownload {
         'id': id,
         'name': name,
         'file': file,
+      };
+}
+
+class WepofOption {
+  WepofOption({
+    this.id,
+    this.name,
+    this.fields,
+  });
+
+  String id;
+  String name;
+  Fields fields;
+
+  factory WepofOption.fromJson(Map<String, dynamic> json) => WepofOption(
+        id: json["id"] == null ? null : json["id"],
+        name: json["name"] == null ? null : json["name"],
+        fields: json["fields"] == null ? null : Fields.fromJson(json["fields"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id == null ? null : id,
+        "name": name == null ? null : name,
+      };
+}
+
+class Fields {
+  List<AddOns> addOns = new List<AddOns>();
+
+  Fields.fromJson(Map<String, dynamic> json) {
+    if (json['salse'] != null) {
+      addOns.add(AddOns.fromJson(json["salse"]));
+    }
+    if (json['pane'] != null) {
+      addOns.add(AddOns.fromJson(json["pane"]));
+    }
+    if (json['posate'] != null) {
+      addOns.add(AddOns.fromJson(json["posate"]));
+    }
+    if (json['condimenti'] != null) {
+      addOns.add(AddOns.fromJson(json["condimenti"]));
+    }
+  }
+}
+
+class AddOns {
+  AddOns({
+    this.order,
+    this.type,
+    this.id,
+    this.name,
+    this.value,
+    this.placeholder,
+    this.options,
+    this.title,
+    this.enabled,
+  });
+
+  int order;
+  String type;
+  String id;
+  String name;
+  String value;
+  String placeholder;
+  List<String> options;
+  String title;
+  String enabled;
+
+  factory AddOns.fromJson(Map<String, dynamic> json) => AddOns(
+        order: json["order"] == null ? null : json["order"],
+        type: json["type"] == null ? null : json["type"],
+        id: json["id"] == null ? null : json["id"],
+        name: json["name"] == null ? null : json["name"],
+        value: json["value"] == null ? null : json["value"],
+        placeholder: json["placeholder"] == null ? null : json["placeholder"],
+        options: json["options"] == null
+            ? null
+            : List<String>.from(json["options"].map((x) => x)),
+        title: json["title"] == null ? null : json["title"],
+        enabled: json["enabled"] == null ? null : json["enabled"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "order": order == null ? null : order,
+        "type": type == null ? null : type,
+        "id": id == null ? null : id,
+        "name": name == null ? null : name,
+        "value": value == null ? null : value,
+        "placeholder": placeholder == null ? null : placeholder,
+        "options":
+            options == null ? null : List<dynamic>.from(options.map((x) => x)),
+        "title": title == null ? null : title,
+        "enabled": enabled == null ? null : enabled,
       };
 }
