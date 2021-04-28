@@ -57,8 +57,7 @@ class WooProductReview {
       this.rating,
       this.verified,
       this.reviewerAvatarUrls,
-      this.links})
-      : assert(id != null);
+      this.links});
 
   WooProductReview.fromJson(Map<String, dynamic> json) {
     id = json['id'];

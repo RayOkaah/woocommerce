@@ -31,7 +31,6 @@
 
  */
 
-
 class WooUser {
   final int? id;
   final String? email;
@@ -41,19 +40,23 @@ class WooUser {
   final String? lastName;
   final String? name;
 
-
-  WooUser({this.id, required String this.email, required String this.username, this.password, this.firstName, this.lastName, this.name}):
-      assert (email != null),
-        assert (username !=null);
+  WooUser(
+      {this.id,
+      required String this.email,
+      required String this.username,
+      this.password,
+      this.firstName,
+      this.lastName,
+      this.name});
 
   WooUser.fromJson(Map<String, dynamic> data)
       : id = data['id'],
         email = data['email'],
-  username = data['username'],
+        username = data['username'],
         password = data['password'],
         firstName = data['first_name'],
         lastName = data['last_name'],
-  name = data['name'];
+        name = data['name'];
 
   Map<String, dynamic> toJson() {
     return {
@@ -62,10 +65,11 @@ class WooUser {
       'username': username,
       'password': password,
       'first_name': firstName,
-      'last_name' : lastName,
-      'name' : name,
+      'last_name': lastName,
+      'name': name,
     };
   }
-  @override toString() => this.toJson().toString();
-}
 
+  @override
+  toString() => this.toJson().toString();
+}

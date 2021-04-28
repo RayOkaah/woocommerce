@@ -53,8 +53,7 @@ class WooPaymentGateway {
       this.methodDescription,
       this.methodSupports,
       this.settings,
-      this.lLinks})
-      : assert(id != null);
+      this.lLinks});
 
   WooPaymentGateway.fromJson(Map<String, dynamic> json) {
     id = json['id'];

@@ -42,7 +42,6 @@ import 'dart:io';
 import "dart:math";
 import "dart:core";
 import 'package:crypto/crypto.dart' as crypto;
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:woocommerce/models/customer_download.dart';
 import 'package:woocommerce/models/payment_gateway.dart';
@@ -208,7 +207,7 @@ class WooCommerce {
       }
       return customer;
     } catch (e) {
-      return e.message;
+      return e.toString();
     }
   }
 
@@ -941,8 +940,7 @@ class WooCommerce {
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#product-reviews
 
-  Future<WooProductReview> getProductReviewById(
-      {required int reviewId}) async {
+  Future<WooProductReview> getProductReviewById({required int reviewId}) async {
     WooProductReview productReview;
     _setApiResourceUrl(
       path: 'products/reviews/' + reviewId.toString(),
