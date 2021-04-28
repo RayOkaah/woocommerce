@@ -64,7 +64,9 @@ class WooShippingZoneMethod {
     settings = json['settings'] != null
         ? new WooShippingZoneMethodSettings.fromJson(json['settings'])
         : null;
-    links = json['_links'] != null ? new WooShippingZoneMethodLinks.fromJson(json['_links']) : null;
+    links = json['_links'] != null
+        ? new WooShippingZoneMethodLinks.fromJson(json['_links'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -84,7 +86,9 @@ class WooShippingZoneMethod {
     }
     return data;
   }
-  @override toString() => this.toJson().toString();
+
+  @override
+  toString() => this.toJson().toString();
 }
 
 class WooShippingZoneMethodSettings {
@@ -108,11 +112,15 @@ class WooShippingZoneMethodSettings {
       this.type});
 
   WooShippingZoneMethodSettings.fromJson(Map<String, dynamic> json) {
-    title = json['title'] != null ? new WooShippingZoneMethodTitle.fromJson(json['title']) : null;
+    title = json['title'] != null
+        ? new WooShippingZoneMethodTitle.fromJson(json['title'])
+        : null;
     taxStatus = json['tax_status'] != null
         ? new WooShippingZoneMethodTaxStatus.fromJson(json['tax_status'])
         : null;
-    cost = json['cost'] != null ? new WooShippingZoneMethodCost.fromJson(json['cost']) : null;
+    cost = json['cost'] != null
+        ? new WooShippingZoneMethodCost.fromJson(json['cost'])
+        : null;
     classCosts = json['class_costs'] != null
         ? new WooShippingZoneMethodClassCosts.fromJson(json['class_costs'])
         : null;
@@ -125,7 +133,9 @@ class WooShippingZoneMethodSettings {
     noClassCost = json['no_class_cost'] != null
         ? new WooShippingZoneMethodNoClassCost.fromJson(json['no_class_cost'])
         : null;
-    type = json['type'] != null ? new WooShippingZoneMethodType.fromJson(json['type']) : null;
+    type = json['type'] != null
+        ? new WooShippingZoneMethodType.fromJson(json['type'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -234,8 +244,9 @@ class WooShippingZoneMethodTaxStatus {
     taxDefault = json['default'];
     tip = json['tip'];
     placeholder = json['placeholder'];
-    options =
-        json['options'] != null ? new WooShippingZoneMethodOptions.fromJson(json['options']) : null;
+    options = json['options'] != null
+        ? new WooShippingZoneMethodOptions.fromJson(json['options'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -530,8 +541,9 @@ class WooShippingZoneMethodType {
     typeDefault = json['default'];
     tip = json['tip'];
     placeholder = json['placeholder'];
-    options =
-        json['options'] != null ? new WooShippingZoneMethodOptions.fromJson(json['options']) : null;
+    options = json['options'] != null
+        ? new WooShippingZoneMethodOptions.fromJson(json['options'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -560,19 +572,19 @@ class WooShippingZoneMethodLinks {
 
   WooShippingZoneMethodLinks.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
-      self = new List<WooShippingZoneMethodSelf>();
+      self = <WooShippingZoneMethodSelf>[];
       json['self'].forEach((v) {
         self.add(new WooShippingZoneMethodSelf.fromJson(v));
       });
     }
     if (json['collection'] != null) {
-      collection = new List<WooShippingZoneMethodCollection>();
+      collection = <WooShippingZoneMethodCollection>[];
       json['collection'].forEach((v) {
         collection.add(new WooShippingZoneMethodCollection.fromJson(v));
       });
     }
     if (json['describes'] != null) {
-      describes = new List<WooShippingZoneMethodDescribes>();
+      describes = <WooShippingZoneMethodDescribes>[];
       json['describes'].forEach((v) {
         describes.add(new WooShippingZoneMethodDescribes.fromJson(v));
       });
