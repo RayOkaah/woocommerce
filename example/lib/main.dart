@@ -22,9 +22,9 @@ String consumerKey = "";
 String consumerSecret = "";
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, this.title}) : super(key: key);
 
-  final String title;
+  final String? title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   'My Awesome Shop',
                   style: Theme.of(context)
                       .textTheme
-                      .headline5
+                      .headline5!
                       .apply(color: Colors.blueGrey),
                 ),
               ),
@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                               image: NetworkImage(
-                                product.images[0].src,
+                                product.images[0].src!,
                               ),
                               fit: BoxFit.cover),
                           color: Colors.pinkAccent,
@@ -106,11 +106,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         product.name ?? 'Loading...',
                         style: Theme.of(context)
                             .textTheme
-                            .headline6
+                            .headline6!
                             .apply(color: Colors.blueGrey),
                       ),
                       Text(
-                        '\$' + product.price ?? '',
+                        '\$' + product.price! ?? '',
                         style: Theme.of(context).textTheme.subtitle2,
                       )
                     ],
