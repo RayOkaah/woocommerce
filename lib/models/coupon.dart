@@ -63,33 +63,33 @@ class WooCoupon {
 
   WooCoupon(
       {this.id,
-        this.code,
-        this.amount,
-        this.dateCreated,
-        this.dateCreatedGmt,
-        this.dateModified,
-        this.dateModifiedGmt,
-        this.discountType,
-        this.description,
-        this.dateExpires,
-        this.dateExpiresGmt,
-        this.usageCount,
-        this.individualUse,
-        this.productIds,
-        this.excludedProductIds,
-        this.usageLimit,
-        this.usageLimitPerUser,
-        this.limitUsageToXItems,
-        this.freeShipping,
-        this.productCategories,
-        this.excludedProductCategories,
-        this.excludeSaleItems,
-        this.minimumAmount,
-        this.maximumAmount,
-        this.emailRestrictions,
-        this.usedBy,
-        this.metaData,
-        this.lLinks});
+      this.code,
+      this.amount,
+      this.dateCreated,
+      this.dateCreatedGmt,
+      this.dateModified,
+      this.dateModifiedGmt,
+      this.discountType,
+      this.description,
+      this.dateExpires,
+      this.dateExpiresGmt,
+      this.usageCount,
+      this.individualUse,
+      this.productIds,
+      this.excludedProductIds,
+      this.usageLimit,
+      this.usageLimitPerUser,
+      this.limitUsageToXItems,
+      this.freeShipping,
+      this.productCategories,
+      this.excludedProductCategories,
+      this.excludeSaleItems,
+      this.minimumAmount,
+      this.maximumAmount,
+      this.emailRestrictions,
+      this.usedBy,
+      this.metaData,
+      this.lLinks});
 
   WooCoupon.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -119,7 +119,9 @@ class WooCoupon {
     emailRestrictions = json['email_restrictions'].cast<String>();
     usedBy = json['used_by'].cast<String>();
     metaData = json['meta_data'].cast<String>();
-    lLinks = json['_links'] != null ? new WooCouponLinks.fromJson(json['_links']) : null;
+    lLinks = json['_links'] != null
+        ? new WooCouponLinks.fromJson(json['_links'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -156,7 +158,9 @@ class WooCoupon {
     }
     return data;
   }
-  @override toString() => this.toJson().toString();
+
+  @override
+  toString() => this.toJson().toString();
 }
 
 class WooCouponLinks {
@@ -167,13 +171,13 @@ class WooCouponLinks {
 
   WooCouponLinks.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
-      self = new List<Self>();
+      self = <Self>[];
       json['self'].forEach((v) {
         self.add(new Self.fromJson(v));
       });
     }
     if (json['collection'] != null) {
-      collection = new List<Collection>();
+      collection = <Collection>[];
       json['collection'].forEach((v) {
         collection.add(new Collection.fromJson(v));
       });

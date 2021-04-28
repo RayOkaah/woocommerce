@@ -41,11 +41,11 @@ class WooProductTag {
 
   WooProductTag(
       {this.id,
-        this.name,
-        this.slug,
-        this.description,
-        this.count,
-        this.lLinks});
+      this.name,
+      this.slug,
+      this.description,
+      this.count,
+      this.lLinks});
 
   WooProductTag.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -53,7 +53,9 @@ class WooProductTag {
     slug = json['slug'];
     description = json['description'];
     count = json['count'];
-    lLinks = json['_links'] != null ? new WooProductTagLinks.fromJson(json['_links']) : null;
+    lLinks = json['_links'] != null
+        ? new WooProductTagLinks.fromJson(json['_links'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -68,7 +70,9 @@ class WooProductTag {
     }
     return data;
   }
-  @override toString() => this.toJson().toString();
+
+  @override
+  toString() => this.toJson().toString();
 }
 
 class WooProductTagLinks {
@@ -79,13 +83,13 @@ class WooProductTagLinks {
 
   WooProductTagLinks.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
-      self = new List<WooProductTagSelf>();
+      self = [];
       json['self'].forEach((v) {
         self.add(new WooProductTagSelf.fromJson(v));
       });
     }
     if (json['collection'] != null) {
-      collection = new List<WooProductTagCollection>();
+      collection = [];
       json['collection'].forEach((v) {
         collection.add(new WooProductTagCollection.fromJson(v));
       });

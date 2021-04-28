@@ -57,7 +57,8 @@ class WooProductReview {
       this.rating,
       this.verified,
       this.reviewerAvatarUrls,
-      this.links}) : assert (id != null);
+      this.links})
+      : assert(id != null);
 
   WooProductReview.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -73,7 +74,9 @@ class WooProductReview {
     reviewerAvatarUrls = json['reviewer_avatar_urls'] != null
         ? (json['reviewer_avatar_urls'])
         : null;
-    links = json['_links'] != null ? new WooProductReviewLinks.fromJson(json['_links']) : null;
+    links = json['_links'] != null
+        ? new WooProductReviewLinks.fromJson(json['_links'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -96,7 +99,9 @@ class WooProductReview {
     }
     return data;
   }
-  @override toString() => this.toJson().toString();
+
+  @override
+  toString() => this.toJson().toString();
 }
 
 class WooProductReviewLinks {
@@ -108,19 +113,19 @@ class WooProductReviewLinks {
 
   WooProductReviewLinks.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
-      self = new List<WooProductReviewSelf>();
+      self = [];
       json['self'].forEach((v) {
         self.add(new WooProductReviewSelf.fromJson(v));
       });
     }
     if (json['collection'] != null) {
-      collection = new List<WooProductReviewCollection>();
+      collection = [];
       json['collection'].forEach((v) {
         collection.add(new WooProductReviewCollection.fromJson(v));
       });
     }
     if (json['up'] != null) {
-      up = new List<WooProductReviewUp>();
+      up = [];
       json['up'].forEach((v) {
         up.add(new WooProductReviewUp.fromJson(v));
       });

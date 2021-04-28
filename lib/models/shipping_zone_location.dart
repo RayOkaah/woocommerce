@@ -41,7 +41,9 @@ class WooShippingZoneLocation {
   WooShippingZoneLocation.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     type = json['type'];
-    links = json['_links'] != null ? new WooShippingZoneLocationLinks.fromJson(json['_links']) : null;
+    links = json['_links'] != null
+        ? new WooShippingZoneLocationLinks.fromJson(json['_links'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -53,7 +55,9 @@ class WooShippingZoneLocation {
     }
     return data;
   }
-  @override toString() => this.toJson().toString();
+
+  @override
+  toString() => this.toJson().toString();
 }
 
 class WooShippingZoneLocationLinks {
@@ -64,13 +68,13 @@ class WooShippingZoneLocationLinks {
 
   WooShippingZoneLocationLinks.fromJson(Map<String, dynamic> json) {
     if (json['collection'] != null) {
-      collection = new List<WooShippingZoneLocationCollection>();
+      collection = [];
       json['collection'].forEach((v) {
         collection.add(new WooShippingZoneLocationCollection.fromJson(v));
       });
     }
     if (json['describes'] != null) {
-      describes = new List<WooShippingZoneLocationDescribes>();
+      describes = [];
       json['describes'].forEach((v) {
         describes.add(new WooShippingZoneLocationDescribes.fromJson(v));
       });

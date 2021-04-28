@@ -41,7 +41,9 @@ class WooTaxClass {
   WooTaxClass.fromJson(Map<String, dynamic> json) {
     slug = json['slug'];
     name = json['name'];
-    links = json['_links'] != null ? new WooTaxClassLinks.fromJson(json['_links']) : null;
+    links = json['_links'] != null
+        ? new WooTaxClassLinks.fromJson(json['_links'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -53,7 +55,9 @@ class WooTaxClass {
     }
     return data;
   }
-  @override toString() => this.toJson().toString();
+
+  @override
+  toString() => this.toJson().toString();
 }
 
 class WooTaxClassLinks {
@@ -63,7 +67,7 @@ class WooTaxClassLinks {
 
   WooTaxClassLinks.fromJson(Map<String, dynamic> json) {
     if (json['collection'] != null) {
-      collection = new List<WooTaxClassCollection>();
+      collection = <WooTaxClassCollection>[];
       json['collection'].forEach((v) {
         collection.add(new WooTaxClassCollection.fromJson(v));
       });

@@ -53,7 +53,9 @@ class WooProductShippingClass {
     slug = json['slug'];
     description = json['description'];
     count = json['count'];
-    links = json['_links'] != null ? new WooProductShippingClassLinks.fromJson(json['_links']) : null;
+    links = json['_links'] != null
+        ? new WooProductShippingClassLinks.fromJson(json['_links'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -68,7 +70,9 @@ class WooProductShippingClass {
     }
     return data;
   }
-  @override toString() => this.toJson().toString();
+
+  @override
+  toString() => this.toJson().toString();
 }
 
 class WooProductShippingClassLinks {
@@ -79,13 +83,13 @@ class WooProductShippingClassLinks {
 
   WooProductShippingClassLinks.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
-      self = new List<WooProductShippingClassSelf>();
+      self = [];
       json['self'].forEach((v) {
         self.add(new WooProductShippingClassSelf.fromJson(v));
       });
     }
     if (json['collection'] != null) {
-      collection = new List<WooProductShippingClassCollection>();
+      collection = [];
       json['collection'].forEach((v) {
         collection.add(new WooProductShippingClassCollection.fromJson(v));
       });

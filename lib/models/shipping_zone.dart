@@ -43,7 +43,9 @@ class WooShippingZone {
     id = json['id'];
     name = json['name'];
     order = json['order'];
-    links = json['_links'] != null ? new WooShippingZoneLinks.fromJson(json['_links']) : null;
+    links = json['_links'] != null
+        ? new WooShippingZoneLinks.fromJson(json['_links'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -56,7 +58,9 @@ class WooShippingZone {
     }
     return data;
   }
-  @override toString() => this.toJson().toString();
+
+  @override
+  toString() => this.toJson().toString();
 }
 
 class WooShippingZoneLinks {
@@ -68,19 +72,19 @@ class WooShippingZoneLinks {
 
   WooShippingZoneLinks.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
-      self = new List<WooShippingZoneSelf>();
+      self = <WooShippingZoneSelf>[];
       json['self'].forEach((v) {
         self.add(new WooShippingZoneSelf.fromJson(v));
       });
     }
     if (json['collection'] != null) {
-      collection = new List<WooShippingZoneCollection>();
+      collection = <WooShippingZoneCollection>[];
       json['collection'].forEach((v) {
         collection.add(new WooShippingZoneCollection.fromJson(v));
       });
     }
     if (json['describedby'] != null) {
-      describedby = new List<Describedby>();
+      describedby = <Describedby>[];
       json['describedby'].forEach((v) {
         describedby.add(new Describedby.fromJson(v));
       });

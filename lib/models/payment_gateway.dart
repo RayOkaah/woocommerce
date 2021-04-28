@@ -45,15 +45,16 @@ class WooPaymentGateway {
 
   WooPaymentGateway(
       {this.id,
-        this.title,
-        this.description,
-        this.order,
-        this.enabled,
-        this.methodTitle,
-        this.methodDescription,
-        this.methodSupports,
-        this.settings,
-        this.lLinks}) : assert (id != null);
+      this.title,
+      this.description,
+      this.order,
+      this.enabled,
+      this.methodTitle,
+      this.methodDescription,
+      this.methodSupports,
+      this.settings,
+      this.lLinks})
+      : assert(id != null);
 
   WooPaymentGateway.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -67,7 +68,9 @@ class WooPaymentGateway {
     settings = json['settings'] != null
         ? new WooPaymentGatewaySettings.fromJson(json['settings'])
         : null;
-    lLinks = json['_links'] != null ? new WooPaymentGatewayLinks.fromJson(json['_links']) : null;
+    lLinks = json['_links'] != null
+        ? new WooPaymentGatewayLinks.fromJson(json['_links'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -97,7 +100,9 @@ class WooPaymentGatewaySettings {
   WooPaymentGatewaySettings({this.title, this.instructions});
 
   WooPaymentGatewaySettings.fromJson(Map<String, dynamic> json) {
-    title = json['title'] != null ? new WooPaymentGatewayTitle.fromJson(json['title']) : null;
+    title = json['title'] != null
+        ? new WooPaymentGatewayTitle.fromJson(json['title'])
+        : null;
     instructions = json['instructions'] != null
         ? new WooPaymentGatewayTitle.fromJson(json['instructions'])
         : null;
@@ -127,13 +132,13 @@ class WooPaymentGatewayTitle {
 
   WooPaymentGatewayTitle(
       {this.id,
-        this.label,
-        this.description,
-        this.type,
-        this.value,
-        this.defaultvalue,
-        this.tip,
-        this.placeholder});
+      this.label,
+      this.description,
+      this.type,
+      this.value,
+      this.defaultvalue,
+      this.tip,
+      this.placeholder});
 
   WooPaymentGatewayTitle.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -168,13 +173,13 @@ class WooPaymentGatewayLinks {
 
   WooPaymentGatewayLinks.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
-      self = new List<WooPaymentGatewaySelf>();
+      self = [];
       json['self'].forEach((v) {
         self.add(new WooPaymentGatewaySelf.fromJson(v));
       });
     }
     if (json['collection'] != null) {
-      collection = new List<WooPaymentGatewayCollection>();
+      collection = [];
       json['collection'].forEach((v) {
         collection.add(new WooPaymentGatewayCollection.fromJson(v));
       });
@@ -224,4 +229,3 @@ class WooPaymentGatewayCollection {
     return data;
   }
 }
-

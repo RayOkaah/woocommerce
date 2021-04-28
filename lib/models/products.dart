@@ -205,9 +205,12 @@ class WooProduct {
         categories = (json['categories'] as List)
             .map((i) => WooProductCategory.fromJson(i))
             .toList(),
-        tags = (json['tags'] as List).map((i) => WooProductItemTag.fromJson(i)).toList(),
-        images =
-            (json['images'] as List).map((i) => WooProductImage.fromJson(i)).toList(),
+        tags = (json['tags'] as List)
+            .map((i) => WooProductItemTag.fromJson(i))
+            .toList(),
+        images = (json['images'] as List)
+            .map((i) => WooProductImage.fromJson(i))
+            .toList(),
         attributes = (json['attributes'] as List)
             .map((i) => WooProductItemAttribute.fromJson(i))
             .toList(),
@@ -221,7 +224,8 @@ class WooProduct {
             .map((i) => MetaData.fromJson(i))
             .toList();
 
-  @override toString() => "{id: $id}, {name: $name}, {price: $price}, {status: $status}";
+  @override
+  toString() => "{id: $id}, {name: $name}, {price: $price}, {status: $status}";
 }
 
 class WooProductItemTag {
@@ -237,7 +241,8 @@ class WooProductItemTag {
         slug = json['slug'];
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'slug': slug};
-  @override toString() => 'Tag: $name';
+  @override
+  toString() => 'Tag: $name';
 }
 
 class MetaData {
@@ -294,27 +299,27 @@ class WooProductImage {
         dateCreatedGMT = DateTime.parse(json['date_created_gmt']);
 }
 
-/**
-class Category {
-  final int id;
-  final String name;
-  final String slug;
+///
+/// class Category {
+///  final int id;
+/// final String name;
+///   final String slug;
 
-  Category(this.id, this.name, this.slug);
+///   Category(this.id, this.name, this.slug);
 
-  Category.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        slug = json['slug'];
+///   Category.fromJson(Map<String, dynamic> json)
+///       : id = json['id'],
+///         name = json['name'],
+///         slug = json['slug'];
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'slug': slug,
-      };
-  @override toString() => toJson().toString();
-}
-*/
+///   Map<String, dynamic> toJson() => {
+///         'id': id,
+///         'name': name,
+///         'slug': slug,
+///       };
+///   @override toString() => toJson().toString();
+/// }
+///
 
 class WooProductDimension {
   final String length;
@@ -340,8 +345,8 @@ class WooProductItemAttribute {
   final bool variation;
   final List<String> options;
 
-  WooProductItemAttribute(this.id, this.name, this.position, this.visible, this.variation,
-      this.options);
+  WooProductItemAttribute(this.id, this.name, this.position, this.visible,
+      this.variation, this.options);
 
   WooProductItemAttribute.fromJson(Map<String, dynamic> json)
       : id = json['id'],

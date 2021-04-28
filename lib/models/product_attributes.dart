@@ -56,7 +56,9 @@ class WooProductAttribute {
     type = json['type'];
     orderBy = json['order_by'];
     hasArchives = json['has_archives'];
-    links = json['_links'] != null ? new WooProductAttributeTermLinks.fromJson(json['_links']) : null;
+    links = json['_links'] != null
+        ? new WooProductAttributeTermLinks.fromJson(json['_links'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -72,7 +74,9 @@ class WooProductAttribute {
     }
     return data;
   }
-  @override toString() => this.toJson().toString();
+
+  @override
+  toString() => this.toJson().toString();
 }
 
 class WooProductAttributeTermLinks {
@@ -83,13 +87,13 @@ class WooProductAttributeTermLinks {
 
   WooProductAttributeTermLinks.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
-      self = new List<WooProductAttributeTermSelf>();
+      self = <WooProductAttributeTermSelf>[];
       json['self'].forEach((v) {
         self.add(new WooProductAttributeTermSelf.fromJson(v));
       });
     }
     if (json['collection'] != null) {
-      collection = new List<WooProductAttributeTermCollection>();
+      collection = <WooProductAttributeTermCollection>[];
       json['collection'].forEach((v) {
         collection.add(new WooProductAttributeTermCollection.fromJson(v));
       });

@@ -32,6 +32,7 @@
  */
 
 import 'package:flutter/material.dart';
+
 class WooOrder {
   int id;
   int parentId;
@@ -118,7 +119,8 @@ class WooOrder {
       this.feeLines,
       this.couponLines,
       this.refunds,
-      this.links}) : assert (id != null);
+      this.links})
+      : assert(id != null);
 
   WooOrder.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -161,38 +163,38 @@ class WooOrder {
     metaData =
         (json['meta_data'] as List).map((i) => MetaData.fromJson(i)).toList();
     if (json['line_items'] != null) {
-      lineItems = new List<LineItems>();
+      lineItems = <LineItems>[];
       json['line_items'].forEach((v) {
         lineItems.add(new LineItems.fromJson(v));
       });
     }
     if (json['tax_lines'] != null) {
-      taxLines = new List<TaxLines>();
+      taxLines = <TaxLines>[];
       json['tax_lines'].forEach((v) {
         taxLines.add(new TaxLines.fromJson(v));
       });
     }
     if (json['shipping_lines'] != null) {
-      shippingLines = new List<ShippingLines>();
+      shippingLines = <ShippingLines>[];
       json['shipping_lines'].forEach((v) {
         shippingLines.add(new ShippingLines.fromJson(v));
       });
     }
     if (json['fee_lines'] != null) {
-      feeLines = new List<WooOrderFeeLine>();
+      feeLines = <WooOrderFeeLine>[];
       json['fee_lines'].forEach((v) {
         feeLines.add(new WooOrderFeeLine.fromJson(v));
       });
     }
     if (json['coupon_lines'] != null) {
-      couponLines = new List<WooOrderCouponLine>();
+      couponLines = [];
       json['coupon_lines'].forEach((v) {
         couponLines.add(new WooOrderCouponLine.fromJson(v));
       });
     }
 
     if (json['refunds'] != null) {
-      refunds = new List<Refunds>();
+      refunds = [];
       json['refunds'].forEach((v) {
         refunds.add(new Refunds.fromJson(v));
       });
@@ -268,7 +270,9 @@ class WooOrder {
     }
     return data;
   }
-  @override toString() => this.toJson().toString();
+
+  @override
+  toString() => this.toJson().toString();
 }
 
 class WooOrderCouponLine {
@@ -311,8 +315,8 @@ class WooOrderFeeLine {
   List<FeeLineTax> taxes;
   List<MetaData> metaData;
 
-  WooOrderFeeLine(this.id, this.name, this.taxClass, this.taxStatus, this.totalTax,
-      this.taxes, this.metaData);
+  WooOrderFeeLine(this.id, this.name, this.taxClass, this.taxStatus,
+      this.totalTax, this.taxes, this.metaData);
 
   WooOrderFeeLine.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -604,7 +608,9 @@ class LineItems {
     data['price'] = this.price;
     return data;
   }
-  @override toString() => this.toJson().toString();
+
+  @override
+  toString() => this.toJson().toString();
 }
 
 class Taxes {
@@ -732,13 +738,13 @@ class Links {
 
   Links.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
-      self = new List<Self>();
+      self = [];
       json['self'].forEach((v) {
         self.add(new Self.fromJson(v));
       });
     }
     if (json['collection'] != null) {
-      collection = new List<Collection>();
+      collection = [];
       json['collection'].forEach((v) {
         collection.add(new Collection.fromJson(v));
       });

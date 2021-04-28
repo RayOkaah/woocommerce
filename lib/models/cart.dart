@@ -41,17 +41,17 @@ class WooCart {
 
   WooCart(
       {this.currency,
-        this.itemCount,
-        this.items,
-        this.needsShipping,
-        this.totalPrice,
-        this.totalWeight});
+      this.itemCount,
+      this.items,
+      this.needsShipping,
+      this.totalPrice,
+      this.totalWeight});
 
   WooCart.fromJson(Map<String, dynamic> json) {
     currency = json['currency'];
     itemCount = json['item_count'];
     if (json['items'] != null) {
-      items = new List<WooCartItems>();
+      items = <WooCartItems>[];
       json['items'].forEach((v) {
         items.add(new WooCartItems.fromJson(v));
       });
@@ -73,7 +73,9 @@ class WooCart {
     data['total_weight'] = this.totalWeight;
     return data;
   }
-  @override toString() => this.toJson().toString();
+
+  @override
+  toString() => this.toJson().toString();
 }
 
 class WooCartItems {
@@ -90,15 +92,15 @@ class WooCartItems {
 
   WooCartItems(
       {this.key,
-        this.id,
-        this.quantity,
-        this.name,
-        this.sku,
-        this.permalink,
-        this.images,
-        this.price,
-        this.linePrice,
-        this.variation});
+      this.id,
+      this.quantity,
+      this.name,
+      this.sku,
+      this.permalink,
+      this.images,
+      this.price,
+      this.linePrice,
+      this.variation});
 
   WooCartItems.fromJson(Map<String, dynamic> json) {
     key = json['key'];
@@ -108,7 +110,7 @@ class WooCartItems {
     sku = json['sku'];
     permalink = json['permalink'];
     if (json['images'] != null) {
-      images = new List<WooCartImages>();
+      images = <WooCartImages>[];
       json['images'].forEach((v) {
         images.add(new WooCartImages.fromJson(v));
       });
@@ -147,12 +149,12 @@ class WooCartImages {
 
   WooCartImages(
       {this.id,
-        this.src,
-        this.thumbnail,
-        this.srcset,
-        this.sizes,
-        this.name,
-        this.alt});
+      this.src,
+      this.thumbnail,
+      this.srcset,
+      this.sizes,
+      this.name,
+      this.alt});
 
   WooCartImages.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();

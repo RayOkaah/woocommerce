@@ -75,36 +75,37 @@ class WooOrderPayload {
     customerNote = json['customer_note'];
     parentId = json['parent_id'];
     if (json['meta_data'] != null) {
-      metaData = new List<WooOrderPayloadMetaData>();
+      metaData = <WooOrderPayloadMetaData>[];
       json['meta_data'].forEach((v) {
         metaData.add(new WooOrderPayloadMetaData.fromJson(v));
       });
     }
     if (json['fee_lines'] != null) {
-      feeLines = new List<WooOrderPayloadFeeLines>();
+      feeLines = <WooOrderPayloadFeeLines>[];
       json['fee_lines'].forEach((v) {
         feeLines.add(new WooOrderPayloadFeeLines.fromJson(v));
       });
     }
     if (json['coupon_lines'] != null) {
-      couponLines = new List<WooOrderPayloadCouponLines>();
+      couponLines = <WooOrderPayloadCouponLines>[];
       json['coupon_lines'].forEach((v) {
         couponLines.add(new WooOrderPayloadCouponLines.fromJson(v));
       });
     }
-    billing =
-        json['billing'] != null ? new WooOrderPayloadBilling.fromJson(json['billing']) : null;
+    billing = json['billing'] != null
+        ? new WooOrderPayloadBilling.fromJson(json['billing'])
+        : null;
     shipping = json['shipping'] != null
         ? new WooOrderPayloadShipping.fromJson(json['shipping'])
         : null;
     if (json['line_items'] != null) {
-      lineItems = new List<LineItems>();
+      lineItems = <LineItems>[];
       json['line_items'].forEach((v) {
         lineItems.add(new LineItems.fromJson(v));
       });
     }
     if (json['shipping_lines'] != null) {
-      shippingLines = new List<ShippingLines>();
+      shippingLines = <ShippingLines>[];
       json['shipping_lines'].forEach((v) {
         shippingLines.add(new ShippingLines.fromJson(v));
       });
@@ -145,7 +146,9 @@ class WooOrderPayload {
     }
     return data;
   }
-  @override toString() => this.toJson().toString();
+
+  @override
+  toString() => this.toJson().toString();
 }
 
 class WooOrderPayloadMetaData {
@@ -183,7 +186,7 @@ class WooOrderPayloadFeeLines {
     taxStatus = json['tax_status'];
     total = json['total'];
     if (json['meta_data'] != null) {
-      metaData = new List<WooOrderPayloadMetaData>();
+      metaData = <WooOrderPayloadMetaData>[];
       json['meta_data'].forEach((v) {
         metaData.add(new WooOrderPayloadMetaData.fromJson(v));
       });
@@ -212,7 +215,7 @@ class WooOrderPayloadCouponLines {
   WooOrderPayloadCouponLines.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     if (json['meta_data'] != null) {
-      metaData = new List<WooOrderPayloadMetaData>();
+      metaData = <WooOrderPayloadMetaData>[];
       json['meta_data'].forEach((v) {
         metaData.add(new WooOrderPayloadMetaData.fromJson(v));
       });
@@ -362,7 +365,7 @@ class LineItems {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['product_id'] = this.productId;
-    if (this.name !=null){
+    if (this.name != null) {
       data['name'] = this.name;
     }
 
@@ -372,17 +375,19 @@ class LineItems {
     if (this.taxClass != null) {
       data['tax_class'] = this.taxClass;
     }
-    if (this.subtotal != null){
+    if (this.subtotal != null) {
       data['subtotal'] = this.subtotal;
     }
-    if (this.total != null){
+    if (this.total != null) {
       data['total'] = this.total;
     }
 
     data['quantity'] = this.quantity;
     return data;
   }
-  @override toString() => this.toJson().toString();
+
+  @override
+  toString() => this.toJson().toString();
 }
 
 class ShippingLines {
