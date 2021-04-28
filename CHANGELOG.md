@@ -45,3 +45,8 @@
 
 ## [0.9.7] .
   * Quick Bug Fixes.
+
+## [1.0.0] .
+  * Null safety.
+
+
