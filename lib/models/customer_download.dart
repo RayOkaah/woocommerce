@@ -33,17 +33,17 @@
 
 
 class WooCustomerDownload {
-  String downloadId;
-  String downloadUrl;
-  int productId;
-  String productName;
-  String downloadName;
-  int orderId;
-  String orderKey;
-  String downloadsRemaining;
-  String accessExpires;
-  String accessExpiresGmt;
-  WooCustomerDownloadFile file;
+  String? downloadId;
+  String? downloadUrl;
+  int? productId;
+  String? productName;
+  String? downloadName;
+  int? orderId;
+  String? orderKey;
+  String? downloadsRemaining;
+  String? accessExpires;
+  String? accessExpiresGmt;
+  WooCustomerDownloadFile? file;
 
   WooCustomerDownload(
       {this.downloadId,
@@ -85,15 +85,15 @@ class WooCustomerDownload {
     data['access_expires'] = this.accessExpires;
     data['access_expires_gmt'] = this.accessExpiresGmt;
     if (this.file != null) {
-      data['file'] = this.file.toJson();
+      data['file'] = this.file!.toJson();
     }
     return data;
   }
 }
 
 class WooCustomerDownloadFile {
-  String name;
-  String file;
+  String? name;
+  String? file;
 
   WooCustomerDownloadFile({this.name, this.file});
 

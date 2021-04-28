@@ -32,10 +32,10 @@
  */
 
 class WooShippingMethod {
-  int parentId;
-  String name;
-  List<WooShippingMethodLocations> locations;
-  WooShippingMethodMethods methods;
+  int? parentId;
+  String? name;
+  List<WooShippingMethodLocations>? locations;
+  WooShippingMethodMethods? methods;
 
   WooShippingMethod({this.parentId, this.name, this.locations, this.methods});
 
@@ -45,7 +45,7 @@ class WooShippingMethod {
     if (json['locations'] != null) {
       locations = [];
       json['locations'].forEach((v) {
-        locations.add(new WooShippingMethodLocations.fromJson(v));
+        locations!.add(new WooShippingMethodLocations.fromJson(v));
       });
     }
     methods = json['methods'] != null
@@ -58,10 +58,10 @@ class WooShippingMethod {
     data['parent_id'] = this.parentId;
     data['name'] = this.name;
     if (this.locations != null) {
-      data['locations'] = this.locations.map((v) => v.toJson()).toList();
+      data['locations'] = this.locations!.map((v) => v.toJson()).toList();
     }
     if (this.methods != null) {
-      data['methods'] = this.methods.toJson();
+      data['methods'] = this.methods!.toJson();
     }
     return data;
   }
@@ -71,8 +71,8 @@ class WooShippingMethod {
 }
 
 class WooShippingMethodLocations {
-  String code;
-  String type;
+  String? code;
+  String? type;
 
   WooShippingMethodLocations({this.code, this.type});
 
@@ -90,9 +90,9 @@ class WooShippingMethodLocations {
 }
 
 class WooShippingMethodMethods {
-  List<WooShippingMethodFreeShipping> freeShipping;
-  List<WooShippingMethodFlatRate> flatRate;
-  List<WooShippingMethodLocalPickup> localPickup;
+  List<WooShippingMethodFreeShipping>? freeShipping;
+  List<WooShippingMethodFlatRate>? flatRate;
+  List<WooShippingMethodLocalPickup>? localPickup;
 
   WooShippingMethodMethods(
       {this.freeShipping, this.flatRate, this.localPickup});
@@ -101,19 +101,19 @@ class WooShippingMethodMethods {
     if (json['free_shipping'] != null) {
       freeShipping = [];
       json['free_shipping'].forEach((v) {
-        freeShipping.add(new WooShippingMethodFreeShipping.fromJson(v));
+        freeShipping!.add(new WooShippingMethodFreeShipping.fromJson(v));
       });
     }
     if (json['flat_rate'] != null) {
       flatRate = [];
       json['flat_rate'].forEach((v) {
-        flatRate.add(new WooShippingMethodFlatRate.fromJson(v));
+        flatRate!.add(new WooShippingMethodFlatRate.fromJson(v));
       });
     }
     if (json['local_pickup'] != null) {
       localPickup = [];
       json['local_pickup'].forEach((v) {
-        localPickup.add(new WooShippingMethodLocalPickup.fromJson(v));
+        localPickup!.add(new WooShippingMethodLocalPickup.fromJson(v));
       });
     }
   }
@@ -121,23 +121,23 @@ class WooShippingMethodMethods {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.freeShipping != null) {
-      data['free_shipping'] = this.freeShipping.map((v) => v.toJson()).toList();
+      data['free_shipping'] = this.freeShipping!.map((v) => v.toJson()).toList();
     }
     if (this.flatRate != null) {
-      data['flat_rate'] = this.flatRate.map((v) => v.toJson()).toList();
+      data['flat_rate'] = this.flatRate!.map((v) => v.toJson()).toList();
     }
     if (this.localPickup != null) {
-      data['local_pickup'] = this.localPickup.map((v) => v.toJson()).toList();
+      data['local_pickup'] = this.localPickup!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class WooShippingMethodFreeShipping {
-  int id;
-  String title;
-  String methodId;
-  String cost;
+  int? id;
+  String? title;
+  String? methodId;
+  String? cost;
 
   WooShippingMethodFreeShipping(
       {this.id, this.title, this.methodId, this.cost});
@@ -160,14 +160,14 @@ class WooShippingMethodFreeShipping {
 }
 
 class WooShippingMethodFlatRate {
-  int id;
-  String title;
-  String methodId;
-  String cost;
-  String classCost;
-  String calculationType;
-  bool taxable;
-  List<WooShippingMethodShippingClasses> shippingClasses;
+  int? id;
+  String? title;
+  String? methodId;
+  String? cost;
+  String? classCost;
+  String? calculationType;
+  bool? taxable;
+  List<WooShippingMethodShippingClasses>? shippingClasses;
 
   WooShippingMethodFlatRate(
       {this.id,
@@ -190,7 +190,7 @@ class WooShippingMethodFlatRate {
     if (json['shipping_classes'] != null) {
       shippingClasses = [];
       json['shipping_classes'].forEach((v) {
-        shippingClasses.add(new WooShippingMethodShippingClasses.fromJson(v));
+        shippingClasses!.add(new WooShippingMethodShippingClasses.fromJson(v));
       });
     }
   }
@@ -206,15 +206,15 @@ class WooShippingMethodFlatRate {
     data['taxable'] = this.taxable;
     if (this.shippingClasses != null) {
       data['shipping_classes'] =
-          this.shippingClasses.map((v) => v.toJson()).toList();
+          this.shippingClasses!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class WooShippingMethodShippingClasses {
-  String id;
-  String cost;
+  String? id;
+  String? cost;
 
   WooShippingMethodShippingClasses({this.id, this.cost});
 
@@ -232,11 +232,11 @@ class WooShippingMethodShippingClasses {
 }
 
 class WooShippingMethodLocalPickup {
-  int id;
-  String title;
-  String methodId;
-  bool taxable;
-  String cost;
+  int? id;
+  String? title;
+  String? methodId;
+  bool? taxable;
+  String? cost;
 
   WooShippingMethodLocalPickup(
       {this.id, this.title, this.methodId, this.taxable, this.cost});

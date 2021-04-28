@@ -32,11 +32,11 @@
  */
 
 class WooCommerceError {
-  String code;
-  String message;
-  Data data;
+  String? code;
+  String? message;
+  Data? data;
 
-  WooCommerceError({String code, String message, Data data}) {
+  WooCommerceError({String? code, String? message, Data? data}) {
     this.code = code;
     this.message = message;
     this.data = data;
@@ -50,18 +50,18 @@ class WooCommerceError {
 
   @override
   String toString() {
-    return "WooCommerce Error!\ncode: $code\nmessage: $message\nstatus: ${data.status}";
+    return "WooCommerce Error!\ncode: $code\nmessage: $message\nstatus: ${data!.status}";
   }
 }
 
 class Data {
-  int _status;
+  int? _status;
 
-  Data({int status}) {
+  Data({int? status}) {
     this._status = status;
   }
 
-  int get status => _status;
+  int? get status => _status;
 
   Data.fromJson(Map<String, dynamic> json) {
     _status = json['status'];

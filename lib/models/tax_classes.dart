@@ -32,9 +32,9 @@
  */
 
 class WooTaxClass {
-  String slug;
-  String name;
-  WooTaxClassLinks links;
+  String? slug;
+  String? name;
+  WooTaxClassLinks? links;
 
   WooTaxClass({this.slug, this.name, this.links});
 
@@ -51,7 +51,7 @@ class WooTaxClass {
     data['slug'] = this.slug;
     data['name'] = this.name;
     if (this.links != null) {
-      data['_links'] = this.links.toJson();
+      data['_links'] = this.links!.toJson();
     }
     return data;
   }
@@ -61,7 +61,7 @@ class WooTaxClass {
 }
 
 class WooTaxClassLinks {
-  List<WooTaxClassCollection> collection;
+  List<WooTaxClassCollection>? collection;
 
   WooTaxClassLinks({this.collection});
 
@@ -69,7 +69,7 @@ class WooTaxClassLinks {
     if (json['collection'] != null) {
       collection = <WooTaxClassCollection>[];
       json['collection'].forEach((v) {
-        collection.add(new WooTaxClassCollection.fromJson(v));
+        collection!.add(new WooTaxClassCollection.fromJson(v));
       });
     }
   }
@@ -77,14 +77,14 @@ class WooTaxClassLinks {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.collection != null) {
-      data['collection'] = this.collection.map((v) => v.toJson()).toList();
+      data['collection'] = this.collection!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class WooTaxClassCollection {
-  String href;
+  String? href;
 
   WooTaxClassCollection({this.href});
 

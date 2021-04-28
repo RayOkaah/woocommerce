@@ -32,45 +32,45 @@
  */
 
 class WooProductVariation {
-  int id;
-  DateTime dateCreated;
-  DateTime dateCreatedGmt;
-  DateTime dateModified;
-  DateTime dateModifiedGmt;
-  String description;
-  String permalink;
-  String sku;
-  String price;
-  String regularPrice;
-  String salePrice;
-  DateTime dateOnSaleFrom;
-  DateTime dateOnSaleFromGmt;
-  DateTime dateOnSaleTo;
-  DateTime dateOnSaleToGmt;
-  bool onSale;
-  String status;
-  bool purchasable;
-  bool virtual;
-  bool downloadable;
+  int? id;
+  DateTime? dateCreated;
+  DateTime? dateCreatedGmt;
+  DateTime? dateModified;
+  DateTime? dateModifiedGmt;
+  String? description;
+  String? permalink;
+  String? sku;
+  String? price;
+  String? regularPrice;
+  String? salePrice;
+  DateTime? dateOnSaleFrom;
+  DateTime? dateOnSaleFromGmt;
+  DateTime? dateOnSaleTo;
+  DateTime? dateOnSaleToGmt;
+  bool? onSale;
+  String? status;
+  bool? purchasable;
+  bool? virtual;
+  bool? downloadable;
   List<WooProductVariationDownload> downloads;
-  int downloadLimit;
-  int downloadExpiry;
-  String taxStatus;
-  String taxClass;
-  bool manageStock;
-  int stockQuantity;
-  String stockStatus;
-  String backorders;
-  bool backordersAllowed;
-  bool backordered;
+  int? downloadLimit;
+  int? downloadExpiry;
+  String? taxStatus;
+  String? taxClass;
+  bool? manageStock;
+  int? stockQuantity;
+  String? stockStatus;
+  String? backorders;
+  bool? backordersAllowed;
+  bool? backordered;
   List<WooProductVariationAttribute> attributes;
-  String weight;
-  String shippingClass;
-  int shippingClassId;
-  int menuOrder;
+  String? weight;
+  String? shippingClass;
+  int? shippingClassId;
+  int? menuOrder;
   WooProductVariationDimension dimensions;
   List<WooProductVariationMetaData> metaData;
-  WooProductVariationImage image;
+  WooProductVariationImage? image;
 
   WooProductVariation(
       this.id,
@@ -153,8 +153,8 @@ class WooProductVariation {
 }
 
 class WooProductVariationMetaData {
-  final int id;
-  final String key;
+  final int? id;
+  final String? key;
   final String value;
 
   WooProductVariationMetaData(this.id, this.key, this.value);
@@ -168,9 +168,9 @@ class WooProductVariationMetaData {
 }
 
 class WooProductVariationCategory {
-  final int id;
-  final String name;
-  final String slug;
+  final int? id;
+  final String? name;
+  final String? slug;
 
   WooProductVariationCategory(this.id, this.name, this.slug);
 
@@ -187,9 +187,9 @@ class WooProductVariationCategory {
 }
 
 class WooProductVariationDimension {
-  final String length;
-  final String width;
-  final String height;
+  final String? length;
+  final String? width;
+  final String? height;
 
   WooProductVariationDimension(this.length, this.height, this.width);
 
@@ -203,9 +203,9 @@ class WooProductVariationDimension {
 }
 
 class WooProductVariationAttribute {
-  final int id;
-  final String name;
-  final String option;
+  final int? id;
+  final String? name;
+  final String? option;
 
   WooProductVariationAttribute(this.id, this.name, this.option);
 
@@ -222,9 +222,9 @@ class WooProductVariationAttribute {
 }
 
 class WooProductVariationDownload {
-  final String id;
-  final String name;
-  final String file;
+  final String? id;
+  final String? name;
+  final String? file;
 
   WooProductVariationDownload(this.id, this.name, this.file);
 
@@ -241,14 +241,14 @@ class WooProductVariationDownload {
 }
 
 class WooProductVariationImage {
-  final int id;
+  final int? id;
   final DateTime dateCreated;
   final DateTime dateCreatedGMT;
   final DateTime dateModified;
   final DateTime dateModifiedGMT;
-  final String src;
-  final String name;
-  final String alt;
+  final String? src;
+  final String? name;
+  final String? alt;
 
   WooProductVariationImage(this.id, this.src, this.name, this.alt, this.dateCreated,
       this.dateCreatedGMT, this.dateModified, this.dateModifiedGMT);

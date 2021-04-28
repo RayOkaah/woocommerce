@@ -32,9 +32,9 @@
  */
 
 class WooShippingZoneLocation {
-  String code;
-  String type;
-  WooShippingZoneLocationLinks links;
+  String? code;
+  String? type;
+  WooShippingZoneLocationLinks? links;
 
   WooShippingZoneLocation({this.code, this.type, this.links});
 
@@ -51,7 +51,7 @@ class WooShippingZoneLocation {
     data['code'] = this.code;
     data['type'] = this.type;
     if (this.links != null) {
-      data['_links'] = this.links.toJson();
+      data['_links'] = this.links!.toJson();
     }
     return data;
   }
@@ -61,8 +61,8 @@ class WooShippingZoneLocation {
 }
 
 class WooShippingZoneLocationLinks {
-  List<WooShippingZoneLocationCollection> collection;
-  List<WooShippingZoneLocationDescribes> describes;
+  List<WooShippingZoneLocationCollection>? collection;
+  List<WooShippingZoneLocationDescribes>? describes;
 
   WooShippingZoneLocationLinks({this.collection, this.describes});
 
@@ -70,13 +70,13 @@ class WooShippingZoneLocationLinks {
     if (json['collection'] != null) {
       collection = [];
       json['collection'].forEach((v) {
-        collection.add(new WooShippingZoneLocationCollection.fromJson(v));
+        collection!.add(new WooShippingZoneLocationCollection.fromJson(v));
       });
     }
     if (json['describes'] != null) {
       describes = [];
       json['describes'].forEach((v) {
-        describes.add(new WooShippingZoneLocationDescribes.fromJson(v));
+        describes!.add(new WooShippingZoneLocationDescribes.fromJson(v));
       });
     }
   }
@@ -84,17 +84,17 @@ class WooShippingZoneLocationLinks {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.collection != null) {
-      data['collection'] = this.collection.map((v) => v.toJson()).toList();
+      data['collection'] = this.collection!.map((v) => v.toJson()).toList();
     }
     if (this.describes != null) {
-      data['describes'] = this.describes.map((v) => v.toJson()).toList();
+      data['describes'] = this.describes!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class WooShippingZoneLocationCollection {
-  String href;
+  String? href;
 
   WooShippingZoneLocationCollection({this.href});
 
@@ -110,7 +110,7 @@ class WooShippingZoneLocationCollection {
 }
 
 class WooShippingZoneLocationDescribes {
-  String href;
+  String? href;
 
   WooShippingZoneLocationDescribes({this.href});
 

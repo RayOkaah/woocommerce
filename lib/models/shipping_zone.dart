@@ -32,10 +32,10 @@
  */
 
 class WooShippingZone {
-  int id;
-  String name;
-  int order;
-  WooShippingZoneLinks links;
+  int? id;
+  String? name;
+  int? order;
+  WooShippingZoneLinks? links;
 
   WooShippingZone({this.id, this.name, this.order, this.links});
 
@@ -54,7 +54,7 @@ class WooShippingZone {
     data['name'] = this.name;
     data['order'] = this.order;
     if (this.links != null) {
-      data['_links'] = this.links.toJson();
+      data['_links'] = this.links!.toJson();
     }
     return data;
   }
@@ -64,9 +64,9 @@ class WooShippingZone {
 }
 
 class WooShippingZoneLinks {
-  List<WooShippingZoneSelf> self;
-  List<WooShippingZoneCollection> collection;
-  List<Describedby> describedby;
+  List<WooShippingZoneSelf>? self;
+  List<WooShippingZoneCollection>? collection;
+  List<Describedby>? describedby;
 
   WooShippingZoneLinks({this.self, this.collection, this.describedby});
 
@@ -74,19 +74,19 @@ class WooShippingZoneLinks {
     if (json['self'] != null) {
       self = <WooShippingZoneSelf>[];
       json['self'].forEach((v) {
-        self.add(new WooShippingZoneSelf.fromJson(v));
+        self!.add(new WooShippingZoneSelf.fromJson(v));
       });
     }
     if (json['collection'] != null) {
       collection = <WooShippingZoneCollection>[];
       json['collection'].forEach((v) {
-        collection.add(new WooShippingZoneCollection.fromJson(v));
+        collection!.add(new WooShippingZoneCollection.fromJson(v));
       });
     }
     if (json['describedby'] != null) {
       describedby = <Describedby>[];
       json['describedby'].forEach((v) {
-        describedby.add(new Describedby.fromJson(v));
+        describedby!.add(new Describedby.fromJson(v));
       });
     }
   }
@@ -94,20 +94,20 @@ class WooShippingZoneLinks {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.self != null) {
-      data['self'] = this.self.map((v) => v.toJson()).toList();
+      data['self'] = this.self!.map((v) => v.toJson()).toList();
     }
     if (this.collection != null) {
-      data['collection'] = this.collection.map((v) => v.toJson()).toList();
+      data['collection'] = this.collection!.map((v) => v.toJson()).toList();
     }
     if (this.describedby != null) {
-      data['describedby'] = this.describedby.map((v) => v.toJson()).toList();
+      data['describedby'] = this.describedby!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class WooShippingZoneSelf {
-  String href;
+  String? href;
 
   WooShippingZoneSelf({this.href});
 
@@ -123,7 +123,7 @@ class WooShippingZoneSelf {
 }
 
 class WooShippingZoneCollection {
-  String href;
+  String? href;
 
   WooShippingZoneCollection({this.href});
 
@@ -139,7 +139,7 @@ class WooShippingZoneCollection {
 }
 
 class Describedby {
-  String href;
+  String? href;
 
   Describedby({this.href});
 

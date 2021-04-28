@@ -34,62 +34,62 @@
 import 'product_category.dart';
 
 class WooProduct {
-  final int id;
-  final String name;
-  final String slug;
-  final String permalink;
-  final String type;
-  final String status;
-  final bool featured;
-  final String catalogVisibility;
-  final String description;
-  final String shortDescription;
-  final String sku;
-  final String price;
-  final String regularPrice;
-  final String salePrice;
-  final String priceHtml;
-  final bool onSale;
-  final bool purchasable;
-  final int totalSales;
-  final bool virtual;
-  final bool downloadable;
+  final int? id;
+  final String? name;
+  final String? slug;
+  final String? permalink;
+  final String? type;
+  final String? status;
+  final bool? featured;
+  final String? catalogVisibility;
+  final String? description;
+  final String? shortDescription;
+  final String? sku;
+  final String? price;
+  final String? regularPrice;
+  final String? salePrice;
+  final String? priceHtml;
+  final bool? onSale;
+  final bool? purchasable;
+  final int? totalSales;
+  final bool? virtual;
+  final bool? downloadable;
   final List<WooProductDownload> downloads;
-  final int downloadLimit;
-  final int downloadExpiry;
-  final String externalUrl;
-  final String buttonText;
-  final String taxStatus;
-  final String taxClass;
-  final bool manageStock;
-  final int stockQuantity;
-  final String stockStatus;
-  final String backorders;
-  final bool backordersAllowed;
-  final bool backordered;
-  final bool soldIndividually;
-  final String weight;
+  final int? downloadLimit;
+  final int? downloadExpiry;
+  final String? externalUrl;
+  final String? buttonText;
+  final String? taxStatus;
+  final String? taxClass;
+  final bool? manageStock;
+  final int? stockQuantity;
+  final String? stockStatus;
+  final String? backorders;
+  final bool? backordersAllowed;
+  final bool? backordered;
+  final bool? soldIndividually;
+  final String? weight;
   final WooProductDimension dimensions;
-  final bool shippingRequired;
-  final bool shippingTaxable;
-  final String shippingClass;
-  final int shippingClassId;
-  final bool reviewsAllowed;
-  final String averageRating;
-  final int ratingCount;
-  final List<int> relatedIds;
-  final List<int> upsellIds;
-  final List<int> crossSellIds;
-  final int parentId;
-  final String purchaseNote;
+  final bool? shippingRequired;
+  final bool? shippingTaxable;
+  final String? shippingClass;
+  final int? shippingClassId;
+  final bool? reviewsAllowed;
+  final String? averageRating;
+  final int? ratingCount;
+  final List<int>? relatedIds;
+  final List<int>? upsellIds;
+  final List<int>? crossSellIds;
+  final int? parentId;
+  final String? purchaseNote;
   final List<WooProductCategory> categories;
   final List<WooProductItemTag> tags;
   final List<WooProductImage> images;
   final List<WooProductItemAttribute> attributes;
   final List<WooProductDefaultAttribute> defaultAttributes;
-  final List<int> variations;
-  final List<int> groupedProducts;
-  final int menuOrder;
+  final List<int>? variations;
+  final List<int>? groupedProducts;
+  final int? menuOrder;
   final List<MetaData> metaData;
 
   WooProduct(
@@ -229,9 +229,9 @@ class WooProduct {
 }
 
 class WooProductItemTag {
-  final int id;
-  final String name;
-  final String slug;
+  final int? id;
+  final String? name;
+  final String? slug;
 
   WooProductItemTag(this.id, this.name, this.slug);
 
@@ -246,8 +246,8 @@ class WooProductItemTag {
 }
 
 class MetaData {
-  final int id;
-  final String key;
+  final int? id;
+  final String? key;
   final String value;
 
   MetaData(this.id, this.key, this.value);
@@ -261,9 +261,9 @@ class MetaData {
 }
 
 class WooProductDefaultAttribute {
-  final int id;
-  final String name;
-  final String option;
+  final int? id;
+  final String? name;
+  final String? option;
 
   WooProductDefaultAttribute(this.id, this.name, this.option);
 
@@ -276,14 +276,14 @@ class WooProductDefaultAttribute {
 }
 
 class WooProductImage {
-  final int id;
+  final int? id;
   final DateTime dateCreated;
   final DateTime dateCreatedGMT;
   final DateTime dateModified;
   final DateTime dateModifiedGMT;
-  final String src;
-  final String name;
-  final String alt;
+  final String? src;
+  final String? name;
+  final String? alt;
 
   WooProductImage(this.id, this.src, this.name, this.alt, this.dateCreated,
       this.dateCreatedGMT, this.dateModified, this.dateModifiedGMT);
@@ -322,9 +322,9 @@ class WooProductImage {
 ///
 
 class WooProductDimension {
-  final String length;
-  final String width;
-  final String height;
+  final String? length;
+  final String? width;
+  final String? height;
 
   WooProductDimension(this.length, this.height, this.width);
 
@@ -338,12 +338,12 @@ class WooProductDimension {
 }
 
 class WooProductItemAttribute {
-  final int id;
-  final String name;
-  final int position;
-  final bool visible;
-  final bool variation;
-  final List<String> options;
+  final int? id;
+  final String? name;
+  final int? position;
+  final bool? visible;
+  final bool? variation;
+  final List<String>? options;
 
   WooProductItemAttribute(this.id, this.name, this.position, this.visible,
       this.variation, this.options);
@@ -367,9 +367,9 @@ class WooProductItemAttribute {
 }
 
 class WooProductDownload {
-  final String id;
-  final String name;
-  final String file;
+  final String? id;
+  final String? name;
+  final String? file;
 
   WooProductDownload(this.id, this.name, this.file);
 

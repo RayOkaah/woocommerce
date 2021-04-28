@@ -32,16 +32,16 @@
  */
 
 class WooCartItem {
-  String key;
-  int id;
-  int quantity;
-  String name;
-  String sku;
-  String permalink;
-  List<WooCartItemImages> images;
-  String price;
-  String linePrice;
-  List<String> variation;
+  String? key;
+  int? id;
+  int? quantity;
+  String? name;
+  String? sku;
+  String? permalink;
+  List<WooCartItemImages>? images;
+  String? price;
+  String? linePrice;
+  List<String>? variation;
 
   WooCartItem(
       {this.key,
@@ -65,7 +65,7 @@ class WooCartItem {
     if (json['images'] != null) {
       images = <WooCartItemImages>[];
       json['images'].forEach((v) {
-        images.add(new WooCartItemImages.fromJson(v));
+        images!.add(new WooCartItemImages.fromJson(v));
       });
     }
     price = json['price'];
@@ -82,7 +82,7 @@ class WooCartItem {
     data['sku'] = this.sku;
     data['permalink'] = this.permalink;
     if (this.images != null) {
-      data['images'] = this.images.map((v) => v.toJson()).toList();
+      data['images'] = this.images!.map((v) => v.toJson()).toList();
     }
     data['price'] = this.price;
     data['line_price'] = this.linePrice;
@@ -95,13 +95,13 @@ class WooCartItem {
 }
 
 class WooCartItemImages {
-  String id;
-  String src;
-  String thumbnail;
-  bool srcset;
-  String sizes;
-  String name;
-  String alt;
+  String? id;
+  String? src;
+  String? thumbnail;
+  bool? srcset;
+  String? sizes;
+  String? name;
+  String? alt;
 
   WooCartItemImages(
       {this.id,

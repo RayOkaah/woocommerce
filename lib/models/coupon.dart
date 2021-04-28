@@ -32,34 +32,34 @@
  */
 
 class WooCoupon {
-  int id;
-  String code;
-  String amount;
-  DateTime dateCreated;
-  DateTime dateCreatedGmt;
-  DateTime dateModified;
-  DateTime dateModifiedGmt;
-  String discountType;
-  String description;
-  String dateExpires;
-  String dateExpiresGmt;
-  int usageCount;
-  bool individualUse;
-  List<int> productIds;
-  List<int> excludedProductIds;
-  int usageLimit;
-  int usageLimitPerUser;
-  int limitUsageToXItems;
-  bool freeShipping;
-  List<int> productCategories;
-  List<int> excludedProductCategories;
-  bool excludeSaleItems;
-  String minimumAmount;
-  String maximumAmount;
-  List<String> emailRestrictions;
-  List<String> usedBy;
-  List<String> metaData;
-  WooCouponLinks lLinks;
+  int? id;
+  String? code;
+  String? amount;
+  DateTime? dateCreated;
+  DateTime? dateCreatedGmt;
+  DateTime? dateModified;
+  DateTime? dateModifiedGmt;
+  String? discountType;
+  String? description;
+  String? dateExpires;
+  String? dateExpiresGmt;
+  int? usageCount;
+  bool? individualUse;
+  List<int>? productIds;
+  List<int>? excludedProductIds;
+  int? usageLimit;
+  int? usageLimitPerUser;
+  int? limitUsageToXItems;
+  bool? freeShipping;
+  List<int>? productCategories;
+  List<int>? excludedProductCategories;
+  bool? excludeSaleItems;
+  String? minimumAmount;
+  String? maximumAmount;
+  List<String>? emailRestrictions;
+  List<String>? usedBy;
+  List<String>? metaData;
+  WooCouponLinks? lLinks;
 
   WooCoupon(
       {this.id,
@@ -154,7 +154,7 @@ class WooCoupon {
     data['used_by'] = this.usedBy;
     data['meta_data'] = this.metaData;
     if (this.lLinks != null) {
-      data['_links'] = this.lLinks.toJson();
+      data['_links'] = this.lLinks!.toJson();
     }
     return data;
   }
@@ -164,8 +164,8 @@ class WooCoupon {
 }
 
 class WooCouponLinks {
-  List<Self> self;
-  List<Collection> collection;
+  List<Self>? self;
+  List<Collection>? collection;
 
   WooCouponLinks({this.self, this.collection});
 
@@ -173,13 +173,13 @@ class WooCouponLinks {
     if (json['self'] != null) {
       self = <Self>[];
       json['self'].forEach((v) {
-        self.add(new Self.fromJson(v));
+        self!.add(new Self.fromJson(v));
       });
     }
     if (json['collection'] != null) {
       collection = <Collection>[];
       json['collection'].forEach((v) {
-        collection.add(new Collection.fromJson(v));
+        collection!.add(new Collection.fromJson(v));
       });
     }
   }
@@ -187,17 +187,17 @@ class WooCouponLinks {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.self != null) {
-      data['self'] = this.self.map((v) => v.toJson()).toList();
+      data['self'] = this.self!.map((v) => v.toJson()).toList();
     }
     if (this.collection != null) {
-      data['collection'] = this.collection.map((v) => v.toJson()).toList();
+      data['collection'] = this.collection!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Self {
-  String href;
+  String? href;
 
   Self({this.href});
 
@@ -213,7 +213,7 @@ class Self {
 }
 
 class Collection {
-  String href;
+  String? href;
 
   Collection({this.href});
 
@@ -229,9 +229,9 @@ class Collection {
 }
 
 class CouponMetadata {
-  int id;
-  String key;
-  String value;
+  int? id;
+  String? key;
+  String? value;
 
   CouponMetadata({this.key, this.value});
 

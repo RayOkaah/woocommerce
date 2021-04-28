@@ -32,13 +32,13 @@
  */
 
 class WooProductAttribute {
-  int id;
-  String name;
-  String slug;
-  String type;
-  String orderBy;
-  bool hasArchives;
-  WooProductAttributeTermLinks links;
+  int? id;
+  String? name;
+  String? slug;
+  String? type;
+  String? orderBy;
+  bool? hasArchives;
+  WooProductAttributeTermLinks? links;
 
   WooProductAttribute(
       {this.id,
@@ -70,7 +70,7 @@ class WooProductAttribute {
     data['order_by'] = this.orderBy;
     data['has_archives'] = this.hasArchives;
     if (this.links != null) {
-      data['_links'] = this.links.toJson();
+      data['_links'] = this.links!.toJson();
     }
     return data;
   }
@@ -80,8 +80,8 @@ class WooProductAttribute {
 }
 
 class WooProductAttributeTermLinks {
-  List<WooProductAttributeTermSelf> self;
-  List<WooProductAttributeTermCollection> collection;
+  List<WooProductAttributeTermSelf>? self;
+  List<WooProductAttributeTermCollection>? collection;
 
   WooProductAttributeTermLinks({this.self, this.collection});
 
@@ -89,13 +89,13 @@ class WooProductAttributeTermLinks {
     if (json['self'] != null) {
       self = <WooProductAttributeTermSelf>[];
       json['self'].forEach((v) {
-        self.add(new WooProductAttributeTermSelf.fromJson(v));
+        self!.add(new WooProductAttributeTermSelf.fromJson(v));
       });
     }
     if (json['collection'] != null) {
       collection = <WooProductAttributeTermCollection>[];
       json['collection'].forEach((v) {
-        collection.add(new WooProductAttributeTermCollection.fromJson(v));
+        collection!.add(new WooProductAttributeTermCollection.fromJson(v));
       });
     }
   }
@@ -103,17 +103,17 @@ class WooProductAttributeTermLinks {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.self != null) {
-      data['self'] = this.self.map((v) => v.toJson()).toList();
+      data['self'] = this.self!.map((v) => v.toJson()).toList();
     }
     if (this.collection != null) {
-      data['collection'] = this.collection.map((v) => v.toJson()).toList();
+      data['collection'] = this.collection!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class WooProductAttributeTermSelf {
-  String href;
+  String? href;
 
   WooProductAttributeTermSelf({this.href});
 
@@ -129,7 +129,7 @@ class WooProductAttributeTermSelf {
 }
 
 class WooProductAttributeTermCollection {
-  String href;
+  String? href;
 
   WooProductAttributeTermCollection({this.href});
 
