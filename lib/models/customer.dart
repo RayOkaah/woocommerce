@@ -104,7 +104,6 @@ class WooCustomer {
     if (this.firstName != null) {
       data['first_name'] = this.firstName;
     }
-    data['last_name'] = this.lastName;
     if (this.lastName != null) {
       data['last_name'] = this.lastName;
     }
@@ -189,17 +188,17 @@ class Billing {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['company'] = this.company;
-    data['address_1'] = this.address1;
-    data['address_2'] = this.address2;
-    data['city'] = this.city;
-    data['state'] = this.state;
-    data['postcode'] = this.postcode;
-    data['country'] = this.country;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
+    data['first_name'] = this.firstName ?? "";
+    data['last_name'] = this.lastName ?? "";
+    data['company'] = this.company ?? "";
+    data['address_1'] = this.address1 ?? "";
+    data['address_2'] = this.address2 ?? "";
+    data['city'] = this.city ?? "";
+    data['state'] = this.state ?? "";
+    data['postcode'] = this.postcode ?? "";
+    data['country'] = this.country ?? "";
+    data['email'] = this.email ?? "";
+    data['phone'] = this.phone ?? "";
     return data;
   }
 }
@@ -227,15 +226,15 @@ class Shipping {
       this.country});
 
   Shipping.fromJson(Map<String, dynamic> json) {
-    firstName = json['first_name'];
-    lastName = json['last_name'];
-    company = json['company'];
-    address1 = json['address_1'];
-    address2 = json['address_2'];
-    city = json['city'];
-    state = json['state'];
-    postcode = json['postcode'];
-    country = json['country'];
+    firstName = json['first_name'] ?? "";
+    lastName = json['last_name'] ?? "";
+    company = json['company'] ?? "";
+    address1 = json['address_1'] ?? "";
+    address2 = json['address_2'] ?? "";
+    city = json['city'] ?? "";
+    state = json['state'] ?? "";
+    postcode = json['postcode'] ?? "";
+    country = json['country'] ?? "";
   }
 
   Map<String, dynamic> toJson() {
