@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 /*
  * BSD 3-Clause License
 
@@ -226,6 +228,18 @@ class WooProduct {
 
   @override
   toString() => "{id: $id}, {name: $name}, {price: $price}, {status: $status}";
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is WooProduct && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode;
+  }
 }
 
 class WooProductItemTag {
