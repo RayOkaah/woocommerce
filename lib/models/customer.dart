@@ -129,6 +129,18 @@ class WooCustomer {
 
   @override
   toString() => this.toJson().toString();
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is WooCustomer && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode;
+  }
 }
 
 class WooCustomerMetaData {

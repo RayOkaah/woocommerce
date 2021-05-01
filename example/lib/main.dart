@@ -110,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             .apply(color: Colors.blueGrey),
                       ),
                       Text(
-                        '\$' + product.price! ?? '',
+                        '\$' + (product.price ?? ''),
                         style: Theme.of(context).textTheme.subtitle2,
                       )
                     ],
