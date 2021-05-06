@@ -32,10 +32,10 @@
  */
 
 class WooJWTResponse {
-  String token;
-  String userEmail;
-  String userNicename;
-  String userDisplayName;
+  String? token;
+  String? userEmail;
+  String? userNicename;
+  String? userDisplayName;
 
   WooJWTResponse(
       {this.token, this.userEmail, this.userNicename, this.userDisplayName});

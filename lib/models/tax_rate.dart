@@ -32,19 +32,19 @@
  */
 
 class WooTaxRate {
-  int id;
-  String country;
-  String state;
-  String postcode;
-  String city;
-  String rate;
-  String name;
-  int priority;
-  bool compound;
-  bool shipping;
-  int order;
-  String taxClass;
-  WooTaxRateLinks links;
+  int? id;
+  String? country;
+  String? state;
+  String? postcode;
+  String? city;
+  String? rate;
+  String? name;
+  int? priority;
+  bool? compound;
+  bool? shipping;
+  int? order;
+  String? taxClass;
+  WooTaxRateLinks? links;
 
   WooTaxRate(
       {this.id,
@@ -74,7 +74,9 @@ class WooTaxRate {
     shipping = json['shipping'];
     order = json['order'];
     taxClass = json['class'];
-    links = json['_links'] != null ? new WooTaxRateLinks.fromJson(json['_links']) : null;
+    links = json['_links'] != null
+        ? new WooTaxRateLinks.fromJson(json['_links'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -92,30 +94,32 @@ class WooTaxRate {
     data['order'] = this.order;
     data['class'] = this.taxClass;
     if (this.links != null) {
-      data['_links'] = this.links.toJson();
+      data['_links'] = this.links!.toJson();
     }
     return data;
   }
-  @override toString() => this.toJson().toString();
+
+  @override
+  toString() => this.toJson().toString();
 }
 
 class WooTaxRateLinks {
-  List<WooTaxRateSelf> self;
-  List<WooTaxRateCollection> collection;
+  List<WooTaxRateSelf>? self;
+  List<WooTaxRateCollection>? collection;
 
   WooTaxRateLinks({this.self, this.collection});
 
   WooTaxRateLinks.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
-      self = new List<WooTaxRateSelf>();
+      self = <WooTaxRateSelf>[];
       json['self'].forEach((v) {
-        self.add(new WooTaxRateSelf.fromJson(v));
+        self!.add(new WooTaxRateSelf.fromJson(v));
       });
     }
     if (json['collection'] != null) {
-      collection = new List<WooTaxRateCollection>();
+      collection = <WooTaxRateCollection>[];
       json['collection'].forEach((v) {
-        collection.add(new WooTaxRateCollection.fromJson(v));
+        collection!.add(new WooTaxRateCollection.fromJson(v));
       });
     }
   }
@@ -123,17 +127,17 @@ class WooTaxRateLinks {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.self != null) {
-      data['self'] = this.self.map((v) => v.toJson()).toList();
+      data['self'] = this.self!.map((v) => v.toJson()).toList();
     }
     if (this.collection != null) {
-      data['collection'] = this.collection.map((v) => v.toJson()).toList();
+      data['collection'] = this.collection!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class WooTaxRateSelf {
-  String href;
+  String? href;
 
   WooTaxRateSelf({this.href});
 
@@ -149,7 +153,7 @@ class WooTaxRateSelf {
 }
 
 class WooTaxRateCollection {
-  String href;
+  String? href;
 
   WooTaxRateCollection({this.href});
 

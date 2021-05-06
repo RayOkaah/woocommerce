@@ -32,23 +32,23 @@
  */
 
 class WooCustomer {
-  int id;
-  String dateCreated;
-  String dateCreatedGmt;
-  String dateModified;
-  String dateModifiedGmt;
-  String email;
-  String firstName;
-  String lastName;
-  String role;
-  String username;
-  String password;
-  Billing billing;
-  Shipping shipping;
-  bool isPayingCustomer;
-  String avatarUrl;
-  List<WooCustomerMetaData> metaData;
-  Links links;
+  int? id;
+  String? dateCreated;
+  String? dateCreatedGmt;
+  String? dateModified;
+  String? dateModifiedGmt;
+  String? email;
+  String? firstName;
+  String? lastName;
+  String? role;
+  String? username;
+  String? password;
+  Billing? billing;
+  Shipping? shipping;
+  bool? isPayingCustomer;
+  String? avatarUrl;
+  List<WooCustomerMetaData>? metaData;
+  Links? links;
 
   WooCustomer(
       {this.id,
@@ -87,8 +87,9 @@ class WooCustomer {
         : null;
     isPayingCustomer = json['is_paying_customer'];
     avatarUrl = json['avatar_url'];
-    metaData =
-        (json['meta_data'] as List).map((i) => WooCustomerMetaData.fromJson(i)).toList();
+    metaData = (json['meta_data'] as List)
+        .map((i) => WooCustomerMetaData.fromJson(i))
+        .toList();
     links = json['_links'] != null ? new Links.fromJson(json['_links']) : null;
   }
 
@@ -103,7 +104,6 @@ class WooCustomer {
     if (this.firstName != null) {
       data['first_name'] = this.firstName;
     }
-    data['last_name'] = this.lastName;
     if (this.lastName != null) {
       data['last_name'] = this.lastName;
     }
@@ -111,27 +111,41 @@ class WooCustomer {
     data['username'] = this.username;
     data['password'] = this.password;
     if (this.billing != null) {
-      data['billing'] = this.billing.toJson();
+      data['billing'] = this.billing!.toJson();
     }
     if (this.shipping != null) {
-      data['shipping'] = this.shipping.toJson();
+      data['shipping'] = this.shipping!.toJson();
     }
     data['is_paying_customer'] = this.isPayingCustomer;
     data['avatar_url'] = this.avatarUrl;
     if (this.metaData != null) {
-      data['meta_data'] = this.metaData.map((v) => v.toJson()).toList();
+      data['meta_data'] = this.metaData!.map((v) => v.toJson()).toList();
     }
     if (this.links != null) {
-      data['_links'] = this.links.toJson();
+      data['_links'] = this.links!.toJson();
     }
     return data;
   }
-  @override toString() => this.toJson().toString();
+
+  @override
+  toString() => this.toJson().toString();
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is WooCustomer && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode;
+  }
 }
 
 class WooCustomerMetaData {
-  final int id;
-  final String key;
+  final int? id;
+  final String? key;
   final dynamic value;
 
   WooCustomerMetaData(this.id, this.key, this.value);
@@ -145,17 +159,17 @@ class WooCustomerMetaData {
 }
 
 class Billing {
-  String firstName;
-  String lastName;
-  String company;
-  String address1;
-  String address2;
-  String city;
-  String state;
-  String postcode;
-  String country;
-  String email;
-  String phone;
+  String? firstName;
+  String? lastName;
+  String? company;
+  String? address1;
+  String? address2;
+  String? city;
+  String? state;
+  String? postcode;
+  String? country;
+  String? email;
+  String? phone;
 
   Billing(
       {this.firstName,
@@ -186,31 +200,31 @@ class Billing {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['company'] = this.company;
-    data['address_1'] = this.address1;
-    data['address_2'] = this.address2;
-    data['city'] = this.city;
-    data['state'] = this.state;
-    data['postcode'] = this.postcode;
-    data['country'] = this.country;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
+    data['first_name'] = this.firstName ?? "";
+    data['last_name'] = this.lastName ?? "";
+    data['company'] = this.company ?? "";
+    data['address_1'] = this.address1 ?? "";
+    data['address_2'] = this.address2 ?? "";
+    data['city'] = this.city ?? "";
+    data['state'] = this.state ?? "";
+    data['postcode'] = this.postcode ?? "";
+    data['country'] = this.country ?? "";
+    data['email'] = this.email ?? "";
+    data['phone'] = this.phone ?? "";
     return data;
   }
 }
 
 class Shipping {
-  String firstName;
-  String lastName;
-  String company;
-  String address1;
-  String address2;
-  String city;
-  String state;
-  String postcode;
-  String country;
+  String? firstName;
+  String? lastName;
+  String? company;
+  String? address1;
+  String? address2;
+  String? city;
+  String? state;
+  String? postcode;
+  String? country;
 
   Shipping(
       {this.firstName,
@@ -224,15 +238,15 @@ class Shipping {
       this.country});
 
   Shipping.fromJson(Map<String, dynamic> json) {
-    firstName = json['first_name'];
-    lastName = json['last_name'];
-    company = json['company'];
-    address1 = json['address_1'];
-    address2 = json['address_2'];
-    city = json['city'];
-    state = json['state'];
-    postcode = json['postcode'];
-    country = json['country'];
+    firstName = json['first_name'] ?? "";
+    lastName = json['last_name'] ?? "";
+    company = json['company'] ?? "";
+    address1 = json['address_1'] ?? "";
+    address2 = json['address_2'] ?? "";
+    city = json['city'] ?? "";
+    state = json['state'] ?? "";
+    postcode = json['postcode'] ?? "";
+    country = json['country'] ?? "";
   }
 
   Map<String, dynamic> toJson() {
@@ -251,22 +265,22 @@ class Shipping {
 }
 
 class Links {
-  List<Self> self;
-  List<Collection> collection;
+  List<Self>? self;
+  List<Collection>? collection;
 
   Links({this.self, this.collection});
 
   Links.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
-      self = new List<Self>();
+      self = <Self>[];
       json['self'].forEach((v) {
-        self.add(new Self.fromJson(v));
+        self!.add(new Self.fromJson(v));
       });
     }
     if (json['collection'] != null) {
-      collection = new List<Collection>();
+      collection = <Collection>[];
       json['collection'].forEach((v) {
-        collection.add(new Collection.fromJson(v));
+        collection!.add(new Collection.fromJson(v));
       });
     }
   }
@@ -274,17 +288,17 @@ class Links {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.self != null) {
-      data['self'] = this.self.map((v) => v.toJson()).toList();
+      data['self'] = this.self!.map((v) => v.toJson()).toList();
     }
     if (this.collection != null) {
-      data['collection'] = this.collection.map((v) => v.toJson()).toList();
+      data['collection'] = this.collection!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Self {
-  String href;
+  String? href;
 
   Self({this.href});
 
@@ -300,7 +314,7 @@ class Self {
 }
 
 class Collection {
-  String href;
+  String? href;
 
   Collection({this.href});
 

@@ -32,21 +32,21 @@
  */
 
 class WooProductReview {
-  int id;
-  String dateCreated;
-  String dateCreatedGmt;
-  int productId;
-  String status;
-  String reviewer;
-  String reviewerEmail;
-  String review;
-  int rating;
-  bool verified;
-  Map<String, dynamic> reviewerAvatarUrls;
-  WooProductReviewLinks links;
+  int? id;
+  String? dateCreated;
+  String? dateCreatedGmt;
+  int? productId;
+  String? status;
+  String? reviewer;
+  String? reviewerEmail;
+  String? review;
+  int? rating;
+  bool? verified;
+  Map<String, dynamic>? reviewerAvatarUrls;
+  WooProductReviewLinks? links;
 
   WooProductReview(
-      {this.id,
+      {required int this.id,
       this.dateCreated,
       this.dateCreatedGmt,
       this.productId,
@@ -57,7 +57,7 @@ class WooProductReview {
       this.rating,
       this.verified,
       this.reviewerAvatarUrls,
-      this.links}) : assert (id != null);
+      this.links});
 
   WooProductReview.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -73,7 +73,9 @@ class WooProductReview {
     reviewerAvatarUrls = json['reviewer_avatar_urls'] != null
         ? (json['reviewer_avatar_urls'])
         : null;
-    links = json['_links'] != null ? new WooProductReviewLinks.fromJson(json['_links']) : null;
+    links = json['_links'] != null
+        ? new WooProductReviewLinks.fromJson(json['_links'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -92,37 +94,39 @@ class WooProductReview {
       data['reviewer_avatar_urls'] = this.reviewerAvatarUrls.toString();
     }
     if (this.links != null) {
-      data['_links'] = this.links.toJson();
+      data['_links'] = this.links!.toJson();
     }
     return data;
   }
-  @override toString() => this.toJson().toString();
+
+  @override
+  toString() => this.toJson().toString();
 }
 
 class WooProductReviewLinks {
-  List<WooProductReviewSelf> self;
-  List<WooProductReviewCollection> collection;
-  List<WooProductReviewUp> up;
+  List<WooProductReviewSelf>? self;
+  List<WooProductReviewCollection>? collection;
+  List<WooProductReviewUp>? up;
 
   WooProductReviewLinks({this.self, this.collection, this.up});
 
   WooProductReviewLinks.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
-      self = new List<WooProductReviewSelf>();
+      self = [];
       json['self'].forEach((v) {
-        self.add(new WooProductReviewSelf.fromJson(v));
+        self!.add(new WooProductReviewSelf.fromJson(v));
       });
     }
     if (json['collection'] != null) {
-      collection = new List<WooProductReviewCollection>();
+      collection = [];
       json['collection'].forEach((v) {
-        collection.add(new WooProductReviewCollection.fromJson(v));
+        collection!.add(new WooProductReviewCollection.fromJson(v));
       });
     }
     if (json['up'] != null) {
-      up = new List<WooProductReviewUp>();
+      up = [];
       json['up'].forEach((v) {
-        up.add(new WooProductReviewUp.fromJson(v));
+        up!.add(new WooProductReviewUp.fromJson(v));
       });
     }
   }
@@ -130,20 +134,20 @@ class WooProductReviewLinks {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.self != null) {
-      data['self'] = this.self.map((v) => v.toJson()).toList();
+      data['self'] = this.self!.map((v) => v.toJson()).toList();
     }
     if (this.collection != null) {
-      data['collection'] = this.collection.map((v) => v.toJson()).toList();
+      data['collection'] = this.collection!.map((v) => v.toJson()).toList();
     }
     if (this.up != null) {
-      data['up'] = this.up.map((v) => v.toJson()).toList();
+      data['up'] = this.up!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class WooProductReviewSelf {
-  String href;
+  String? href;
 
   WooProductReviewSelf({this.href});
 
@@ -159,7 +163,7 @@ class WooProductReviewSelf {
 }
 
 class WooProductReviewCollection {
-  String href;
+  String? href;
 
   WooProductReviewCollection({this.href});
 
@@ -175,7 +179,7 @@ class WooProductReviewCollection {
 }
 
 class WooProductReviewUp {
-  String href;
+  String? href;
 
   WooProductReviewUp({this.href});
 

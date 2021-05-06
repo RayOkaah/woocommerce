@@ -32,16 +32,18 @@
  */
 
 class WooTaxClass {
-  String slug;
-  String name;
-  WooTaxClassLinks links;
+  String? slug;
+  String? name;
+  WooTaxClassLinks? links;
 
   WooTaxClass({this.slug, this.name, this.links});
 
   WooTaxClass.fromJson(Map<String, dynamic> json) {
     slug = json['slug'];
     name = json['name'];
-    links = json['_links'] != null ? new WooTaxClassLinks.fromJson(json['_links']) : null;
+    links = json['_links'] != null
+        ? new WooTaxClassLinks.fromJson(json['_links'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -49,23 +51,25 @@ class WooTaxClass {
     data['slug'] = this.slug;
     data['name'] = this.name;
     if (this.links != null) {
-      data['_links'] = this.links.toJson();
+      data['_links'] = this.links!.toJson();
     }
     return data;
   }
-  @override toString() => this.toJson().toString();
+
+  @override
+  toString() => this.toJson().toString();
 }
 
 class WooTaxClassLinks {
-  List<WooTaxClassCollection> collection;
+  List<WooTaxClassCollection>? collection;
 
   WooTaxClassLinks({this.collection});
 
   WooTaxClassLinks.fromJson(Map<String, dynamic> json) {
     if (json['collection'] != null) {
-      collection = new List<WooTaxClassCollection>();
+      collection = <WooTaxClassCollection>[];
       json['collection'].forEach((v) {
-        collection.add(new WooTaxClassCollection.fromJson(v));
+        collection!.add(new WooTaxClassCollection.fromJson(v));
       });
     }
   }
@@ -73,14 +77,14 @@ class WooTaxClassLinks {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.collection != null) {
-      data['collection'] = this.collection.map((v) => v.toJson()).toList();
+      data['collection'] = this.collection!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class WooTaxClassCollection {
-  String href;
+  String? href;
 
   WooTaxClassCollection({this.href});
 

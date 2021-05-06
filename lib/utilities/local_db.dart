@@ -37,7 +37,7 @@ class LocalDatabaseService {
 
   final securityToken = new FlutterSecureStorage();
 
-  updateSecurityToken(String token) async{
+  updateSecurityToken(String? token) async{
     await securityToken.write(key: 'token', value: token);
   }
 
@@ -46,7 +46,7 @@ class LocalDatabaseService {
   }
 
   Future<String> getSecurityToken () async{
-    String token = await securityToken.read(key: 'token');
+    String? token = await securityToken.read(key: 'token');
     if(token == null){
       token = '0';
     }

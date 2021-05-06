@@ -32,13 +32,13 @@
  */
 
 class WooProductAttributeTerm {
-  int id;
-  String name;
-  String slug;
-  String description;
-  int menuOrder;
-  int count;
-  WooProductAttributeTermLinks links;
+  int? id;
+  String? name;
+  String? slug;
+  String? description;
+  int? menuOrder;
+  int? count;
+  WooProductAttributeTermLinks? links;
 
   WooProductAttributeTerm(
       {this.id,
@@ -56,7 +56,9 @@ class WooProductAttributeTerm {
     description = json['description'];
     menuOrder = json['menu_order'];
     count = json['count'];
-    links = json['_links'] != null ? new WooProductAttributeTermLinks.fromJson(json['_links']) : null;
+    links = json['_links'] != null
+        ? new WooProductAttributeTermLinks.fromJson(json['_links'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -68,30 +70,32 @@ class WooProductAttributeTerm {
     data['menu_order'] = this.menuOrder;
     data['count'] = this.count;
     if (this.links != null) {
-      data['_links'] = this.links.toJson();
+      data['_links'] = this.links!.toJson();
     }
     return data;
   }
-  @override toString() => this.toJson().toString();
+
+  @override
+  toString() => this.toJson().toString();
 }
 
 class WooProductAttributeTermLinks {
-  List<WooProductAttributeTermSelf> self;
-  List<WooProductAttributeTermCollection> collection;
+  List<WooProductAttributeTermSelf>? self;
+  List<WooProductAttributeTermCollection>? collection;
 
   WooProductAttributeTermLinks({this.self, this.collection});
 
   WooProductAttributeTermLinks.fromJson(Map<String, dynamic> json) {
     if (json['self'] != null) {
-      self = new List<WooProductAttributeTermSelf>();
+      self = [];
       json['self'].forEach((v) {
-        self.add(new WooProductAttributeTermSelf.fromJson(v));
+        self!.add(new WooProductAttributeTermSelf.fromJson(v));
       });
     }
     if (json['collection'] != null) {
-      collection = new List<WooProductAttributeTermCollection>();
+      collection = [];
       json['collection'].forEach((v) {
-        collection.add(new WooProductAttributeTermCollection.fromJson(v));
+        collection!.add(new WooProductAttributeTermCollection.fromJson(v));
       });
     }
   }
@@ -99,18 +103,20 @@ class WooProductAttributeTermLinks {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.self != null) {
-      data['self'] = this.self.map((v) => v.toJson()).toList();
+      data['self'] = this.self!.map((v) => v.toJson()).toList();
     }
     if (this.collection != null) {
-      data['collection'] = this.collection.map((v) => v.toJson()).toList();
+      data['collection'] = this.collection!.map((v) => v.toJson()).toList();
     }
     return data;
   }
-  @override toString() => this.toJson().toString();
+
+  @override
+  toString() => this.toJson().toString();
 }
 
 class WooProductAttributeTermSelf {
-  String href;
+  String? href;
 
   WooProductAttributeTermSelf({this.href});
 
@@ -126,7 +132,7 @@ class WooProductAttributeTermSelf {
 }
 
 class WooProductAttributeTermCollection {
-  String href;
+  String? href;
 
   WooProductAttributeTermCollection({this.href});
 
