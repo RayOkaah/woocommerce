@@ -898,14 +898,14 @@ class WooCommerce {
       String? search,
       String? after,
       String? before,
-      //List<int> exclude,
-      //List<int> include,
+      List<int>? exclude,
+      List<int>? include,
       int? offset,
       String? order,
       String? orderBy,
       List<int>? reviewer,
-      //List<int> reviewerExclude,
-      //List<String> reviewerEmail,
+      List<int>? reviewerExclude,
+      List<String>? reviewerEmail,
       List<int>? product,
       String? status}) async {
     Map<String, dynamic> payload = {};
@@ -913,20 +913,22 @@ class WooCommerce {
     ({
       'page': page, 'per_page': perPage, 'search': search,
       'after': after, 'before': before,
-      //'exclude': exclude, 'include': include,
+      'exclude': exclude,
+      'include': include,
       'offset': offset,
-      'order': order, 'orderby': orderBy,
+      'order': order,
+      'orderby': orderBy,
       'reviewer': reviewer,
-      //'reviewer_exclude': reviewerExclude, 'reviewer_email': reviewerEmail,
+      'reviewer_exclude': reviewerExclude,
+      'reviewer_email': reviewerEmail,
       'product': product,
       'status': status,
     }).forEach((k, v) {
-      if (v != null) payload[k] = v;
+      if (v != null) payload[k] = v is List ? v.join(',') : v.toString();
     });
-    String meQueryPath = 'products/reviews' + getQueryString(payload);
     List<WooProductReview> productReviews = [];
-    //_setApiResourceUrl(path: 'products/reviews', queryParameters: payload);
-    final response = await get(meQueryPath);
+    _setApiResourceUrl(path: 'products/reviews', queryParameters: payload);
+    final response = await get(queryUri.toString());
     _printToLog('response gotten : ' + response.toString());
     for (var r in response) {
       var rev = WooProductReview.fromJson(r);
