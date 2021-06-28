@@ -1004,31 +1004,34 @@ class WooCommerce {
   /// Related endpoint : wc/store/cart
   ///
 
-  Future<WooCartItem> addToMyCart(
+  Future<bool> addToMyCart(
       {required String itemId,
       required String quantity,
-      List<WooProductVariation>? variations}) async {
+      Map<String, dynamic>? variations}) async {
     Map<String, dynamic> data = {
       'id': itemId,
       'quantity': quantity,
+      'return_item': 'false',
     };
     if (variations != null) data['variations'] = variations;
     await getAuthTokenFromDb();
     _urlHeader['Authorization'] = 'Bearer ' + _authToken!;
     final response = await http.post(
-        Uri.parse(this.baseUrl + URL_STORE_API_PATH + 'cart/items'),
+        Uri.parse(this.baseUrl + URL_COCART + 'cart/add-item'),
         headers: _urlHeader,
         body: data);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      final jsonStr = json.decode(response.body);
+      /* final jsonStr = json.decode(response.body);
 
       _printToLog('added to my cart : ' + jsonStr.toString());
-      return WooCartItem.fromJson(jsonStr);
+      return WooCartItem.fromJson(jsonStr); */
+      return true;
     } else {
-      WooCommerceError err =
+      return false;
+     /*  WooCommerceError err =
           WooCommerceError.fromJson(json.decode(response.body));
-      throw err;
+      throw err; */
     }
   }
 
@@ -1088,13 +1091,14 @@ class WooCommerce {
   Future deleteMyCartItem({required String key}) async {
     Map<String, dynamic> data = {
       'key': key,
+      'return_cart': 'false',
     };
     _printToLog('Deleting CartItem With Payload : ' + data.toString());
     await getAuthTokenFromDb();
     _urlHeader['Authorization'] = 'Bearer ' + _authToken!;
 
     final http.Response response = await http.delete(
-      Uri.parse(this.baseUrl + URL_STORE_API_PATH + 'cart/items/' + key),
+      Uri.parse(this.baseUrl + URL_COCART + 'cart/item/' + key),
       headers: _urlHeader,
     );
     _printToLog('response of delete cart  : ' + response.body.toString());
@@ -1118,8 +1122,8 @@ class WooCommerce {
     await getAuthTokenFromDb();
     _urlHeader['Authorization'] = 'Bearer ' + _authToken!;
 
-    final http.Response response = await http.delete(
-      Uri.parse(this.baseUrl + URL_STORE_API_PATH + 'cart/items/'),
+    final http.Response response = await http.post(
+      Uri.parse(this.baseUrl + URL_COCART + 'cart/clear'),
       headers: _urlHeader,
     );
     _printToLog('response of delete cart  : ' + response.body.toString());
@@ -1155,7 +1159,7 @@ class WooCommerce {
     }
   }
 
-  Future<WooCartItem> updateMyCartItemByKey(
+  Future<bool> updateMyCartItemByKey(
       {required String key,
       required int id,
       required int quantity,
@@ -1164,24 +1168,27 @@ class WooCommerce {
       'key': key,
       'id': id.toString(),
       'quantity': quantity.toString(),
+      'return_cart': 'false',
     };
     if (variations != null) data['variations'] = variations;
     await getAuthTokenFromDb();
     _urlHeader['Authorization'] = 'Bearer ' + _authToken!;
-    final response = await http.put(
-        Uri.parse(this.baseUrl + URL_STORE_API_PATH + 'cart/items/' + key),
+    final response = await http.post(
+        Uri.parse(this.baseUrl + URL_COCART + 'cart/item/' + key),
         headers: _urlHeader,
         body: data);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      final jsonStr = json.decode(response.body);
+      /* final jsonStr = json.decode(response.body);
 
       _printToLog('added to my cart : ' + jsonStr.toString());
-      return WooCartItem.fromJson(jsonStr);
+      return WooCartItem.fromJson(jsonStr); */
+      return true;
     } else {
-      WooCommerceError err =
+      /* WooCommerceError err =
           WooCommerceError.fromJson(json.decode(response.body));
-      throw err;
+      throw err; */
+      return false;
     }
   }
 
