@@ -277,7 +277,7 @@ class WooOrderCouponLine {
   String? code;
   String? discount;
   String? discountTax;
-  List<MetaData> metaData;
+  List<CouponMetaData> metaData;
 
   WooOrderCouponLine(
       this.id, this.code, this.discount, this.discountTax, this.metaData);
@@ -288,7 +288,7 @@ class WooOrderCouponLine {
         discount = json['discount'],
         discountTax = json['discount_tax'],
         metaData = (json['meta_data'] as List)
-            .map((i) => MetaData.fromJson(i))
+            .map((i) => CouponMetaData.fromJson(i))
             .toList();
 
   Map<String, dynamic> toJson() {
@@ -507,6 +507,115 @@ class MetaData {
     data['id'] = this.id;
     data['key'] = this.key;
     data['value'] = this.value;
+    return data;
+  }
+}
+
+class CouponMetaData {
+  int? id;
+  String? key;
+  CouponMetaDataValue? value;
+  String? displayKey;
+  CouponMetaDataValue? displayValue;
+
+  CouponMetaData.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    key = json['key'];
+    value = CouponMetaDataValue.fromJson(json['value']);
+    displayKey = json['display_key'];
+    displayValue = CouponMetaDataValue.fromJson(json['display_value']);
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['key'] = this.key;
+    data['value'] = this.value!.toJson();
+    data['display_key'] = this.displayKey;
+    data['display_value'] = this.displayValue!.toJson();
+    return data;
+  }
+}
+
+class CouponMetaDataValue {
+  int? id;
+  String? code;
+  String? amount;
+  Map<String, dynamic>? dateCreated;
+  Map<String, dynamic>? dateModified;
+  Map<String, dynamic>? dateExpires;
+  String? discountType;
+  String? description;
+  int? usageCount;
+  bool? individualUse;
+  List<int>? productIds;
+  List<int>? excludedProductIds;
+  int? usageLimit;
+  int? usageLimitPerUser;
+  int? limitUsageToXItems;
+  bool? freeShipping;
+  List<int>? productCategories;
+  List<int>? excludedProductCategories;
+  bool? excludeSaleItems;
+  String? minimumAmount;
+  String? maximumAmount;
+  List<String>? emailRestrictions;
+  bool? virtual;
+  List<MetaData>? metaData;
+
+  CouponMetaDataValue.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    code = json['code'];
+    amount = json['amount'];
+    dateCreated = json['date_created'];
+    dateModified = json['data_modified'];
+    dateExpires = json['date_expires'];
+    discountType = json['discount_type'];
+    description = json['description'];
+    usageCount = json['usage_count'];
+    individualUse = json['individual_use'];
+    productIds = json['product_ids'].cast<int>();
+    excludedProductIds = json['excluded_product_ids'].cast<int>();
+    usageLimit = json['usage_limit'];
+    usageLimitPerUser = json['usage_limit_per_user'];
+    limitUsageToXItems = json['limit_usage_to_x_items'];
+    freeShipping = json['free_shipping'];
+    productCategories = json['product_categories'].cast<int>();
+    excludedProductCategories = json['excluded_product_categories'].cast<int>();
+    excludeSaleItems = json['exclude_sale_items'];
+    minimumAmount = json['minimum_amount'];
+    maximumAmount = json['maximum_amount'];
+    emailRestrictions = json['email_restrictions'].cast<String>();
+    virtual = json['virtual'];
+    metaData = (json['meta_data'] as List).map((i) => MetaData.fromJson(i)).toList();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['code'] = this.code;
+    data['amount'] = this.amount;
+    data['date_created'] = this.dateCreated;
+    data['data_modified'] = this.dateModified;
+    data['date_expires'] = this.dateExpires;
+    data['discount_type'] = this.discountType;
+    data['description'] = this.description;
+    data['usage_count'] = this.usageCount;
+    data['individual_use'] = this.individualUse;
+    data['product_ids'] = this.productIds;
+    data['excluded_product_ids'] = this.excludedProductIds;
+    data['usage_limit'] = this.usageLimit;
+    data['usage_limit_per_user'] = this.usageLimitPerUser;
+    data['limit_usage_to_x_items'] = this.limitUsageToXItems;
+    data['free_shipping'] = this.freeShipping;
+    data['product_categories'] = this.productCategories;
+    data['excluded_product_categories'] = this.excludedProductCategories;
+    data['exclude_sale_items'] = this.excludeSaleItems;
+    data['minimum_amount'] = this.minimumAmount;
+    data['maximum_amount'] = this.maximumAmount;
+    data['email_restrictions'] = this.emailRestrictions;
+    data['virtual'] = this.virtual;
+    data['meta_data'] = this.metaData!.map((v) => v.toJson());
     return data;
   }
 }
