@@ -41,6 +41,7 @@ class WooCart {
     this.coupons,
     this.shippingRates,
     this.shippingAddress,
+    this.billingAddress,
     this.items,
     this.itemsCount,
     this.itemsWeight,
@@ -53,6 +54,7 @@ class WooCart {
   List<WooCartCoupon>? coupons;
   List<ShippingRates>? shippingRates;
   Shipping? shippingAddress;
+  Billing? billingAddress;
   List<WooCartItem>? items;
   int? itemsCount;
   int? itemsWeight;
@@ -65,6 +67,7 @@ class WooCart {
         coupons: List<WooCartCoupon>.from(json["coupons"].map((x) => WooCartCoupon.fromJson(x))),
         shippingRates: List<ShippingRates>.from(json["shipping_rates"].map((x) => ShippingRates.fromJson(x))),
         shippingAddress: Shipping.fromJson(json["shipping_address"]),
+        billingAddress: Billing.fromJson(json["billing_address"]),
         items: List<WooCartItem>.from(json["items"].map((x) => WooCartItem.fromJson(x))),
         itemsCount: json["items_count"],
         itemsWeight: json["items_weight"],
@@ -78,6 +81,7 @@ class WooCart {
         "coupons": coupons!.map((x) => x.toJson()).toList(),
         "shipping_rates": shippingRates!.map((x) => x.toJson()).toList(),
         "shipping_address": shippingAddress!.toJson(),
+        "billing_address": billingAddress!.toJson(),
         "items": items!.map((x) => x.toJson()).toList(),
         "items_count": itemsCount,
         "items_weight": itemsWeight,

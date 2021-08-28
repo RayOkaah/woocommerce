@@ -149,7 +149,8 @@ class WooProductVariation {
             .toList(),
         metaData = (json['meta_data'] as List)
             .map((i) => WooProductVariationMetaData.fromJson(i))
-            .toList();
+            .toList(),
+        image = WooProductVariationImage.fromJson(json['image']);
 }
 
 class WooProductVariationMetaData {

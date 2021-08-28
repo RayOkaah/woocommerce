@@ -70,25 +70,35 @@ class WooCartItem {
   WooCartPrices? prices;
   WooCartItemTotals? totals;
 
-  factory WooCartItem.fromJson(Map<String, dynamic> json) => WooCartItem(
-        key: json["key"],
-        id: json["id"],
-        quantity: json["quantity"],
-        quantityLimit: json["quantity_limit"],
-        name: json["name"],
-        shortDescription: json["short_description"],
-        description: json["description"],
-        sku: json["sku"],
-        lowStockRemaining: json["low_stock_remaining"],
-        backOrdersAllowed: json["backorders_allowed"],
-        showBackOrderBadge: json["show_backorder_badge"],
-        soldIndividually: json["sold_individually"],
-        permalink: json["permalink"],
-        images: List<WooCartImages>.from(json["images"].map((x) => WooCartImages.fromJson(x))),
-        variation: List<dynamic>.from(json["variation"].map((x) => x)),
-        prices: WooCartPrices.fromJson(json["prices"]),
-        totals: WooCartItemTotals.fromJson(json["totals"]),
-      );
+  factory WooCartItem.fromJson(Map<String, dynamic> json) {
+    List images = [];
+    if (json["images"] is List) {
+      images = json["images"];
+    } else {
+      for (int i = 1; i <= json["images"].length; i++) {
+        images.add(json["images"]["$i"]);
+      }
+    }
+    return WooCartItem(
+      key: json["key"],
+      id: json["id"],
+      quantity: json["quantity"],
+      quantityLimit: json["quantity_limit"],
+      name: json["name"],
+      shortDescription: json["short_description"],
+      description: json["description"],
+      sku: json["sku"],
+      lowStockRemaining: json["low_stock_remaining"],
+      backOrdersAllowed: json["backorders_allowed"],
+      showBackOrderBadge: json["show_backorder_badge"],
+      soldIndividually: json["sold_individually"],
+      permalink: json["permalink"],
+      images: List<WooCartImages>.from(images.map((x) => WooCartImages.fromJson(x))),
+      variation: List<dynamic>.from(json["variation"].map((x) => x)),
+      prices: WooCartPrices.fromJson(json["prices"]),
+      totals: WooCartItemTotals.fromJson(json["totals"]),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "key": key,

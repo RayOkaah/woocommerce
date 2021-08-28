@@ -31,6 +31,8 @@
 
  */
 
+import 'dart:math';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LocalDatabaseService {
@@ -53,4 +55,18 @@ class LocalDatabaseService {
     return token;
   }
 
+  Future<String> getCartKey() async {
+    String? key = await securityToken.read(key: 'cartKey');
+    if (key == null) {
+      key = _createCartKey();
+      await securityToken.write(key: 'cartKey', value: key);
+    }
+    return key;
+  }
+
+  String _createCartKey() {
+    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz';
+    Random _rnd = Random();
+    return String.fromCharCodes(Iterable.generate(40, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+  }
 }
