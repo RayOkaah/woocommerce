@@ -165,7 +165,7 @@ class WooProduct {
         description = json['description'],
         shortDescription = json['short_description'],
         sku = json['sku'],
-        price = json['price'],
+        price = json['price'].toString(),
         regularPrice = json['regular_price'],
         salePrice = json['sale_price'],
         priceHtml = json['price_html'],
