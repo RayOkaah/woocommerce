@@ -73,7 +73,7 @@ class ShippingMethodRates {
         name: json['name'],
         description: json['description'],
         deliveryTime: json['delivery_time'],
-        price: json['price'],
+        price: json['price'].toString(),
         taxes: json['taxes'],
         instanceId: json['instance_id'],
         methodId: json['method_id'],
