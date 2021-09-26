@@ -155,6 +155,8 @@ class WooCommerce {
   String? _authToken;
   String? get authToken => _authToken;
 
+  String _cartKey = '';
+
   Uri? queryUri;
   String get apiResourceUrl => queryUri.toString();
 
@@ -162,6 +164,24 @@ class WooCommerce {
   Map<String, String> _urlHeader = {'Authorization': ''};
   String get urlHeader => _urlHeader['Authorization'] = 'Bearer ' + authToken!;
   LocalDatabaseService _localDbService = LocalDatabaseService();
+
+  /// Initialize the cart key.
+  /// 
+  /// Executes when woocommerce instance is created.
+  Future<String> getCartKey() async {
+    if (_cartKey == '') {
+      _cartKey = await _localDbService.getCartKey();
+    }
+    return _cartKey;
+  }
+
+  Future<String> getCartKeyParam({bool getCartKeyAnyway = false}) async {
+    if (!await isCustomerLoggedIn() || getCartKeyAnyway) {
+      String key = await getCartKey();
+      return '?cart_key=' + key;
+    }
+    return '';
+  }
 
   /// Authenticates the user using WordPress JWT authentication and returns the access [_token] string.
   ///
@@ -278,10 +298,11 @@ class WooCommerce {
   /// Creates a new Woocommerce Customer and returns the customer object.
   ///
   /// Accepts a customer object as required parameter.
-  Future<bool> createCustomer(WooCustomer customer) async {
+  createCustomer(WooCustomer customer) async {
     _printToLog('Creating Customer With info : ' + customer.toString());
     _setApiResourceUrl(path: 'customers');
     final response = await post(queryUri.toString(), customer.toJson());
+    return response;
     _printToLog('created customer : ' + response.toString());
     final cus = WooCustomer.fromJson(response);
     if (cus is WooCustomer) {
@@ -314,7 +335,7 @@ class WooCommerce {
       'order': order, 'orderby': orderBy, //'email': email,
       'role': role,
     }).forEach((k, v) {
-      if (v != null) payload[k] = v.toString();
+      if (v != null) payload[k] = _paramToString(v);
     });
 
     List<WooCustomer> customers = [];
@@ -464,7 +485,7 @@ class WooCommerce {
       'max_price': maxPrice,
       'stock_status': stockStatus,
     }).forEach((k, v) {
-      if (v != null) payload[k] = v.toString();
+      if (v != null) payload[k] = _paramToString(v);
     });
 
     _printToLog("Parameters: " + payload.toString());
@@ -541,7 +562,7 @@ class WooCommerce {
       'max_price': maxPrice,
       'stock_status': stockStatus,
     }).forEach((k, v) {
-      if (v != null) payload[k] = v.toString();
+      if (v != null) payload[k] = _paramToString(v);
     });
     List<WooProductVariation> productVariations = [];
     _setApiResourceUrl(
@@ -656,7 +677,7 @@ class WooCommerce {
       'product': product,
       'slug': slug,
     }).forEach((k, v) {
-      if (v != null) payload[k] = v.toString();
+      if (v != null) payload[k] = _paramToString(v);
     });
     List<WooProductAttributeTerm> productAttributeTerms = [];
     _setApiResourceUrl(
@@ -697,8 +718,8 @@ class WooCommerce {
       {int? page,
       int? perPage,
       String? search,
-      //List<int> exclude,
-      //List<int> include,
+      List<int>? exclude,
+      List<int>? include,
       String? order,
       String? orderBy,
       bool? hideEmpty,
@@ -709,12 +730,12 @@ class WooCommerce {
 
     ({
       'page': page, 'per_page': perPage, 'search': search,
-      //'exclude': exclude, 'include': include,
+      'exclude': exclude, 'include': include,
       'order': order, 'orderby': orderBy, 'hide_empty': hideEmpty,
       'parent': parent,
       'product': product, 'slug': slug,
     }).forEach((k, v) {
-      if (v != null) payload[k] = v.toString();
+      if (v != null) payload[k] = _paramToString(v);
     });
 
     List<WooProductCategory> productCategories = [];
@@ -773,7 +794,7 @@ class WooCommerce {
       'product': product,
       'slug': slug,
     }).forEach((k, v) {
-      if (v != null) payload[k] = v.toString();
+      if (v != null) payload[k] = _paramToString(v);
     });
     List<WooProductShippingClass> productShippingClasses = [];
     _setApiResourceUrl(
@@ -810,8 +831,8 @@ class WooCommerce {
       {int? page,
       int? perPage,
       String? search,
-      //List<int> exclude,
-      //List<int> include,
+      List<int>? exclude,
+      List<int>? include,
       int? offset,
       String? order,
       String? orderBy,
@@ -821,12 +842,12 @@ class WooCommerce {
     Map<String, dynamic> payload = {};
     ({
       'page': page, 'per_page': perPage, 'search': search,
-      // 'exclude': exclude, 'include': include,
+      'exclude': exclude, 'include': include,
       'offset': offset,
       'order': order, 'orderby': orderBy, 'hide_empty': hideEmpty,
       'product': product, 'slug': slug,
     }).forEach((k, v) {
-      if (v != null) payload[k] = v.toString();
+      if (v != null) payload[k] = _paramToString(v);
     });
     List<WooProductTag> productTags = [];
     _printToLog('making request with payload : ' + payload.toString());
@@ -876,7 +897,7 @@ class WooCommerce {
       'rating': rating,
       'verified': verified,
     }).forEach((k, v) {
-      if (v != null) payload[k] = v.toString();
+      if (v != null) payload[k] = _paramToString(v);
     });
 
     WooProductReview productReview;
@@ -898,14 +919,14 @@ class WooCommerce {
       String? search,
       String? after,
       String? before,
-      //List<int> exclude,
-      //List<int> include,
+      List<int>? exclude,
+      List<int>? include,
       int? offset,
       String? order,
       String? orderBy,
       List<int>? reviewer,
-      //List<int> reviewerExclude,
-      //List<String> reviewerEmail,
+      List<int>? reviewerExclude,
+      List<String>? reviewerEmail,
       List<int>? product,
       String? status}) async {
     Map<String, dynamic> payload = {};
@@ -913,20 +934,22 @@ class WooCommerce {
     ({
       'page': page, 'per_page': perPage, 'search': search,
       'after': after, 'before': before,
-      //'exclude': exclude, 'include': include,
+      'exclude': exclude,
+      'include': include,
       'offset': offset,
-      'order': order, 'orderby': orderBy,
+      'order': order,
+      'orderby': orderBy,
       'reviewer': reviewer,
-      //'reviewer_exclude': reviewerExclude, 'reviewer_email': reviewerEmail,
+      'reviewer_exclude': reviewerExclude,
+      'reviewer_email': reviewerEmail,
       'product': product,
       'status': status,
     }).forEach((k, v) {
-      if (v != null) payload[k] = v;
+      if (v != null) payload[k] = _paramToString(v);
     });
-    String meQueryPath = 'products/reviews' + getQueryString(payload);
     List<WooProductReview> productReviews = [];
-    //_setApiResourceUrl(path: 'products/reviews', queryParameters: payload);
-    final response = await get(meQueryPath);
+    _setApiResourceUrl(path: 'products/reviews', queryParameters: payload);
+    final response = await get(queryUri.toString());
     _printToLog('response gotten : ' + response.toString());
     for (var r in response) {
       var rev = WooProductReview.fromJson(r);
@@ -1002,31 +1025,41 @@ class WooCommerce {
   /// Related endpoint : wc/store/cart
   ///
 
-  Future<WooCartItem> addToMyCart(
+  Future<bool> addToMyCart(
       {required String itemId,
       required String quantity,
-      List<WooProductVariation>? variations}) async {
+      Map<String, dynamic>? variations}) async {
     Map<String, dynamic> data = {
       'id': itemId,
       'quantity': quantity,
+      'return_item': 'false',
     };
     if (variations != null) data['variations'] = variations;
     await getAuthTokenFromDb();
-    _urlHeader['Authorization'] = 'Bearer ' + _authToken!;
+    String keyParam = '';
+    if (await isCustomerLoggedIn()) {
+      _urlHeader['Authorization'] = 'Bearer ' + _authToken!;
+    } else {
+      keyParam = await getCartKeyParam();
+    }
+    print(keyParam);
     final response = await http.post(
-        Uri.parse(this.baseUrl + URL_STORE_API_PATH + 'cart/items'),
+        Uri.parse(this.baseUrl + URL_COCART + 'cart/add-item' + keyParam),
         headers: _urlHeader,
         body: data);
-
+    print(response.body);
+    print('uper added to cart data');
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      final jsonStr = json.decode(response.body);
+      /* final jsonStr = json.decode(response.body);
 
       _printToLog('added to my cart : ' + jsonStr.toString());
-      return WooCartItem.fromJson(jsonStr);
+      return WooCartItem.fromJson(jsonStr); */
+      return true;
     } else {
-      WooCommerceError err =
+      return false;
+     /*  WooCommerceError err =
           WooCommerceError.fromJson(json.decode(response.body));
-      throw err;
+      throw err; */
     }
   }
 
@@ -1082,17 +1115,58 @@ class WooCommerce {
       throw err;
     }
   }
+  
+  Future<WooCart> getCart() async {
+    WooCart cart;
+    String keyParam = await getCartKeyParam();
+    var url = Uri.parse(this.baseUrl + URL_STORE_API_PATH + 'cart' + keyParam);
+    print(url);
+    final response = await http.get(url);
+    print(response.body);
+    print(response.statusCode);
+    _printToLog('response gotten : ' + response.toString());
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final jsonStr = json.decode(response.body);
+      cart = WooCart.fromJson(jsonStr);
+      return cart;
+    } else {
+      _printToLog(' error : ' + response.body);
+      WooCommerceError err = WooCommerceError.fromJson(json.decode(response.body));
+      throw err;
+    }
+  }
+
+  Future<bool> mergeCarts() async {
+    await getAuthTokenFromDb();
+    _urlHeader['Authorization'] = 'Bearer ' + _authToken!;
+    String keyParam = await getCartKeyParam(getCartKeyAnyway: true);
+    final response = await http.get(
+        Uri.parse(this.baseUrl + URL_COCART + 'cart' + keyParam),
+        headers: _urlHeader);
+    _printToLog('response gotten : ' + response.toString());
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   Future deleteMyCartItem({required String key}) async {
     Map<String, dynamic> data = {
       'key': key,
+      'return_cart': 'false',
     };
     _printToLog('Deleting CartItem With Payload : ' + data.toString());
     await getAuthTokenFromDb();
-    _urlHeader['Authorization'] = 'Bearer ' + _authToken!;
+    String keyParam = '';
+    if (await isCustomerLoggedIn()) {
+      _urlHeader['Authorization'] = 'Bearer ' + _authToken!;
+    } else {
+      keyParam = await getCartKeyParam();
+    }
 
     final http.Response response = await http.delete(
-      Uri.parse(this.baseUrl + URL_STORE_API_PATH + 'cart/items/' + key),
+      Uri.parse(this.baseUrl + URL_COCART + 'cart/item/' + key + keyParam),
       headers: _urlHeader,
     );
     _printToLog('response of delete cart  : ' + response.body.toString());
@@ -1114,10 +1188,15 @@ class WooCommerce {
 
   Future deleteAllMyCartItems() async {
     await getAuthTokenFromDb();
-    _urlHeader['Authorization'] = 'Bearer ' + _authToken!;
+    String keyParam = '';
+    if (await isCustomerLoggedIn()) {
+      _urlHeader['Authorization'] = 'Bearer ' + _authToken!;
+    } else {
+      keyParam = await getCartKeyParam();
+    }
 
-    final http.Response response = await http.delete(
-      Uri.parse(this.baseUrl + URL_STORE_API_PATH + 'cart/items/'),
+    final http.Response response = await http.post(
+      Uri.parse(this.baseUrl + URL_COCART + 'cart/clear' + keyParam),
       headers: _urlHeader,
     );
     _printToLog('response of delete cart  : ' + response.body.toString());
@@ -1153,7 +1232,7 @@ class WooCommerce {
     }
   }
 
-  Future<WooCartItem> updateMyCartItemByKey(
+  Future<bool> updateMyCartItemByKey(
       {required String key,
       required int id,
       required int quantity,
@@ -1162,24 +1241,32 @@ class WooCommerce {
       'key': key,
       'id': id.toString(),
       'quantity': quantity.toString(),
+      'return_cart': 'false',
     };
     if (variations != null) data['variations'] = variations;
     await getAuthTokenFromDb();
-    _urlHeader['Authorization'] = 'Bearer ' + _authToken!;
-    final response = await http.put(
-        Uri.parse(this.baseUrl + URL_STORE_API_PATH + 'cart/items/' + key),
+    String keyParam = '';
+    if (await isCustomerLoggedIn()) {
+      _urlHeader['Authorization'] = 'Bearer ' + _authToken!;
+    } else {
+      keyParam = await getCartKeyParam();
+    }
+    final response = await http.post(
+        Uri.parse(this.baseUrl + URL_COCART + 'cart/item/' + key + keyParam),
         headers: _urlHeader,
         body: data);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      final jsonStr = json.decode(response.body);
+      /* final jsonStr = json.decode(response.body);
 
       _printToLog('added to my cart : ' + jsonStr.toString());
-      return WooCartItem.fromJson(jsonStr);
+      return WooCartItem.fromJson(jsonStr); */
+      return true;
     } else {
-      WooCommerceError err =
+      /* WooCommerceError err =
           WooCommerceError.fromJson(json.decode(response.body));
-      throw err;
+      throw err; */
+      return false;
     }
   }
 
@@ -1236,7 +1323,7 @@ class WooCommerce {
       'product': product,
       'dp': dp,
     }).forEach((k, v) {
-      if (v != null) payload[k] = v.toString();
+      if (v != null) payload[k] = _paramToString(v);
     });
     List<WooOrder> orders = [];
     _printToLog('Getting Order With Payload : ' + payload.toString());
@@ -1320,7 +1407,7 @@ class WooCommerce {
       'exclude_sale_items': excludeSaleItems,
       'minimum_amount': minimumAmount,
     }).forEach((k, v) {
-      if (v != null) payload[k] = v.toString();
+      if (v != null) payload[k] = _paramToString(v);
     });
     WooCoupon coupon;
     _setApiResourceUrl(
@@ -1341,8 +1428,8 @@ class WooCommerce {
     String? search,
     String? after,
     String? before,
-    //List<int> exclude,
-    //List<int> include,
+    List<int>? exclude,
+    List<int>? include,
     int? offset,
     String? order,
     String? orderBy,
@@ -1352,11 +1439,11 @@ class WooCommerce {
     ({
       'page': page, 'per_page': perPage, 'search': search,
       'after': after, 'before': before,
-      //'exclude': exclude, 'include': include,
+      'exclude': exclude, 'include': include,
       'offset': offset,
       'order': order, 'orderby': orderBy, 'code': code,
     }).forEach((k, v) {
-      if (v != null) payload[k] = v.toString();
+      if (v != null) payload[k] = _paramToString(v);
     });
     List<WooCoupon>? coupons;
     _printToLog('Getting Coupons With Payload : ' + payload.toString());
@@ -1397,7 +1484,7 @@ class WooCommerce {
       'orderby': orderBy,
       'class': taxClass,
     }).forEach((k, v) {
-      if (v != null) payload[k] = v.toString();
+      if (v != null) payload[k] = _paramToString(v);
     });
     List<WooTaxRate> taxRates = [];
     _printToLog('Getting Taxrates With Payload : ' + payload.toString());
@@ -1731,6 +1818,8 @@ class WooCommerce {
     _authToken = await _localDbService.getSecurityToken();
     return _authToken;
   }
+
+  String _paramToString(param) => param is List ? param.join(',') : param.toString();
 
   // Sets the Uri for an endpoint.
   String _setApiResourceUrl({

@@ -119,9 +119,9 @@ class WooProductVariation {
         status = json['status'],
         description = json['description'],
         sku = json['sku'],
-        price = json['price'],
-        regularPrice = json['regular_price'],
-        salePrice = json['sale_price'],
+        price = json['price'].toString(),
+        regularPrice = json['regular_price'].toString(),
+        salePrice = json['sale_price'].toString(),
         onSale = json['on_sale'],
         purchasable = json['purchasable'],
         virtual = json['virtual'],
@@ -149,7 +149,8 @@ class WooProductVariation {
             .toList(),
         metaData = (json['meta_data'] as List)
             .map((i) => WooProductVariationMetaData.fromJson(i))
-            .toList();
+            .toList(),
+        image = WooProductVariationImage.fromJson(json['image']);
 }
 
 class WooProductVariationMetaData {

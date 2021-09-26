@@ -34,12 +34,14 @@
 class WooOrderPayload {
   String? paymentMethod;
   String? paymentMethodTitle;
+  String? transactionId;
   bool? setPaid;
   String? status;
   String? currency;
   int? customerId;
   String? customerNote;
   int? parentId;
+  String? createdVia;
   List<WooOrderPayloadMetaData>? metaData;
   List<WooOrderPayloadFeeLines>? feeLines;
   List<WooOrderPayloadCouponLines>? couponLines;
@@ -51,11 +53,13 @@ class WooOrderPayload {
   WooOrderPayload(
       {this.paymentMethod,
       this.paymentMethodTitle,
+      this.transactionId,
       this.setPaid,
       this.status,
       this.currency,
       this.customerId,
       this.customerNote,
+      this.createdVia,
       this.parentId,
       this.metaData,
       this.feeLines,
@@ -68,12 +72,14 @@ class WooOrderPayload {
   WooOrderPayload.fromJson(Map<String, dynamic> json) {
     paymentMethod = json['payment_method'];
     paymentMethodTitle = json['payment_method_title'];
+    transactionId = json['transaction_id'];
     setPaid = json['set_paid'];
     status = json['status'];
     currency = json['currency'];
     customerId = json['customer_id'];
     customerNote = json['customer_note'];
     parentId = json['parent_id'];
+    createdVia = json['created_via'];
     if (json['meta_data'] != null) {
       metaData = <WooOrderPayloadMetaData>[];
       json['meta_data'].forEach((v) {
@@ -116,12 +122,14 @@ class WooOrderPayload {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['payment_method'] = this.paymentMethod;
     data['payment_method_title'] = this.paymentMethodTitle;
+    data['transaction_id'] = this.transactionId;
     data['set_paid'] = this.setPaid;
     data['status'] = this.status;
     data['currency'] = this.currency;
     data['customer_id'] = this.customerId;
     data['customer_note'] = this.customerNote;
     data['parent_id'] = this.parentId;
+    data['created_via'] = this.createdVia;
     if (this.metaData != null) {
       data['meta_data'] = this.metaData!.map((v) => v.toJson()).toList();
     }

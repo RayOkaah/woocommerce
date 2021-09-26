@@ -31,150 +31,138 @@
 
  */
 
+import 'package:woocommerce/models/customer.dart';
+
+import 'cart_item.dart';
+import 'shipping_rates.dart';
+
 class WooCart {
-  String? currency;
-  int? itemCount;
-  List<WooCartItems>? items;
+  WooCart({
+    this.coupons,
+    this.shippingRates,
+    this.shippingAddress,
+    this.billingAddress,
+    this.items,
+    this.itemsCount,
+    this.itemsWeight,
+    this.needsPayment,
+    this.needsShipping,
+    this.totals,
+    this.errors,
+  });
+
+  List<WooCartCoupon>? coupons;
+  List<ShippingRates>? shippingRates;
+  Shipping? shippingAddress;
+  Billing? billingAddress;
+  List<WooCartItem>? items;
+  int? itemsCount;
+  int? itemsWeight;
+  bool? needsPayment;
   bool? needsShipping;
-  String? totalPrice;
-  int? totalWeight;
+  WooCartTotals? totals;
+  List<dynamic>? errors;
 
-  WooCart(
-      {this.currency,
-      this.itemCount,
-      this.items,
-      this.needsShipping,
-      this.totalPrice,
-      this.totalWeight});
+  factory WooCart.fromJson(Map<String, dynamic> json) => WooCart(
+        coupons: List<WooCartCoupon>.from(json["coupons"].map((x) => WooCartCoupon.fromJson(x))),
+        shippingRates: List<ShippingRates>.from(json["shipping_rates"].map((x) => ShippingRates.fromJson(x))),
+        shippingAddress: Shipping.fromJson(json["shipping_address"]),
+        billingAddress: Billing.fromJson(json["billing_address"]),
+        items: List<WooCartItem>.from(json["items"].map((x) => WooCartItem.fromJson(x))),
+        itemsCount: json["items_count"],
+        itemsWeight: json["items_weight"],
+        needsPayment: json["needs_payment"],
+        needsShipping: json["needs_shipping"],
+        totals: WooCartTotals.fromJson(json["totals"]),
+        errors: List<dynamic>.from(json["errors"].map((x) => x)),
+      );
 
-  WooCart.fromJson(Map<String, dynamic> json) {
-    currency = json['currency'];
-    itemCount = json['item_count'];
-    if (json['items'] != null) {
-      items = <WooCartItems>[];
-      json['items'].forEach((v) {
-        items!.add(new WooCartItems.fromJson(v));
-      });
-    }
-    needsShipping = json['needs_shipping'];
-    totalPrice = json['total_price'].toString();
-    totalWeight = json['total_weight'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['currency'] = this.currency;
-    data['item_count'] = this.itemCount;
-    if (this.items != null) {
-      data['items'] = this.items!.map((v) => v.toJson()).toList();
-    }
-    data['needs_shipping'] = this.needsShipping;
-    data['total_price'] = this.totalPrice;
-    data['total_weight'] = this.totalWeight;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "coupons": coupons!.map((x) => x.toJson()).toList(),
+        "shipping_rates": shippingRates!.map((x) => x.toJson()).toList(),
+        "shipping_address": shippingAddress!.toJson(),
+        "billing_address": billingAddress!.toJson(),
+        "items": items!.map((x) => x.toJson()).toList(),
+        "items_count": itemsCount,
+        "items_weight": itemsWeight,
+        "needs_payment": needsPayment,
+        "needs_shipping": needsShipping,
+        "totals": totals!.toJson(),
+        "errors": List<dynamic>.from(errors!.map((x) => x)),
+      };
 
   @override
   toString() => this.toJson().toString();
 }
 
-class WooCartItems {
-  String? key;
-  int? id;
-  int? quantity;
-  String? name;
-  String? sku;
-  String? permalink;
-  List<WooCartImages>? images;
-  String? price;
-  String? linePrice;
-  List<String>? variation;
+class WooCartCoupon {
+  String? code;
+  String? discountType;
+  WooCartCouponTotals? totals;
 
-  WooCartItems(
-      {this.key,
-      this.id,
-      this.quantity,
-      this.name,
-      this.sku,
-      this.permalink,
-      this.images,
-      this.price,
-      this.linePrice,
-      this.variation});
+  WooCartCoupon({
+    this.code,
+    this.discountType,
+    this.totals,
+  });
 
-  WooCartItems.fromJson(Map<String, dynamic> json) {
-    key = json['key'];
-    id = json['id'];
-    quantity = json['quantity'];
-    name = json['name'];
-    sku = json['sku'];
-    permalink = json['permalink'];
-    if (json['images'] != null) {
-      images = <WooCartImages>[];
-      json['images'].forEach((v) {
-        images!.add(new WooCartImages.fromJson(v));
-      });
-    }
-    price = json['price'];
-    linePrice = json['line_price'];
-    variation = json['variation'].cast<String>();
-  }
+  factory WooCartCoupon.fromJson(Map<String, dynamic> json) => WooCartCoupon(
+        code: json['code'],
+        discountType: json['discount_type'],
+        totals: WooCartCouponTotals.fromJson(json['totals']),
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['key'] = this.key;
-    data['id'] = this.id;
-    data['quantity'] = this.quantity;
-    data['name'] = this.name;
-    data['sku'] = this.sku;
-    data['permalink'] = this.permalink;
-    if (this.images != null) {
-      data['images'] = this.images!.map((v) => v.toJson()).toList();
-    }
-    data['price'] = this.price;
-    data['line_price'] = this.linePrice;
-    data['variation'] = this.variation;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        'code': code,
+        'discount_type': discountType,
+        'totals': totals!.toJson(),
+      };
 }
 
-class WooCartImages {
-  String? id;
-  String? src;
-  String? thumbnail;
-  String? srcset;
-  String? sizes;
-  String? name;
-  String? alt;
+class WooCartCouponTotals {
+  String? totalDiscount;
+  String? totalDiscountTax;
+  String? currencyCode;
+  String? currencySymbol;
+  int? currencyMinorUnit;
+  String? currencyDecimalSeparator;
+  String? currencyThousandSeparator;
+  String? currencyPrefix;
+  String? currencySuffix;
 
-  WooCartImages(
-      {this.id,
-      this.src,
-      this.thumbnail,
-      this.srcset,
-      this.sizes,
-      this.name,
-      this.alt});
+  WooCartCouponTotals({
+    this.totalDiscount,
+    this.totalDiscountTax,
+    this.currencyCode,
+    this.currencySymbol,
+    this.currencyMinorUnit,
+    this.currencyDecimalSeparator,
+    this.currencyThousandSeparator,
+    this.currencyPrefix,
+    this.currencySuffix,
+  });
 
-  WooCartImages.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString();
-    src = json['src'];
-    thumbnail = json['thumbnail'];
-    srcset = json['srcset'].toString();
-    sizes = json['sizes'];
-    name = json['name'];
-    alt = json['alt'];
-  }
+  factory WooCartCouponTotals.fromJson(Map<String, dynamic> json) => WooCartCouponTotals(
+        totalDiscount: json['total_discount'],
+        totalDiscountTax: json['total_discount_tax'],
+        currencyCode: json['currency_code'],
+        currencySymbol: json['currency_symbol'],
+        currencyMinorUnit: json['currency_minor_unit'],
+        currencyDecimalSeparator: json['currency_decimal_separator'],
+        currencyThousandSeparator: json['currency_thousand_separator'],
+        currencyPrefix: json['currency_prefix'],
+        currencySuffix: json['currency_suffix'],
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['src'] = this.src;
-    data['thumbnail'] = this.thumbnail;
-    data['srcset'] = this.srcset;
-    data['sizes'] = this.sizes;
-    data['name'] = this.name;
-    data['alt'] = this.alt;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        'total_discount': totalDiscount,
+        'total_discount_tax': totalDiscountTax,
+        'currency_code': currencyCode,
+        'currency_symbol': currencySymbol,
+        'currency_minor_unit': currencyMinorUnit,
+        'currency_decimal_separator': currencyDecimalSeparator,
+        'currency_thousand_separator': currencyThousandSeparator,
+        'currency_prefix': currencyPrefix,
+        'currency_suffix': currencySuffix,
+      };
 }
