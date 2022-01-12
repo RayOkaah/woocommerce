@@ -163,7 +163,7 @@ class WooCommerce {
       _urlHeader['Authorization'] = 'Bearer ${authResponse.token}';
       return _authToken;
       }catch(e){
-        print(e)
+        print(e);
       }
     } else {
       throw new WooCommerceError.fromJson(json.decode(response.body));
