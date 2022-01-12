@@ -152,6 +152,7 @@ class WooCommerce {
           HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded",
         },
     );
+    print(response.body);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       WooJWTResponse authResponse =
