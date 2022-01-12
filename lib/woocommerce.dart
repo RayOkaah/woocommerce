@@ -177,6 +177,9 @@ class WooCommerce {
         this.baseUrl + URL_JWT_TOKEN,
       ),
       body: body,
+      headers: {
+          HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded",
+        },
     );
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
