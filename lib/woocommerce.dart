@@ -155,12 +155,16 @@ class WooCommerce {
     print(response.body);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      WooJWTResponse authResponse =
+      try{
+        WooJWTResponse authResponse =
           WooJWTResponse.fromJson(json.decode(response.body));
       _authToken = authResponse.token;
       _localDbService.updateSecurityToken(_authToken);
       _urlHeader['Authorization'] = 'Bearer ${authResponse.token}';
       return _authToken;
+      }catch(e){
+        print(e)
+      }
     } else {
       throw new WooCommerceError.fromJson(json.decode(response.body));
     }
