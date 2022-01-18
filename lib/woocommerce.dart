@@ -1,7 +1,3 @@
-
-
-
-
 library woocommerce;
 
 import 'dart:async';
@@ -16,6 +12,9 @@ import 'package:woocommerce/models/customer_download.dart';
 import 'package:woocommerce/models/payment_gateway.dart';
 import 'package:woocommerce/models/shipping_zone_method.dart';
 import 'models/cart_item.dart';
+import 'models/customer_download.dart';
+import 'models/payment_gateway.dart';
+import 'models/shipping_zone_method.dart';
 import 'woocommerce_error.dart';
 import 'models/cart.dart';
 import 'models/coupon.dart';
@@ -141,7 +140,7 @@ class WooCommerce {
       'password': password,
     };
 
-    _printToLog("JWT URL :: "+this.baseUrl + URL_JWT_TOKEN);
+    _printToLog("JWT URL :: " + this.baseUrl + URL_JWT_TOKEN);
 
     final response = await http.post(
       Uri.parse(
@@ -149,20 +148,20 @@ class WooCommerce {
       ),
       body: body,
       headers: {
-          HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded",
-        },
+        HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded",
+      },
     );
     print(response.body);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      try{
-        WooJWTResponse authResponse =
-          WooJWTResponse.fromJson(json.decode(response.body));
-      _authToken = authResponse.token;
-      _localDbService.updateSecurityToken(_authToken);
-      _urlHeader['Authorization'] = 'Bearer ${authResponse.token}';
-      return _authToken;
-      }catch(e){
+      try {
+        WooJwtResponse authResponse =
+            WooJwtResponse.fromJson(json.decode(response.body));
+        _authToken = authResponse.data?.token;
+        _localDbService.updateSecurityToken(_authToken);
+        _urlHeader['Authorization'] = 'Bearer ${authResponse.data?.token}';
+        return _authToken;
+      } catch (e) {
         print(e);
       }
     } else {
