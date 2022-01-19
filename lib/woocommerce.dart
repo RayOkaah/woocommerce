@@ -1049,9 +1049,10 @@ class WooCommerce {
     final response = await http.get(
         Uri.parse(this.baseUrl + URL_STORE_API_PATH + 'cart'),
         headers: _urlHeader);
-    _printToLog('response gotten : ' + response.toString());
+    _printToLog('Response Gotten : ' + response.body.toString());
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final jsonStr = json.decode(response.body);
+      _printToLog('jsonStr : ' + jsonStr.toString());
       cart = WooCart.fromJson(jsonStr);
       return cart;
     } else {
