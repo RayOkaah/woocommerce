@@ -1022,7 +1022,7 @@ class WooCommerce {
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final jsonStr = json.decode(response.body);
       List<WooCartItem> cartItems = [];
-      _printToLog('response gotten : ' + response.toString());
+      _printToLog('response gotten : ' + jsonStr.toString());
       for (var p in jsonStr) {
         var prod = WooCartItem.fromJson(p);
         _printToLog('prod gotten here : ' + prod.name.toString());
@@ -1030,6 +1030,7 @@ class WooCommerce {
       }
 
       _printToLog('account user fetch : ' + jsonStr.toString());
+      _printToLog("Cart Item Length :: ${cartItems.length}");
       return cartItems;
     } else {
       _printToLog(' error : ' + response.body);
