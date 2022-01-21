@@ -618,7 +618,11 @@ class ShippingRateItem {
       ShippingRateItem(
         key: json["key"] == null ? null : json["key"],
         name: json["name"] == null ? null : json["name"],
-        quantity: json["quantity"] == null ? null : json["quantity"],
+        quantity: json["quantity"] == null
+            ? null
+            : json["quantity"]!.runtimeType != String
+                ? json["quantity"].toString()
+                : json["quantity"],
       );
 
   Map<String, dynamic> toJson() => {
