@@ -995,6 +995,7 @@ class WooCommerce {
         Uri.parse(this.baseUrl + URL_STORE_API_PATH + 'cart/items'),
         headers: _urlHeader,
         body: data);
+    _printToLog("Response Gotten::: ${json.decode(response.body)}");
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final jsonStr = json.decode(response.body);
