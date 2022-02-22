@@ -151,7 +151,7 @@ class WooCommerce {
         HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded",
       },
     );
-    print(response.body);
+    _printToLog(response.body);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       try {
@@ -162,7 +162,7 @@ class WooCommerce {
         _urlHeader['Authorization'] = 'Bearer ${authResponse.data?.token}';
         return _authToken;
       } catch (e) {
-        print(e);
+        _printToLog("Catch Error : " + e.toString());
       }
     } else {
       throw new WooCommerceError.fromJson(json.decode(response.body));
@@ -205,6 +205,7 @@ class WooCommerce {
   Future<int?> fetchLoggedInUserId() async {
     _authToken = await _localDbService.getSecurityToken();
     _urlHeader['Authorization'] = 'Bearer ' + _authToken!;
+    _printToLog('FetchLoggedInUserId URL :: ${this.baseUrl + URL_USER_ME}');
     final response = await http.get(Uri.parse(this.baseUrl + URL_USER_ME),
         headers: _urlHeader);
 
@@ -314,6 +315,7 @@ class WooCommerce {
     _setApiResourceUrl(
       path: 'customers/' + id.toString(),
     );
+    _printToLog('GetCustomerByID URL :: $queryUri');
     final response = await get(queryUri.toString());
     customer = WooCustomer.fromJson(response);
     return customer;
