@@ -1772,6 +1772,7 @@ class WooCommerce {
     Map<String, String> headers = new HashMap();
     headers.putIfAbsent('Accept', () => 'application/json charset=utf-8');
     // 'Authorization': _bearerToken,
+    _printToLog("URL :: $url");
     try {
       final http.Response response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
