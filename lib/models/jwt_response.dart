@@ -1,59 +1,82 @@
-/*
- * BSD 3-Clause License
+// To parse this JSON data, do
+//
+//     final wooJwtResponse = wooJwtResponseFromJson(jsonString);
 
-    Copyright (c) 2020, RAY OKAAH - MailTo: ray@flutterengineer.com, Twitter: Rayscode
-    All rights reserved.
+import 'dart:convert';
 
-    Redistribution and use in source and binary forms, with or without
-    modification, are permitted provided that the following conditions are met:
+WooJwtResponse wooJwtResponseFromJson(String str) =>
+    WooJwtResponse.fromJson(json.decode(str));
 
-    1. Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
+String wooJwtResponseToJson(WooJwtResponse data) => json.encode(data.toJson());
 
-    2. Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
+class WooJwtResponse {
+  WooJwtResponse({
+    this.success,
+    this.statusCode,
+    this.code,
+    this.message,
+    this.data,
+  });
 
-    3. Neither the name of the copyright holder nor the names of its
-    contributors may be used to endorse or promote products derived from
-    this software without specific prior written permission.
+  bool? success;
+  int? statusCode;
+  String? code;
+  String? message;
+  Data? data;
 
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-    DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-    FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-    DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-    SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-    CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-    OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  factory WooJwtResponse.fromJson(Map<String, dynamic> json) => WooJwtResponse(
+        success: json["success"] == null ? null : json["success"],
+        statusCode: json["statusCode"] == null ? null : json["statusCode"],
+        code: json["code"] == null ? null : json["code"],
+        message: json["message"] == null ? null : json["message"],
+        data: json["data"] == null ? null : Data.fromJson(json["data"]),
+      );
 
- */
+  Map<String, dynamic> toJson() => {
+        "success": success == null ? null : success,
+        "statusCode": statusCode == null ? null : statusCode,
+        "code": code == null ? null : code,
+        "message": message == null ? null : message,
+        "data": data == null ? null : data?.toJson(),
+      };
+}
 
-class WooJWTResponse {
+class Data {
+  Data({
+    this.token,
+    this.id,
+    this.email,
+    this.nicename,
+    this.firstName,
+    this.lastName,
+    this.displayName,
+  });
+
   String? token;
-  String? userEmail;
-  String? userNicename;
-  String? userDisplayName;
+  int? id;
+  String? email;
+  String? nicename;
+  String? firstName;
+  String? lastName;
+  String? displayName;
 
-  WooJWTResponse(
-      {this.token, this.userEmail, this.userNicename, this.userDisplayName});
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+        token: json["token"] == null ? null : json["token"],
+        id: json["id"] == null ? null : json["id"],
+        email: json["email"] == null ? null : json["email"],
+        nicename: json["nicename"] == null ? null : json["nicename"],
+        firstName: json["firstName"] == null ? null : json["firstName"],
+        lastName: json["lastName"] == null ? null : json["lastName"],
+        displayName: json["displayName"] == null ? null : json["displayName"],
+      );
 
-  WooJWTResponse.fromJson(Map<String, dynamic> json) {
-    token = json['token'];
-    userEmail = json['user_email'];
-    userNicename = json['user_nicename'];
-    userDisplayName = json['user_display_name'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['token'] = this.token;
-    data['user_email'] = this.userEmail;
-    data['user_nicename'] = this.userNicename;
-    data['user_display_name'] = this.userDisplayName;
-    return data;
-  }
-  @override toString() => this.toJson().toString();
+  Map<String, dynamic> toJson() => {
+        "token": token == null ? null : token,
+        "id": id == null ? null : id,
+        "email": email == null ? null : email,
+        "nicename": nicename == null ? null : nicename,
+        "firstName": firstName == null ? null : firstName,
+        "lastName": lastName == null ? null : lastName,
+        "displayName": displayName == null ? null : displayName,
+      };
 }

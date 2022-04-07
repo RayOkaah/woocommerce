@@ -1,38 +1,3 @@
-/*
- * BSD 3-Clause License
-
-    Copyright (c) 2020, RAY OKAAH - MailTo: ray@flutterengineer.com, Twitter: Rayscode
-    All rights reserved.
-
-    Redistribution and use in source and binary forms, with or without
-    modification, are permitted provided that the following conditions are met:
-
-    1. Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-
-    2. Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-
-    3. Neither the name of the copyright holder nor the names of its
-    contributors may be used to endorse or promote products derived from
-    this software without specific prior written permission.
-
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-    DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-    FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-    DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-    SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-    CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-    OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
- */
-
-/// The WooCommerce SDK for Flutter. Bringing your ecommerce app to life easily with Flutter and Woo Commerce.
-
 library woocommerce;
 
 import 'dart:async';
@@ -47,6 +12,9 @@ import 'package:woocommerce/models/customer_download.dart';
 import 'package:woocommerce/models/payment_gateway.dart';
 import 'package:woocommerce/models/shipping_zone_method.dart';
 import 'models/cart_item.dart';
+import 'models/customer_download.dart';
+import 'models/payment_gateway.dart';
+import 'models/shipping_zone_method.dart';
 import 'woocommerce_error.dart';
 import 'models/cart.dart';
 import 'models/coupon.dart';
@@ -172,20 +140,30 @@ class WooCommerce {
       'password': password,
     };
 
+    _printToLog("JWT URL :: " + this.baseUrl + URL_JWT_TOKEN);
+
     final response = await http.post(
       Uri.parse(
         this.baseUrl + URL_JWT_TOKEN,
       ),
       body: body,
+      headers: {
+        HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded",
+      },
     );
+    _printToLog(response.body);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      WooJWTResponse authResponse =
-          WooJWTResponse.fromJson(json.decode(response.body));
-      _authToken = authResponse.token;
-      _localDbService.updateSecurityToken(_authToken);
-      _urlHeader['Authorization'] = 'Bearer ${authResponse.token}';
-      return _authToken;
+      try {
+        WooJwtResponse authResponse =
+            WooJwtResponse.fromJson(json.decode(response.body));
+        _authToken = authResponse.data?.token;
+        _localDbService.updateSecurityToken(_authToken);
+        _urlHeader['Authorization'] = 'Bearer ${authResponse.data?.token}';
+        return _authToken;
+      } catch (e) {
+        _printToLog("Catch Error : " + e.toString());
+      }
     } else {
       throw new WooCommerceError.fromJson(json.decode(response.body));
     }
@@ -227,6 +205,7 @@ class WooCommerce {
   Future<int?> fetchLoggedInUserId() async {
     _authToken = await _localDbService.getSecurityToken();
     _urlHeader['Authorization'] = 'Bearer ' + _authToken!;
+    _printToLog('FetchLoggedInUserId URL :: ${this.baseUrl + URL_USER_ME}');
     final response = await http.get(Uri.parse(this.baseUrl + URL_USER_ME),
         headers: _urlHeader);
 
@@ -336,6 +315,7 @@ class WooCommerce {
     _setApiResourceUrl(
       path: 'customers/' + id.toString(),
     );
+    _printToLog('GetCustomerByID URL :: $queryUri');
     final response = await get(queryUri.toString());
     customer = WooCustomer.fromJson(response);
     return customer;
@@ -1017,6 +997,7 @@ class WooCommerce {
         Uri.parse(this.baseUrl + URL_STORE_API_PATH + 'cart/items'),
         headers: _urlHeader,
         body: data);
+    _printToLog("Response Gotten::: ${json.decode(response.body)}");
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final jsonStr = json.decode(response.body);
@@ -1044,7 +1025,7 @@ class WooCommerce {
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final jsonStr = json.decode(response.body);
       List<WooCartItem> cartItems = [];
-      _printToLog('response gotten : ' + response.toString());
+      _printToLog('response gotten : ' + jsonStr.toString());
       for (var p in jsonStr) {
         var prod = WooCartItem.fromJson(p);
         _printToLog('prod gotten here : ' + prod.name.toString());
@@ -1052,6 +1033,7 @@ class WooCommerce {
       }
 
       _printToLog('account user fetch : ' + jsonStr.toString());
+      _printToLog("Cart Item Length :: ${cartItems.length}");
       return cartItems;
     } else {
       _printToLog(' error : ' + response.body);
@@ -1070,9 +1052,10 @@ class WooCommerce {
     final response = await http.get(
         Uri.parse(this.baseUrl + URL_STORE_API_PATH + 'cart'),
         headers: _urlHeader);
-    _printToLog('response gotten : ' + response.toString());
+    _printToLog('Response Gotten : ' + response.body.toString());
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final jsonStr = json.decode(response.body);
+      _printToLog('jsonStr : ' + jsonStr.toString());
       cart = WooCart.fromJson(jsonStr);
       return cart;
     } else {
@@ -1789,6 +1772,7 @@ class WooCommerce {
     Map<String, String> headers = new HashMap();
     headers.putIfAbsent('Accept', () => 'application/json charset=utf-8');
     // 'Authorization': _bearerToken,
+    _printToLog("URL :: $url");
     try {
       final http.Response response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
