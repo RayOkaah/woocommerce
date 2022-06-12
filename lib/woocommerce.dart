@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_type_check
+
 /*
  * BSD 3-Clause License
 
@@ -35,7 +37,6 @@
 
 library woocommerce;
 
-import 'dart:async';
 import "dart:collection";
 import 'dart:convert';
 import 'dart:io';
